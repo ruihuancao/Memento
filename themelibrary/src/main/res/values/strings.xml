@@ -1,0 +1,16 @@
+<!-- @formatter:off -->
+<resources>
+
+    <!-- Material Theme Elements -->
+    <string name="material_theme_red">Red</string>
+    <string name="material_theme_orange">Orange</string>
+    <string name="material_theme_lime">Lime</string>
+    <string name="material_theme_green">Green</string>
+    <string name="material_theme_teal">Teal</string>
+    <string name="material_theme_blue">Blue</string>
+    <string name="material_theme_purple">Purple</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

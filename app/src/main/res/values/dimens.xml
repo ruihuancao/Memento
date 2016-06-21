@@ -1,0 +1,50 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+
+    <!--
+    12sp 小字提示
+    14sp（桌面端13sp） 正文/按钮文字
+    16sp（桌面端15sp） 小标题
+    20sp Appbar文字
+    24sp 大标题
+    34sp/45sp/56sp/112sp 超大号文字 -->
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_24">24sp</dimen>
+    <dimen name="font_34">34sp</dimen>
+    <dimen name="font_45">45sp</dimen>
+    <dimen name="font_56">56sp</dimen>
+    <dimen name="font_112">112sp</dimen>
+
+
+    <dimen name="splash_title_bottom">32dp</dimen>
+    <dimen name="grid_item_spacing">2dp</dimen>
+    <dimen name="image_height">200dp</dimen>
+
+    <dimen name="zhihu_splash_title_bottom">32dp</dimen>
+    <dimen name="zhihu_banner_title_padding">16dp</dimen>
+    <dimen name="zhihu_list_title_height">48dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_image_height">200dp</dimen>
+    <dimen name="card_title_height">40dp</dimen>
+    <dimen name="article_titles">20sp</dimen>
+    <dimen name="cards_button_width">48dp</dimen>
+    <dimen name="cards_button_height">48dp</dimen>
+
+    <!-- -->
+
+
+</resources>

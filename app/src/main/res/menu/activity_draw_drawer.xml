@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_zhihu"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_zhihu"/>
+        <item
+            android:id="@+id/nav_dingxiang"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_dingxiang"
+            app:actionLayout="@layout/view_nav_item"/>
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_wxjingxuan"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_wxjingxuan"/>
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_pic"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_pic"/>
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_joke"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_joke"/>
+
+    </group>
+
+    <item android:title="@string/menu_title">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_share"/>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send"/>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="设置"/>
+        </menu>
+    </item>
+
+</menu>
