@@ -4,9 +4,6 @@ buildscript {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
-        maven {
-            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
@@ -18,76 +15,8 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
-        maven {
-            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
-        }
     }
 }
-
-ext {
-    applicationId = "com.memento.android"
-    buildToolsVersion = "23.0.3"
-    compileSdkVersion = 23
-    minSdkVersion = 19
-    targetSdkVersion = 22
-    versionCode = 1
-    versionName = "1.0"
-
-    appcompatVersion = 'com.android.support:appcompat-v7:23.4.0'
-    paletteVersion = 'com.android.support:palette-v7:23.4.0'
-    designVersion = 'com.android.support:design:23.4.0'
-    cardviewVersion = 'com.android.support:cardview-v7:23.4.0'
-    recyclerviewVersion = 'com.android.support:recyclerview-v7:23.4.0'
-    supportv4Version = 'com.android.support:support-v4:23.4.0'
-    customtabsVersion = 'com.android.support:customtabs:23.4.0'
-    guavaVersion = 'com.google.guava:guava:18.0'
-
-    leakcanaryDebugVersion = 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    leakcanaryReleaseVersion = 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    leakcanaryTestVersion =  'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-
-    stethoVersion = 'com.facebook.stetho:stetho:1.3.1'
-    stethoOkhttpVersion = 'com.facebook.stetho:stetho-okhttp3:1.3.1'
-
-    rxAndroidVersion = 'io.reactivex:rxandroid:1.1.0'
-    rxJavaVersion = 'io.reactivex:rxjava:1.1.3'
-
-    retrofit2Version = 'com.squareup.retrofit2:retrofit:2.0.2'
-    retrofit2GsonVersion = 'com.squareup.retrofit2:converter-gson:2.0.2'
-    retrofit2RxjavaVersion = 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    retrofit2ScalarsVersion = 'com.squareup.retrofit2:converter-scalars:2.0.2'
-    okHttpLoggingVersion = 'com.squareup.okhttp3:logging-interceptor:3.0.0'
-
-    daggerCompilerVersion = 'com.google.dagger:dagger-compiler:2.0.2'
-    javaAnnotationVersion = 'org.glassfish:javax.annotation:10.0-b28'
-    daggerVersion = 'com.google.dagger:dagger:2.0.2'
-
-    eventBusVersion = 'org.greenrobot:eventbus:3.0.0'
-
-    greendaoVersion = 'de.greenrobot:greendao:2.0.0'
-    greendaoGeneratorVersion = 'org.greenrobot:greendao-generator:2.2.0'
-
-    photoViewVersion = 'com.github.chrisbanes:PhotoView:1.2.6'
-    loggerVersion = 'com.github.orhanobut:logger:1.12'
-    butterknifeVersion =  'com.jakewharton:butterknife:7.0.1'
-    glideVersion = 'com.github.bumptech.glide:glide:3.7.0'
-    glideokhttp3Version = 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    baseRecyclerViewVersion = 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.7.9'
-
-    filedownloaderVersion = 'com.liulishuo.filedownloader:library:0.3.1'
-    imageCropperVersion = 'com.theartofdev.edmodo:android-image-cropper:2.1.+'
-
-    welcomeVersion = 'com.stephentuso:welcome:0.7.2'
-
-
-    MPAndroidChartVersion = 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    bottomBarVersion = 'com.aurelhubert:ahbottomnavigation:1.2.3'
-    statusBarVersion = 'com.jaeger.statusbaruitl:library:1.0.0'
-    andfixVersion = 'com.alipay.euler:andfix:0.4.0@aar'
-    buglyVersion =  'com.tencent.bugly:crashreport:latest.release'
-    junitVersion = 'junit:junit:4.12'
-}
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir

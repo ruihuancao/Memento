@@ -20,10 +20,13 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:expandedTitleTextAppearance="@style/TextStyle.Title"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:transitionName="@string/share_list_image"
                 android:id="@+id/backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

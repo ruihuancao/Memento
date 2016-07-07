@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              style="@style/SelectableItemStyle.Rect"
+              android:gravity="center_vertical"
+              android:paddingLeft="@dimen/material_layout_keylines_screen_edge_margin"
+              android:paddingRight="@dimen/material_layout_keylines_screen_edge_margin"
+              android:layout_height="@dimen/material_layout_vertical_spacing_list_item">
+
+    <ImageView
+        style="@style/ImageStyle.Colored"
+        android:layout_marginRight="@dimen/material_layout_keylines_screen_edge_margin"
+        android:id="@+id/list_left_icon"
+        android:layout_gravity="start|center_vertical"
+        android:scaleType="centerCrop"
+        android:layout_width="@dimen/material_layout_avatar"
+        android:layout_height="@dimen/material_layout_avatar"/>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:id="@+id/list_title"
+        style="@style/TextStyle.Title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:id="@+id/list_subtitle"
+        style="@style/TextStyle.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/list_right_icon"
+        android:layout_gravity="end|center_vertical"
+        android:scaleType="centerCrop"
+        android:layout_width="@dimen/material_layout_avatar"
+        android:layout_height="@dimen/material_layout_avatar"/>
+</LinearLayout>

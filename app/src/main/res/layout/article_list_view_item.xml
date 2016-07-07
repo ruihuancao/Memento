@@ -12,7 +12,6 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <RelativeLayout
-
         android:paddingTop="@dimen/padding_normal"
         android:paddingBottom="@dimen/padding_normal"
         android:layout_width="match_parent"

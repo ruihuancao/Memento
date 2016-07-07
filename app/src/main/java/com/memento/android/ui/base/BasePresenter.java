@@ -1,27 +1,20 @@
 package com.memento.android.ui.base;
 
 
-import rx.Subscription;
+import com.memento.android.data.Repository;
 
 public class BasePresenter<T>{
 
     private T mView;
 
-    protected Subscription mSubscription;
+    protected final Repository mRepository;
+
+    public BasePresenter(Repository mRepository) {
+        this.mRepository = mRepository;
+    }
 
     public void attachView(T view) {
         mView = view;
-    }
-
-    public void detachView() {
-        mView = null;
-        if(mSubscription != null){
-            mSubscription.unsubscribe();
-        }
-    }
-
-    public boolean isViewAttached() {
-        return mView != null;
     }
 
     public T getView() {

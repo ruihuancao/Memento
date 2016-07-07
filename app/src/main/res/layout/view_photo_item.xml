@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/image_height"
+    android:layout_height="200dp"
     android:stateListAnimator="@animator/raise"
     android:foreground="@drawable/grey_ripple">
     <ImageView

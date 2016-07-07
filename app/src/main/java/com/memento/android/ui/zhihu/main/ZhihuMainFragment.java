@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +19,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.model.Article;
-import com.memento.android.data.model.ArticleBanner;
+import com.memento.android.data.Repository;
+import com.memento.android.data.entity.ZhihuArticleEntity;
+import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.model.ArticleBannerModel;
+import com.memento.android.model.ArticleModel;
+import com.memento.android.model.mapper.DataMapper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.widget.banner.ConvenientBanner;
 import com.memento.android.ui.widget.banner.holder.Holder;
 import com.memento.android.ui.widget.banner.holder.ViewHolderCreator;
+import com.memento.android.widget.DividerItemDecoration;
+import com.memento.android.widget.TransitionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +40,13 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 
-public class ZhihuMainFragment extends BaseFragment implements MainArticleContract.View {
+public class ZhihuMainFragment extends BaseFragment{
 
 
 
@@ -45,14 +56,18 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
     SwipeRefreshLayout mSwiperefreshlayout;
 
     @Inject
-    MainArticlePresenter mArticlePresenter;
+    Repository mRepository;
 
-    private List<Article> mList;
-    private BlankAdapter mBlankAdapter;
+    @Inject
+    DataMapper mDataMapper;
+
+    private Subscription mSubscription;
+
+    private List<ArticleModel> mList;
+    private Adapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private OnFragmentInteractionListener mListener;
     private String currentDate;
-
     private boolean isLoading = false;
 
     public ZhihuMainFragment() {
@@ -88,14 +103,13 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_zhihu_main, container, false);
         ButterKnife.bind(this, view);
-        mArticlePresenter.attachView(this);
         mList = new ArrayList<>();
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
-        mBlankAdapter = new BlankAdapter();
-        mRecyclerview.setAdapter(mBlankAdapter);
-
-
+        mRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL_LIST));
+        mAdapter = new Adapter();
+        mRecyclerview.setAdapter(mAdapter);
         mRecyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -111,7 +125,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
                 int lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
                 if (!isLoading && (lastVisibleItem > totalItemCount - 3) && dy > 0) {
                     isLoading = true;
-                    mArticlePresenter.getNewArticle(currentDate);
+                    getNewArticle(currentDate);
                 }
             }
 
@@ -120,21 +134,59 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
             @Override
             public void onRefresh() {
                 if (!isLoading) {
-                    mArticlePresenter.getNewArticle();
+                    getNewArticle();
                     isLoading = true;
                 }
             }
         });
-        mArticlePresenter.getNewArticle();
+        getNewArticle();
         mSwiperefreshlayout.setRefreshing(true);
-
-
         return view;
     }
 
 
-    @Override
-    public void showNewList(List<Article> mList) {
+    public void getNewArticle(String... date) {
+        if(date != null && date.length > 0){
+            mSubscription = mRepository.getNewArticle(date[0])
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {
+                        @Override
+                        public List<ArticleModel> call(ZhihuArticleEntity zhihuArticleEntity) {
+                            return mDataMapper.transform(zhihuArticleEntity);
+                        }
+                    })
+                    .subscribe(new DefaultSubscriber<List<ArticleModel>>(){
+
+                        @Override
+                        public void onNext(List<ArticleModel> articleModels) {
+                            super.onNext(articleModels);
+                            showList(articleModels);
+                        }
+                    });
+        }else{
+            mSubscription = mRepository.getNewArticle()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {
+                        @Override
+                        public List<ArticleModel> call(ZhihuArticleEntity zhihuArticleEntity) {
+                            return mDataMapper.transform(zhihuArticleEntity);
+                        }
+                    })
+                    .subscribe(new DefaultSubscriber<List<ArticleModel>>(){
+
+                        @Override
+                        public void onNext(List<ArticleModel> articleModels) {
+                            super.onNext(articleModels);
+                            showNewList(articleModels);
+                        }
+                    });
+        }
+    }
+
+
+    public void showNewList(List<ArticleModel> mList) {
         if (this.mList == null) {
             this.mList = new ArrayList<>();
         } else {
@@ -145,25 +197,24 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
         if (mList != null && mList.size() > 0) {
             currentDate = mList.get(0).getDate();
             this.mList.addAll(mList);
-            mBlankAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         } else {
             Snackbar.make(mRecyclerview, "更新失败", Snackbar.LENGTH_INDEFINITE)
                     .setAction("再次刷新", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mArticlePresenter.getNewArticle();
+                            getNewArticle();
                         }
                     });
         }
     }
 
-    @Override
-    public void showList(List<Article> mList) {
+    public void showList(List<ArticleModel> mList) {
         isLoading = false;
         if (mList != null && mList.size() > 0) {
             currentDate = mList.get(0).getDate();
             this.mList.addAll(mList);
-            mBlankAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         } else {
             Snackbar.make(mRecyclerview, "已经加载全部了", Snackbar.LENGTH_INDEFINITE).show();
         }
@@ -173,14 +224,16 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        mArticlePresenter.detachView();
+        if(mSubscription != null && mSubscription.isUnsubscribed()){
+            mSubscription.unsubscribe();
+        }
     }
 
     public interface OnFragmentInteractionListener {
-        void onClickListItem(Article article);
+        void onClickListItem(ArticleModel articleModel, Pair<View, String>[] pairs);
     }
 
-    class BlankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -188,10 +241,10 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_list_item_banner, parent, false);
                 return new BannerViewHolder(view);
             } else if (viewType == 1) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_list_item_text, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item_title, parent, false);
                 return new TextViewHolder(view);
             } else {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.article_list_view_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_common_list_item, parent, false);
                 return new ListViewHolder(view);
             }
         }
@@ -206,7 +259,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
                             public LocalImageHolderView createHolder() {
                                 return new LocalImageHolderView();
                             }
-                        }, getItem(position).getArticleBanners())
+                        }, getItem(position).getArticleBannerModels())
                         .startTurning(8000)
                         .setPageIndicator(new int[]{R.drawable.circle_banner, R.drawable.circle_banner_press})
                         .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
@@ -215,18 +268,23 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
                 TextViewHolder textViewHolder = (TextViewHolder) holder;
                 textViewHolder.mTextView.setText(getItem(position).getTitle());
             } else {
-                final Article article = getItem(position);
+                final ArticleModel articleModel = getItem(position);
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
                 if (!TextUtils.isEmpty(getItem(position).getImageUrl())) {
                     Glide.with(getActivity()).load(getItem(position).getImageUrl()).into(listViewHolder.mImageView);
                 }
                 listViewHolder.mTitleView.setText(getItem(position).getTitle());
                 listViewHolder.mSubTitleView.setVisibility(View.GONE);
+
+                final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(getActivity(), true,
+                        new Pair<>(listViewHolder.mImageView, getActivity().getString(R.string.share_list_image))
+                        );
+
                 listViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(mListener != null){
-                            mListener.onClickListItem(article);
+                            mListener.onClickListItem(articleModel, pairs);
                         }
                     }
                 });
@@ -243,18 +301,18 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
             return mList.size();
         }
 
-        public Article getItem(int position) {
+        public ArticleModel getItem(int position) {
             return mList.get(position);
         }
     }
 
-    static class ListViewHolder extends RecyclerView.ViewHolder {
+    class ListViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.card_image)
+        @Bind(R.id.thumbnail)
         public ImageView mImageView;
-        @Bind(R.id.card_text)
+        @Bind(R.id.list_title)
         public TextView mTitleView;
-        @Bind(R.id.card_title)
+        @Bind(R.id.list_subtitle)
         public TextView mSubTitleView;
 
         public ListViewHolder(View itemView) {
@@ -263,7 +321,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
         }
     }
 
-    static class BannerViewHolder extends RecyclerView.ViewHolder {
+    class BannerViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.bannerView)
         ConvenientBanner mBannerView;
 
@@ -273,7 +331,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
         }
     }
 
-    static class TextViewHolder extends RecyclerView.ViewHolder {
+    class TextViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.text)
         TextView mTextView;
 
@@ -283,7 +341,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
         }
     }
 
-    static class LocalImageHolderView implements Holder<ArticleBanner> {
+    class LocalImageHolderView implements Holder<ArticleBannerModel> {
         private ImageView imageView;
         private TextView mTextView;
         @Override
@@ -295,7 +353,7 @@ public class ZhihuMainFragment extends BaseFragment implements MainArticleContra
         }
 
         @Override
-        public void UpdateUI(Context context, int position, ArticleBanner data) {
+        public void UpdateUI(Context context, int position, ArticleBannerModel data) {
             Glide.with(context).load(data.getUrl()).into(imageView);
             mTextView.setTextColor(Color.WHITE);
             mTextView.setText(data.getTitle());

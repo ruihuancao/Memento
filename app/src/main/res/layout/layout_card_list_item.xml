@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/CardStyle"
+        app:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/card_content"
+            style="@style/SelectableItemStyle.Rect"
+            android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:gravity="center_vertical"
+                      android:padding="@dimen/material_layout_vertical_spacing_between_content_areas"
+                      android:layout_height="@dimen/material_layout_vertical_spacing_list_item">
+
+            <ImageView
+                android:id="@+id/list_left_icon"
+                android:layout_gravity="start|center_vertical"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/material_layout_avatar"
+                android:layout_height="@dimen/material_layout_avatar"/>
+
+            <LinearLayout
+                android:layout_marginLeft="@dimen/material_layout_keylines_screen_edge_margin"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:id="@+id/list_title"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:id="@+id/list_subtitle"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/list_right_icon"
+                android:layout_gravity="end|center_vertical"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/material_layout_avatar"
+                android:layout_height="@dimen/material_layout_avatar"/>
+        </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+</LinearLayout>

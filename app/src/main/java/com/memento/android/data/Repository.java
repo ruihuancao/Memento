@@ -1,13 +1,12 @@
 package com.memento.android.data;
 
 
-import com.memento.android.data.model.Address;
-import com.memento.android.data.model.Article;
-import com.memento.android.data.model.ArticleDetail;
-import com.memento.android.data.model.LauncherImage;
-import com.memento.android.data.model.Photo;
+import com.memento.android.data.entity.DouBanMovieEntity;
+import com.memento.android.data.entity.IpAddressEntity;
+import com.memento.android.data.entity.SplashImageEntity;
+import com.memento.android.data.entity.ZhihuArticleDetailEmtity;
+import com.memento.android.data.entity.ZhihuArticleEntity;
 
-import java.io.File;
 import java.util.List;
 
 import rx.Observable;
@@ -15,17 +14,19 @@ import rx.Observable;
 
 public interface Repository {
 
-    Observable<List<Photo>> getImageList();
+    Observable<List<SplashImageEntity>> getImageList();
 
-    Observable<LauncherImage> getLauncherImage(String deviceInfo);
+    Observable<ZhihuArticleEntity> getNewArticle(String date);
 
-    Observable<List<Article>> getNewArticle(String date);
+    Observable<ZhihuArticleEntity> getNewArticle();
 
-    Observable<List<Article>> getNewArticle();
+    Observable<ZhihuArticleDetailEmtity> getArticleDetail(String id);
 
-    Observable<ArticleDetail> getArticleDetail(String id);
+    Observable<IpAddressEntity> getAddress(String ip);
 
-    Observable<File> downloadfile(String url);
+    Observable<DouBanMovieEntity> getTheatersMovie(String city);
 
-    Observable<Address> getAddress(String ip);
+    Observable<DouBanMovieEntity> getTop250Movie(int start, int count);
+
+    Observable<DouBanMovieEntity> getComingSoonMovie(int start, int count);
 }

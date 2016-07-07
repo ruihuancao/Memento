@@ -5,10 +5,9 @@ import android.content.Context;
 
 import com.memento.android.MementoApplication;
 import com.memento.android.data.Repository;
-import com.memento.android.data.cache.FileManager;
-import com.memento.android.data.mapper.DataMapper;
-import com.memento.android.data.repository.datasource.DataStoreFactory;
-import com.memento.android.data.repository.datasource.JsonSerializer;
+import com.memento.android.data.repository.file.FileManager;
+import com.memento.android.data.repository.preference.SharePreferenceManager;
+import com.memento.android.model.mapper.DataMapper;
 import com.memento.android.injection.ApplicationContext;
 import com.memento.android.injection.module.ApplicationModule;
 import com.memento.android.navigation.Navigator;
@@ -29,8 +28,7 @@ public interface ApplicationComponent {
     Application application();
     Repository repository();
     DataMapper dataMapper();
+    SharePreferenceManager preference();
     Navigator navigate();
     FileManager fileManager();
-    JsonSerializer jsonSerializer();
-    DataStoreFactory dataStoreFactory();
 }

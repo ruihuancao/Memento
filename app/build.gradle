@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId rootProject.ext.applicationId
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        applicationId "com.memento.android"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
         ndk {
             //设置支持的SO库架构
@@ -114,54 +114,45 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':leancloudlibrary')
-    compile project(':themelibrary')
-    compile rootProject.ext.appcompatVersion
-    compile rootProject.ext.designVersion
-    compile rootProject.ext.cardviewVersion
-    compile rootProject.ext.recyclerviewVersion
-    compile rootProject.ext.customtabsVersion
-    compile rootProject.ext.supportv4Version
-    compile rootProject.ext.paletteVersion
+    compile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    testApt 'com.google.dagger:dagger-compiler:2.0.2'
+    androidTestApt 'com.google.dagger:dagger-compiler:2.0.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    debugCompile rootProject.ext.leakcanaryDebugVersion
-    releaseCompile rootProject.ext.leakcanaryReleaseVersion
-    testCompile rootProject.ext.leakcanaryTestVersion
 
-    compile rootProject.ext.stethoVersion
-    compile rootProject.ext.stethoOkhttpVersion
-
-    compile rootProject.ext.filedownloaderVersion
-    compile rootProject.ext.glideVersion
-    compile rootProject.ext.glideokhttp3Version
-
-    compile rootProject.ext.MPAndroidChartVersion
-    compile rootProject.ext.butterknifeVersion
-    compile rootProject.ext.bottomBarVersion
-    compile rootProject.ext.statusBarVersion
-    compile rootProject.ext.andfixVersion
-    compile rootProject.ext.buglyVersion
-    compile rootProject.ext.baseRecyclerViewVersion
-
-    compile rootProject.ext.rxAndroidVersion
-    compile rootProject.ext.rxJavaVersion
-    //dagger2
-    compile rootProject.ext.daggerVersion
-    apt rootProject.ext.daggerCompilerVersion
-    testApt rootProject.ext.daggerCompilerVersion
-    androidTestApt rootProject.ext.daggerCompilerVersion
-    provided rootProject.ext.javaAnnotationVersion
-    //调试工具
-    compile rootProject.ext.retrofit2Version
-    compile rootProject.ext.retrofit2GsonVersion
-    compile rootProject.ext.retrofit2RxjavaVersion
-    compile rootProject.ext.retrofit2ScalarsVersion
-    compile rootProject.ext.okHttpLoggingVersion
-    compile rootProject.ext.eventBusVersion
-    compile rootProject.ext.greendaoVersion
-    compile rootProject.ext.greendaoGeneratorVersion
-    //日志
-    compile rootProject.ext.loggerVersion
-    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:palette-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:support-v4:24.0.0'
+    compile 'com.android.support:customtabs:24.0.0'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    compile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    compile 'com.facebook.stetho:stetho:1.3.1'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.3'
+    compile 'com.google.dagger:dagger:2.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.orhanobut:logger:1.12'
+    compile 'com.liulishuo.filedownloader:library:0.3.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.aurelhubert:ahbottomnavigation:1.2.3'
+    compile 'com.jaeger.statusbaruitl:library:1.0.0'
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.1.+'
+    compile 'pub.devrel:easypermissions:0.1.7'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
 }
 

@@ -48,7 +48,7 @@ public class SplashAnimator {
 
     private Animator getTextViewAnimator(){
         ObjectAnimator alphaYAnimator = ObjectAnimator.ofFloat(textView, View.ALPHA, 0f, 1f);
-        alphaYAnimator.setDuration(3000);
+        alphaYAnimator.setDuration(2000);
         alphaYAnimator.setInterpolator(new LinearInterpolator());
         alphaYAnimator.addListener(new AnimatorStartListener() {
             @Override

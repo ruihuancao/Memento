@@ -2,6 +2,8 @@
     <string name="app_name">Memento</string>
 
 
+    <string name="menu_doubanmovie">豆瓣电影</string>
+
     <string name="menu_zhihu">知乎日报</string>
     <string name="menu_dingxiang">丁香医生</string>
     <string name="menu_wxjingxuan">微信精选</string>
@@ -10,6 +12,24 @@
     <string name="menu_title">交流</string>
     <string name="menu_share">分享</string>
     <string name="menu_send">发送</string>
+
+    <string name="retionale_tip">需要定位权限确定您的位置，以便为您提供更好的个性化服务。需要开启存储权限，缓存请求，减少流量消耗。</string>
+    <string name="rationale_ask_again">缺少权限将不能正常使用，是否开启权限？</string>
+    <string name="setting">设置</string>
+    <string name="cancel">取消</string>
+
+    <string name="share_list_image">share_image</string>
+    <string name="share_list_title">share_title</string>
+    <string name="share_theme_image">share_theme_image</string>
+
+
+    <string name="material_theme_red">Red</string>
+    <string name="material_theme_orange">Orange</string>
+    <string name="material_theme_lime">Lime</string>
+    <string name="material_theme_green">Green</string>
+    <string name="material_theme_teal">Teal</string>
+    <string name="material_theme_blue">Blue</string>
+    <string name="material_theme_purple">Purple</string>
 
 
     <string name="nav_home">首页</string>
@@ -58,7 +78,7 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">设置</string>
 
     <!-- Strings related to Settings -->
 

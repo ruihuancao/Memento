@@ -2,12 +2,11 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="@string/pref_description_social_recommendations"
-        android:title="@string/pref_title_social_recommendations" />
+        android:key="push_switch"
+        android:summary="接受文章和通知消息推送"
+        android:title="推送设置"/>
 
-    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
-    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+
     <EditTextPreference
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
@@ -16,7 +15,7 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="@string/pref_title_display_name" />
+        android:title="@string/pref_title_display_name"/>
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
@@ -28,6 +27,19 @@
         android:key="example_list"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        android:title="@string/pref_title_add_friends_to_messages" />
+        android:title="@string/pref_title_add_friends_to_messages"/>
+
+    <com.memento.android.ui.preference.ColorPickerPreference
+        android:defaultValue="1"
+        android:key="example_color"
+        android:summary="接受文章和通知消息推送"
+        android:title="推送设置"
+        />
+
+    <Preference android:title="主题设置">
+        <intent
+            android:targetClass="com.memento.android.ui.theme.ThemeSettingActivity"
+            android:targetPackage="com.memento.android"/>
+    </Preference>
 
 </PreferenceScreen>

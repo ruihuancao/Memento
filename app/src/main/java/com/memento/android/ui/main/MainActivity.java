@@ -1,33 +1,37 @@
 package com.memento.android.ui.main;
 
 import android.animation.Animator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
-import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.leancloudlibrary.login.LearnCloud;
+import com.memento.android.data.Repository;
 import com.memento.android.navigation.Navigator;
 import com.memento.android.ui.animators.FloatingActionButtonAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
-import com.memento.android.widget.CropCircleTransformation;
+import com.memento.android.ui.douban.movie.CommonMovieFragment;
+import com.memento.android.ui.douban.movie.TestFragment;
+import com.memento.android.ui.douban.movie.TheatersMovieFragment;
 
 import java.util.ArrayList;
 
@@ -36,7 +40,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity  implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity{
+
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -56,6 +61,10 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
     @Inject
     Navigator mNavigator;
 
+    @Inject
+    Repository mRepository;
+
+    private Interpolator interpolator;
     private MainViewPagerAdapter adapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems;
 
@@ -65,65 +74,78 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setContentView(R.layout.activity_main);
+        setupWindowAnimations();
         ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
-        initHeadView();
-        initDrawView();
+        initView();
+    }
+
+    private void setupWindowAnimations() {
+        setupEnterAnimations();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupEnterAnimations() {
+        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.changebounds_with_arcmotion);
+        getWindow().setSharedElementEnterTransition(transition);
+        transition.addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                // Removing listener here is very important because shared element transition is executed again backwards on exit. If we don't remove the listener this code will be triggered again.
+                transition.removeListener(this);
+                hideTarget();
+                animateRevealShow(mToolbar);
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+            }
+        });
+    }
+
+    private void hideTarget(){
+        findViewById(R.id.shared_target).setVisibility(View.GONE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void animateRevealShow(View viewRoot) {
+        int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
+        int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
+        int finalRadius = Math.max(viewRoot.getWidth(), viewRoot.getHeight());
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, finalRadius);
+        viewRoot.setVisibility(View.VISIBLE);
+        anim.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+        anim.setInterpolator(new AccelerateInterpolator());
+        anim.start();
+    }
+
+    private void initView(){
         initBottomView();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        onNavItemSelected(item);
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void initHeadView() {
-        mNavView.setNavigationItemSelectedListener(this);
-        View headView = mNavView.inflateHeaderView(R.layout.nav_header_draw);
-        headView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(LearnCloud.isLogin()) return;
-                mNavigator.openLoginActivity(MainActivity.this);
-            }
-        });
-        ImageView iconView = (ImageView) headView.findViewById(R.id.imageView);
-        TextView nameView = (TextView) headView.findViewById(R.id.nameTextView);
-        TextView desView = (TextView) headView.findViewById(R.id.desTextView);
-        if(LearnCloud.isLogin() && LearnCloud.getUserIcon() != null){
-            Glide.with(this).load(LearnCloud.getUserIcon())
-                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                    .bitmapTransform(new CropCircleTransformation(this))
-                    .into(iconView);
-        }
-        nameView.setText(LearnCloud.getUserName());
-    }
-
-    private void initDrawView() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
 
     private void initBottomView(){
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.nav_home, R.drawable.ic_home_black_24dp, R.color.primary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.nav_collection, R.drawable.ic_collections_black_24dp, R.color.primary);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.nav_friends, R.drawable.ic_people_black_24dp, R.color.primary);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_person, R.drawable.ic_person_black_24dp, R.color.primary);
+
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+        int colorPrimaryRes = typedValue.resourceId;
+
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.nav_home, R.drawable.ic_home_black_24dp, colorPrimaryRes);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.nav_collection, R.drawable.ic_collections_black_24dp, colorPrimaryRes);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.nav_friends, R.drawable.ic_people_black_24dp, colorPrimaryRes);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.nav_person, R.drawable.ic_person_black_24dp, colorPrimaryRes);
 
         bottomNavigationItems = new ArrayList<>();
         bottomNavigationItems.add(item1);
@@ -133,7 +155,8 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
 
         bottomNavigation.addItems(bottomNavigationItems);
         bottomNavigation.setForceTitlesDisplay(true);
-        bottomNavigation.setAccentColor(getResources().getColor(R.color.primary));
+        bottomNavigation.setAccentColor(getResources().getColor(colorPrimaryRes));
+        bottomNavigation.setNotificationBackgroundColorResource(colorPrimaryRes);
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.secondary_text));
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -151,10 +174,10 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
         viewPager.setOffscreenPageLimit(4);
         ArrayList<BaseFragment> fragments = new ArrayList<>();
 
-        fragments.add(MainFragment.newInstance());
-        fragments.add(CollectionFragment.newInstance());
-        fragments.add(PeopleFragment.newInstance());
-        fragments.add(PeosonFragment.newInstance());
+        fragments.add(TheatersMovieFragment.newInstance());
+        fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.COMINGSOON_TYPE));
+        fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.TOP250_TYPE));
+        fragments.add(TestFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         final Handler handler = new Handler();
@@ -167,6 +190,7 @@ public class MainActivity extends BaseActivity  implements NavigationView.OnNavi
             }
         }, 3000);
     }
+
 
     private void showFloatingActionButton(){
         floatingActionButton.setVisibility(View.VISIBLE);

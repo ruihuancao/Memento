@@ -19,7 +19,19 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/shared_target"
+                android:src="@drawable/ic_brightness_1_black_24dp"
+                android:transitionName="@string/share_theme_image"
+                style="@style/ImageStyle.Colored"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+
+            </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/main_content"/>
@@ -31,6 +43,7 @@
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="72dp"
         android:layout_marginRight="16dp"
+        style="@style/FloatingActionButtonStyle"
         android:visibility="gone"
         android:src="@drawable/ic_add_black_24dp" />
 
@@ -39,7 +52,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

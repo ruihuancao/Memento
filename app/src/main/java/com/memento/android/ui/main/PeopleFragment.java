@@ -64,7 +64,7 @@ public class PeopleFragment extends BaseFragment {
         public ViewHolder onCreateViewHolder(ViewGroup parent,
                                              int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.view_main_list_item, parent, false);
+                    .inflate(R.layout.layout_card_large, parent, false);
             ViewHolder vh = new ViewHolder(v);
             return vh;
         }
