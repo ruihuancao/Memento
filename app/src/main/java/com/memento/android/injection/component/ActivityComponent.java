@@ -10,6 +10,7 @@ import com.memento.android.ui.douban.movie.TheatersMovieFragment;
 import com.memento.android.ui.main.HomeFragment;
 import com.memento.android.ui.main.MainActivity;
 import com.memento.android.ui.main.PhotoFragment;
+import com.memento.android.ui.preference.SettingsActivity;
 import com.memento.android.ui.splash.SplashUrlActivity;
 import com.memento.android.ui.theme.ThemeSettingActivity;
 import com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity;
@@ -28,6 +29,7 @@ public interface ActivityComponent {
     void inject(SplashUrlActivity splashUrlActivity);
     void inject(MainActivity mainActivity);
     void inject(ThemeSettingActivity themeSettingActivity);
+    void inject(SettingsActivity settingsActivity);
 
     void inject(HomeFragment homeFragment);
     void inject(PhotoFragment photoFragment);

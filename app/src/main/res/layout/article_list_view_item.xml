@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@mipmap/ic_usericon"
+            android:src="@mipmap/ic_launcher"
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_image_height"

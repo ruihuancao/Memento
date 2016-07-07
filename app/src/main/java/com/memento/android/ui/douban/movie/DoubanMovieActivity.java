@@ -38,7 +38,6 @@ public class DoubanMovieActivity extends BaseActivity {
     }
 
     private void initView(){
-        mToolbar.setTitle(getString(R.string.menu_doubanmovie));
         setSupportActionBar(mToolbar);
         setupViewPager();
         mTabs.setupWithViewPager(mViewPager);

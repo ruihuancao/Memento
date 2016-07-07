@@ -58,7 +58,7 @@
             android:name=".ui.theme.ThemeSettingActivity"
             android:label="@string/title_activity_settings"/>
         <activity android:name=".ui.douban.movie.DoubanMovieActivity"
-            android:label="@string/menu_doubanmovie">
+            android:label="@string/menu_douban_movie">
         </activity>
 
         <meta-data

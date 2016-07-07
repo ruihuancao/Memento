@@ -1,14 +1,17 @@
 package com.memento.android.ui.douban.movie;
 
 import android.Manifest;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,9 +24,11 @@ import com.bumptech.glide.Glide;
 import com.memento.android.R;
 import com.memento.android.data.Repository;
 import com.memento.android.data.entity.DouBanMovieEntity;
-import com.memento.android.data.subscriber.ProgressSubscriver;
+import com.memento.android.data.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
+import com.memento.android.ui.webview.CustomTabActivityHelper;
+import com.memento.android.ui.webview.WebviewFallback;
 import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
@@ -50,6 +55,7 @@ import rx.schedulers.Schedulers;
 public class TheatersMovieFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks, AMapLocationListener {
 
     private static final int RC_LOCATION_PERM = 121;
+    private static final String MOBILE_URL = "https://movie.douban.com/subject/%s/mobile";
 
 
     @Bind(R.id.progressbar)
@@ -98,11 +104,10 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
 
 
     protected void localtionResult(AMapLocation amapLocation) {
-
         mRepository.getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriver<DouBanMovieEntity>(getContext()){
+                .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
 
                     @Override
                     public void onError(Throwable e) {
@@ -251,6 +256,16 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
             DouBanMovieEntity.SubjectsEntity subjectsEntity = getItem(position);
             Glide.with(getActivity()).load(subjectsEntity.getImages().getLarge()).crossFade().into(holder.mImageView);
             holder.mTitleView.setText(subjectsEntity.getTitle());
+            holder.mFrameLayout.setTag(subjectsEntity);
+            holder.mFrameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DouBanMovieEntity.SubjectsEntity subjectsEntity = (DouBanMovieEntity.SubjectsEntity)v.getTag();
+                    String mobileUrl = String.format(MOBILE_URL, subjectsEntity.getId());
+                    CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                    CustomTabActivityHelper.openCustomTab(getActivity(), customTabsIntent, Uri.parse(mobileUrl), new WebviewFallback());
+                }
+            });
         }
 
         @Override
@@ -269,6 +284,8 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
         public ImageView mImageView;
         @Bind(R.id.name)
         public TextView mTitleView;
+        @Bind(R.id.contentLayout)
+        FrameLayout mFrameLayout;
 
         public ListViewHolder(View itemView) {
             super(itemView);

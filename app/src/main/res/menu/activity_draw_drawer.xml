@@ -3,32 +3,37 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
+
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_douban_moive"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
+            android:title="@string/menu_douban_movie"/>
+        <item
+            app:actionLayout="@layout/view_nav_item"
+            android:id="@+id/nav_douban_book"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
+            android:title="@string/menu_douban_book"/>
         <item
             app:actionLayout="@layout/view_nav_item"
             android:id="@+id/nav_zhihu"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
             android:title="@string/menu_zhihu"/>
         <item
             android:id="@+id/nav_dingxiang"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
             android:title="@string/menu_dingxiang"
             app:actionLayout="@layout/view_nav_item"/>
         <item
             app:actionLayout="@layout/view_nav_item"
             android:id="@+id/nav_wxjingxuan"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
             android:title="@string/menu_wxjingxuan"/>
         <item
             app:actionLayout="@layout/view_nav_item"
-            android:id="@+id/nav_pic"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_pic"/>
-        <item
-            app:actionLayout="@layout/view_nav_item"
-            android:id="@+id/nav_joke"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_joke"/>
-
+            android:id="@+id/nav_meitu"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
+            android:title="@string/menu_meitu"/>
     </group>
 
     <item android:title="@string/menu_title">

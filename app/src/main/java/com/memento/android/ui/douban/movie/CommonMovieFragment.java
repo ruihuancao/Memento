@@ -1,7 +1,9 @@
 package com.memento.android.ui.douban.movie;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +23,8 @@ import com.memento.android.data.entity.DouBanMovieEntity;
 import com.memento.android.data.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
+import com.memento.android.ui.webview.CustomTabActivityHelper;
+import com.memento.android.ui.webview.WebviewFallback;
 import com.memento.android.widget.DividerItemDecoration;
 import com.orhanobut.logger.Logger;
 
@@ -43,6 +47,8 @@ import rx.schedulers.Schedulers;
  * 修改历史：
  */
 public class CommonMovieFragment extends BaseFragment {
+
+    private static final String MOBILE_URL = "https://movie.douban.com/subject/%s/mobile";
 
     public static final int TOP250_TYPE = 0;
     public static final int COMINGSOON_TYPE = 1;
@@ -237,6 +243,17 @@ public class CommonMovieFragment extends BaseFragment {
                     RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
                     circularBitmapDrawable.setCircular(true);
                     holder.mImageView.setImageDrawable(circularBitmapDrawable);
+                }
+            });
+
+            holder.itemView.setTag(subjectsEntity);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DouBanMovieEntity.SubjectsEntity subjectsEntity = (DouBanMovieEntity.SubjectsEntity)v.getTag();
+                    String mobileUrl = String.format(MOBILE_URL, subjectsEntity.getId());
+                    CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+                    CustomTabActivityHelper.openCustomTab(getActivity(), customTabsIntent, Uri.parse(mobileUrl), new WebviewFallback());
                 }
             });
         }

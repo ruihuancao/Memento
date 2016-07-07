@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 
+import com.memento.android.ui.douban.movie.DoubanMovieActivity;
 import com.memento.android.ui.main.MainActivity;
 import com.memento.android.ui.preference.SettingsActivity;
 import com.memento.android.ui.splash.SplashUrlActivity;
@@ -29,9 +30,14 @@ public class Navigator {
         mContext.startActivity(intent);
     }
 
-
     public void openMainActivity(Context mContext){
         Intent intent = new Intent(mContext, MainActivity.class);
+        mContext.startActivity(intent);
+    }
+
+    public void openReStartMainActivity(Context mContext){
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mContext.startActivity(intent);
     }
 
@@ -46,6 +52,10 @@ public class Navigator {
 
     public void openZhihuActivity(Context mContext){
         mContext.startActivity(new Intent(mContext, ZhihuActivity.class));
+    }
+
+    public void openDoubanMoiveActivity(Context mContext){
+        mContext.startActivity(new Intent(mContext, DoubanMovieActivity.class));
     }
 
     public void openZhihuDetailActivity(Activity activity, String id, Pair<View, String>[] pairs){

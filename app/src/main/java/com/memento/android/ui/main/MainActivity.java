@@ -1,23 +1,15 @@
 package com.memento.android.ui.main;
 
 import android.animation.Animator;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Interpolator;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -34,11 +26,15 @@ import com.memento.android.ui.douban.movie.TestFragment;
 import com.memento.android.ui.douban.movie.TheatersMovieFragment;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity{
 
@@ -64,7 +60,6 @@ public class MainActivity extends BaseActivity{
     @Inject
     Repository mRepository;
 
-    private Interpolator interpolator;
     private MainViewPagerAdapter adapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems;
 
@@ -74,67 +69,13 @@ public class MainActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         activityComponent().inject(this);
         setContentView(R.layout.activity_main);
-        setupWindowAnimations();
         ButterKnife.bind(this);
         initView();
-    }
-
-    private void setupWindowAnimations() {
-        setupEnterAnimations();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setupEnterAnimations() {
-        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.changebounds_with_arcmotion);
-        getWindow().setSharedElementEnterTransition(transition);
-        transition.addListener(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
-            }
-
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                // Removing listener here is very important because shared element transition is executed again backwards on exit. If we don't remove the listener this code will be triggered again.
-                transition.removeListener(this);
-                hideTarget();
-                animateRevealShow(mToolbar);
-            }
-
-            @Override
-            public void onTransitionCancel(Transition transition) {
-            }
-
-            @Override
-            public void onTransitionPause(Transition transition) {
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-            }
-        });
-    }
-
-    private void hideTarget(){
-        findViewById(R.id.shared_target).setVisibility(View.GONE);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void animateRevealShow(View viewRoot) {
-        int cx = (viewRoot.getLeft() + viewRoot.getRight()) / 2;
-        int cy = (viewRoot.getTop() + viewRoot.getBottom()) / 2;
-        int finalRadius = Math.max(viewRoot.getWidth(), viewRoot.getHeight());
-
-        Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, finalRadius);
-        viewRoot.setVisibility(View.VISIBLE);
-        anim.setDuration(getResources().getInteger(R.integer.anim_duration_long));
-        anim.setInterpolator(new AccelerateInterpolator());
-        anim.start();
     }
 
     private void initView(){
         initBottomView();
     }
-
 
     private void initBottomView(){
 
@@ -180,15 +121,23 @@ public class MainActivity extends BaseActivity{
         fragments.add(TestFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        Observable.interval(3000, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
             @Override
-            public void run() {
+            public void call(Long aLong) {
                 bottomNavigation.setNotification("16", 1);
                 Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
                         Snackbar.LENGTH_SHORT).show();
             }
-        }, 3000);
+        });
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                bottomNavigation.setNotification("16", 1);
+//                Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
+//                        Snackbar.LENGTH_SHORT).show();
+//            }
+//        }, 3000);
     }
 
 

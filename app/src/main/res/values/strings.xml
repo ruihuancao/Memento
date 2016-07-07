@@ -2,16 +2,35 @@
     <string name="app_name">Memento</string>
 
 
-    <string name="menu_doubanmovie">豆瓣电影</string>
-
+    <string name="menu_douban_movie">豆瓣电影</string>
     <string name="menu_zhihu">知乎日报</string>
     <string name="menu_dingxiang">丁香医生</string>
     <string name="menu_wxjingxuan">微信精选</string>
-    <string name="menu_pic">每日十图</string>
-    <string name="menu_joke">每日十乐</string>
+    <string name="menu_meitu">每日十图</string>
+    <string name="menu_douban_book">豆瓣图书</string>
     <string name="menu_title">交流</string>
     <string name="menu_share">分享</string>
     <string name="menu_send">发送</string>
+
+    <string name="pref_function">文章浏览</string>
+    <string name="pref_dxys_title">丁香医生</string>
+    <string name="pref_dxys_summary">丁香医生显示</string>
+    <string name="pref_douban_movie_title">豆瓣电影</string>
+    <string name="pref_douban_movie_summary">豆瓣电影显示</string>
+    <string name="pref_douban_book_title">豆瓣图书</string>
+    <string name="pref_douban_book_summary">豆瓣图书显示</string>
+    <string name="pref_zhihu_title">知乎日报</string>
+    <string name="pref_zhihu_summary">知乎日报显示</string>
+    <string name="pref_weixin_title">微信精选</string>
+    <string name="pref_weixin_summary">微信精选显示</string>
+    <string name="pref_meitu_title">每日十图</string>
+    <string name="pref_meitu_summary">每日十图显示</string>
+
+    <string name="pref_app">应用设置</string>
+    <string name="pref_app_theme_title">主题设置</string>
+    <string name="pref_app_theme_summary">MaterialTheme主题颜色选择</string>
+    <string name="pref_app_push_title">推送设置</string>
+    <string name="pref_app_push_summary">消息推送设置</string>
 
     <string name="retionale_tip">需要定位权限确定您的位置，以便为您提供更好的个性化服务。需要开启存储权限，缓存请求，减少流量消耗。</string>
     <string name="rationale_ask_again">缺少权限将不能正常使用，是否开启权限？</string>

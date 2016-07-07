@@ -48,7 +48,7 @@ public class DataMapper {
                 mBanner.add(articleBannerModel);
             }
             articleModel.setArticleBannerModels(mBanner);
-            mList.add(articleModel);
+            //mList.add(articleModel);
         }
         if(zhihuArticleEntity != null && zhihuArticleEntity.getStories() != null
                 && zhihuArticleEntity.getStories().size() > 0){
