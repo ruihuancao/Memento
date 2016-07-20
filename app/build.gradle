@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24"
 
     defaultConfig {
         applicationId "com.memento.android"
@@ -59,7 +59,7 @@ android {
         release {
             signingConfig signingConfigs.release
             // 开启混淆
-            minifyEnabled true
+            minifyEnabled false
             // 混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -92,6 +92,7 @@ android {
 
     productFlavors {
         Test {}
+        Xiaomi{}
         // other channels
     }
 
@@ -114,12 +115,10 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     testApt 'com.google.dagger:dagger-compiler:2.0.2'
     androidTestApt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
 
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:palette-v7:24.0.0'
@@ -129,12 +128,14 @@ dependencies {
     compile 'com.android.support:support-v4:24.0.0'
     compile 'com.android.support:customtabs:24.0.0'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    compile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     compile 'com.facebook.stetho:stetho:1.3.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.3'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
@@ -147,7 +148,8 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.aurelhubert:ahbottomnavigation:1.2.3'
     compile 'com.jaeger.statusbaruitl:library:1.0.0'
     compile 'com.tencent.bugly:crashreport:latest.release'

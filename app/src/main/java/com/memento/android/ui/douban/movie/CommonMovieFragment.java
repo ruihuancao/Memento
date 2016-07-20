@@ -33,8 +33,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -57,10 +58,11 @@ public class CommonMovieFragment extends BaseFragment {
 
     private static final String TYPE = "TYPE";
 
-    @Bind(R.id.progressbar)
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    private Unbinder mUnbinder;
 
     private LinearLayoutManager mLinearLayoutManager;
     private Adapter mAdapter;
@@ -99,7 +101,7 @@ public class CommonMovieFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_douban_top250, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         setupRecyclerView();
         initData();
         return view;
@@ -205,7 +207,7 @@ public class CommonMovieFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         if(mSubscription != null){
             mSubscription.unsubscribe();
         }
@@ -271,12 +273,12 @@ public class CommonMovieFragment extends BaseFragment {
 
     class ListViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.thumbnail)
-        public ImageView mImageView;
-        @Bind(R.id.list_title)
-        public TextView mTitleView;
-        @Bind(R.id.list_subtitle)
-        public TextView mSubTitleView;
+        @BindView(R.id.thumbnail)
+        ImageView mImageView;
+        @BindView(R.id.list_title)
+        TextView mTitleView;
+        @BindView(R.id.list_subtitle)
+        TextView mSubTitleView;
 
         public ListViewHolder(View itemView) {
             super(itemView);

@@ -54,11 +54,6 @@
             android:summary="@string/pref_app_theme_summary"
             android:title="@string/pref_app_theme_title"/>
 
-        <!--<Preference android:title="主题设置">-->
-            <!--<intent-->
-                <!--android:targetClass="com.memento.android.ui.theme.ThemeSettingActivity"-->
-                <!--android:targetPackage="com.memento.android"/>-->
-        <!--</Preference>-->
     </PreferenceCategory>
 
 </PreferenceScreen>

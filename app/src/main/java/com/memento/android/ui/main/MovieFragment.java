@@ -12,8 +12,9 @@ import com.memento.android.R;
 import com.memento.android.ui.base.BaseFragment;
 import com.orhanobut.logger.Logger;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 作者: caorh@dxyer.com
@@ -25,10 +26,11 @@ import butterknife.ButterKnife;
 public class MovieFragment extends BaseFragment {
 
 
-    @Bind(R.id.progressbar)
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    private Unbinder mUnbinder;
 
     public void MovieFragment(){}
 
@@ -43,7 +45,7 @@ public class MovieFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mRecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerview.setVisibility(View.GONE);
         return view;
@@ -54,6 +56,6 @@ public class MovieFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 }

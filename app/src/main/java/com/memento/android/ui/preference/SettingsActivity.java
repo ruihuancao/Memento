@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -33,7 +33,7 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
 
     @Inject
     Navigator mNavigator;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     @Override

@@ -14,18 +14,20 @@ import com.memento.android.R;
 import com.memento.android.ui.base.BaseFragment;
 import com.orhanobut.logger.Logger;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class CollectionFragment extends BaseFragment {
 
     public static final String TAG = CollectionFragment.class.getSimpleName();
 
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    @Bind(R.id.swiperefreshlayout)
+    @BindView(R.id.swiperefreshlayout)
     SwipeRefreshLayout mSwiperefreshlayout;
 
+    private Unbinder mUnbinder;
     private GridLayoutManager mGridLayoutManager;
 
     public CollectionFragment() {
@@ -42,7 +44,7 @@ public class CollectionFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_collection, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerview.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
         mRecyclerview.setAdapter(new CollectionAdapter());
@@ -52,7 +54,7 @@ public class CollectionFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
 

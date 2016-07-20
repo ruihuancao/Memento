@@ -14,15 +14,17 @@ import com.memento.android.ui.theme.MaterialTheme;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class TestFragment extends BaseFragment {
 
 
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    private Unbinder mUnbinder;
 
     public TestFragment() {
     }
@@ -37,7 +39,7 @@ public class TestFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_theme_list, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         Adapter adapter = new Adapter(MaterialTheme.getThemeList());
         mRecyclerview.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mRecyclerview.setAdapter(adapter);
@@ -47,7 +49,7 @@ public class TestFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

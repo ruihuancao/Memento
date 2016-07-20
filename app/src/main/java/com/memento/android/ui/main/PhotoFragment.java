@@ -33,8 +33,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,11 +47,12 @@ public class PhotoFragment extends BaseFragment  implements EasyPermissions.Perm
     private static final int RC_LOCATION_PERM = 120;
 
 
-    @Bind(android.R.id.empty)
+    @BindView(android.R.id.empty)
     ProgressBar empty;
-    @Bind(R.id.image_grid)
+    @BindView(R.id.image_grid)
     RecyclerView imageGrid;
 
+    private Unbinder mUnbinder;
     @Inject
     Repository repository;
 
@@ -80,7 +82,7 @@ public class PhotoFragment extends BaseFragment  implements EasyPermissions.Perm
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
 
         setupRecyclerView();
 
@@ -220,7 +222,7 @@ public class PhotoFragment extends BaseFragment  implements EasyPermissions.Perm
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         if(mLocationClient != null){
             mLocationClient.onDestroy();
         }

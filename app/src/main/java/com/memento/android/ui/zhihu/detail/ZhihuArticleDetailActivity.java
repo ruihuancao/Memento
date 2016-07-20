@@ -31,7 +31,7 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,17 +44,17 @@ public class ZhihuArticleDetailActivity extends BaseActivity{
 
     public static final String PARAM_ONE = "param_one";
 
-    @Bind(R.id.backdrop)
+    @BindView(R.id.backdrop)
     ImageView mBackdrop;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbar;
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     AppBarLayout mAppbar;
-    @Bind(R.id.main_content)
+    @BindView(R.id.main_content)
     CoordinatorLayout mMainContent;
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     WebView mWebview;
 
     @Inject

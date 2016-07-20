@@ -25,7 +25,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,9 +34,9 @@ import rx.schedulers.Schedulers;
 
 public class ZhihuSplashActivity extends BaseActivity{
 
-    @Bind(R.id.imageView)
+    @BindView(R.id.imageView)
     ImageView mImageView;
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     TextView mTitle;
 
     @Inject

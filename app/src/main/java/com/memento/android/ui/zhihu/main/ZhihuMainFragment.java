@@ -38,8 +38,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -50,11 +51,12 @@ public class ZhihuMainFragment extends BaseFragment{
 
 
 
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-    @Bind(R.id.swiperefreshlayout)
+    @BindView(R.id.swiperefreshlayout)
     SwipeRefreshLayout mSwiperefreshlayout;
 
+    private Unbinder mUnbinder;
     @Inject
     Repository mRepository;
 
@@ -102,7 +104,7 @@ public class ZhihuMainFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_zhihu_main, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mList = new ArrayList<>();
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
@@ -223,7 +225,7 @@ public class ZhihuMainFragment extends BaseFragment{
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         if(mSubscription != null && mSubscription.isUnsubscribed()){
             mSubscription.unsubscribe();
         }
@@ -308,11 +310,11 @@ public class ZhihuMainFragment extends BaseFragment{
 
     class ListViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.thumbnail)
+        @BindView(R.id.thumbnail)
         public ImageView mImageView;
-        @Bind(R.id.list_title)
+        @BindView(R.id.list_title)
         public TextView mTitleView;
-        @Bind(R.id.list_subtitle)
+        @BindView(R.id.list_subtitle)
         public TextView mSubTitleView;
 
         public ListViewHolder(View itemView) {
@@ -322,7 +324,7 @@ public class ZhihuMainFragment extends BaseFragment{
     }
 
     class BannerViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.bannerView)
+        @BindView(R.id.bannerView)
         ConvenientBanner mBannerView;
 
         public BannerViewHolder(View view) {
@@ -332,7 +334,7 @@ public class ZhihuMainFragment extends BaseFragment{
     }
 
     class TextViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.text)
+        @BindView(R.id.text)
         TextView mTextView;
 
         public TextViewHolder(View view) {

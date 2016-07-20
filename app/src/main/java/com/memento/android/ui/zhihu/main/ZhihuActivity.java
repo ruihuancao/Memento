@@ -16,13 +16,13 @@ import com.memento.android.ui.base.BaseActivity;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ZhihuActivity extends BaseActivity
         implements ZhihuMainFragment.OnFragmentInteractionListener {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Inject

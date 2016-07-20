@@ -12,18 +12,18 @@ import android.widget.ProgressBar;
 
 import com.memento.android.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WebviewActivity extends AppCompatActivity {
 
     public static final String EXTRA_URL = "extra_url";
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.webview)
+    @BindView(R.id.webview)
     WebView mWebview;
-    @Bind(R.id.progressbar)
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
 
     @SuppressLint("SetJavaScriptEnabled")

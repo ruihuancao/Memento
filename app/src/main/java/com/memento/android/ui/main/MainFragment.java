@@ -18,8 +18,9 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 作者: caorh@dxyer.com
@@ -30,11 +31,12 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends BaseFragment {
 
-    @Bind(R.id.progressbar)
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
 
+    private Unbinder mUnbinder;
     private LinearLayoutManager mLinearLayoutManager;
 
     public static MainFragment newInstance() {
@@ -47,7 +49,7 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
         MainAdapter mainAdapter = new MainAdapter(getData());
@@ -58,7 +60,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     private List<ListItemModel> getData(){

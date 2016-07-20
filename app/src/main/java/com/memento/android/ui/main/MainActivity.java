@@ -22,7 +22,6 @@ import com.memento.android.ui.animators.listener.AnimatorEndListener;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.douban.movie.CommonMovieFragment;
-import com.memento.android.ui.douban.movie.TestFragment;
 import com.memento.android.ui.douban.movie.TheatersMovieFragment;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,24 +38,23 @@ import rx.functions.Action1;
 public class MainActivity extends BaseActivity{
 
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.coordinatorlayout)
+    @BindView(R.id.coordinatorlayout)
     CoordinatorLayout mCoordinatorlayout;
-    @Bind(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView mNavView;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     AHBottomNavigationViewPager viewPager;
-    @Bind(R.id.floating_action_button)
+    @BindView(R.id.floating_action_button)
     FloatingActionButton floatingActionButton;
-    @Bind(R.id.bottom_navigation)
+    @BindView(R.id.bottom_navigation)
     AHBottomNavigation bottomNavigation;
 
     @Inject
     Navigator mNavigator;
-
     @Inject
     Repository mRepository;
 
@@ -74,6 +72,7 @@ public class MainActivity extends BaseActivity{
     }
 
     private void initView(){
+        setSupportActionBar(mToolbar);
         initBottomView();
     }
 
@@ -118,7 +117,7 @@ public class MainActivity extends BaseActivity{
         fragments.add(TheatersMovieFragment.newInstance());
         fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.COMINGSOON_TYPE));
         fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.TOP250_TYPE));
-        fragments.add(TestFragment.newInstance());
+        fragments.add(PeopleFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         Observable.interval(3000, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {

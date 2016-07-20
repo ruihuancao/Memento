@@ -19,17 +19,19 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
-    @Bind(R.id.tabs)
+    @BindView(R.id.tabs)
     TabLayout tabs;
-    @Bind(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewpager;
 
+    private Unbinder mUnbinder;
 
     public HomeFragment() {
     }
@@ -51,7 +53,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         setupViewPager(viewpager);
         tabs.setupWithViewPager(viewpager);
         return view;
@@ -60,7 +62,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     // Add Fragments to Tabs

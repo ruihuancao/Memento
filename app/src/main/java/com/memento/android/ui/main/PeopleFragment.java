@@ -11,16 +11,18 @@ import com.memento.android.R;
 import com.memento.android.ui.base.BaseFragment;
 import com.orhanobut.logger.Logger;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class PeopleFragment extends BaseFragment {
 
     public static final String TAG = PeopleFragment.class.getSimpleName();
 
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    private Unbinder mUnbinder;
 
     LinearLayoutManager mLinearLayoutManager;
 
@@ -39,7 +41,7 @@ public class PeopleFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_people, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
         mRecyclerview.setAdapter(new PeopleAdapter());
@@ -49,7 +51,7 @@ public class PeopleFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     static class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {

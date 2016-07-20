@@ -78,6 +78,12 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void updateTheme(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int pos = sharedPref.getInt(SettingsActivity.PREF_KEY_THEME, 0);

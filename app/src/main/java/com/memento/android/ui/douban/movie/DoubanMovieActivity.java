@@ -15,18 +15,18 @@ import com.memento.android.ui.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DoubanMovieActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.tabs)
+    @BindView(R.id.tabs)
     TabLayout mTabs;
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @Bind(R.id.coordinatorlayout)
+    @BindView(R.id.coordinatorlayout)
     CoordinatorLayout mCoordinatorlayout;
 
     @Override

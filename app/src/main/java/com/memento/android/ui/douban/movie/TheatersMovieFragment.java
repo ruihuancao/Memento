@@ -38,8 +38,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import rx.android.schedulers.AndroidSchedulers;
@@ -58,10 +59,11 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     private static final String MOBILE_URL = "https://movie.douban.com/subject/%s/mobile";
 
 
-    @Bind(R.id.progressbar)
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    private Unbinder mUnbinder;
 
     private Adapter  mAdapter;
     private GridLayoutManager mGridLayoutManager;
@@ -93,7 +95,7 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_douban_theater_movie, container, false);
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerview.setLayoutManager(mGridLayoutManager);
         mAdapter = new Adapter();
@@ -226,7 +228,7 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         if(mLocationClient != null){
             mLocationClient.onDestroy();
         }
@@ -280,11 +282,11 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
 
     class ListViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.photo)
-        public ImageView mImageView;
-        @Bind(R.id.name)
-        public TextView mTitleView;
-        @Bind(R.id.contentLayout)
+        @BindView(R.id.photo)
+        ImageView mImageView;
+        @BindView(R.id.name)
+        TextView mTitleView;
+        @BindView(R.id.contentLayout)
         FrameLayout mFrameLayout;
 
         public ListViewHolder(View itemView) {
