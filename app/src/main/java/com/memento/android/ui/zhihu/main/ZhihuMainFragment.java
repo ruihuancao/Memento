@@ -31,7 +31,7 @@ import com.memento.android.ui.widget.banner.ConvenientBanner;
 import com.memento.android.ui.widget.banner.holder.Holder;
 import com.memento.android.ui.widget.banner.holder.ViewHolderCreator;
 import com.memento.android.widget.DividerItemDecoration;
-import com.memento.android.widget.TransitionHelper;
+import com.memento.android.helper.TransitionHelper;
 
 import java.util.ArrayList;
 import java.util.List;

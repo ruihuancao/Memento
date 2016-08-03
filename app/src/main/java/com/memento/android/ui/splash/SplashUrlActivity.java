@@ -74,14 +74,16 @@ public class SplashUrlActivity extends BaseActivity{
                     @Override
                     public String call(List<SplashImageEntity> splashImageEntities) {
                         int random  = new Random().nextInt(splashImageEntities.size());
-                        return splashImageEntities.get(random).getPhotoUrl(DensityUtil.getScreenW(getApplicationContext()));
+                        return splashImageEntities.get(random).
+                                getPhotoUrl(DensityUtil.getScreenW(getApplicationContext()));
                     }
                 }).subscribe(new DefaultSubscriber<String>() {
                     @Override
                     public void onNext(String s) {
                         super.onNext(s);
                         Logger.d(s);
-                        Glide.with(SplashUrlActivity.this).load(s).asBitmap().into(new BitmapImageViewTarget(fullscreenImageview) {
+                        Glide.with(SplashUrlActivity.this).load(s).asBitmap().
+                                into(new BitmapImageViewTarget(fullscreenImageview) {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                 super.onResourceReady(resource, glideAnimation);
@@ -100,7 +102,8 @@ public class SplashUrlActivity extends BaseActivity{
                                         contenttext.setVisibility(View.VISIBLE);
                                     }
                                 });
-                                SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview, text, new AnimatorEndListener() {
+                                SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview,
+                                        text, new AnimatorEndListener() {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
                                         mNavigator.openMainActivity(SplashUrlActivity.this);
@@ -122,7 +125,6 @@ public class SplashUrlActivity extends BaseActivity{
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        e.printStackTrace();
                         mNavigator.openMainActivity(SplashUrlActivity.this);
                         finish();
                     }

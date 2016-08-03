@@ -1,4 +1,4 @@
-package com.memento.android.widget;
+package com.memento.android.helper;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

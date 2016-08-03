@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity{
     }
 
     private void initBottomView(){
-
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
         int colorPrimaryRes = typedValue.resourceId;
@@ -128,15 +127,6 @@ public class MainActivity extends BaseActivity{
                         Snackbar.LENGTH_SHORT).show();
             }
         });
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                bottomNavigation.setNotification("16", 1);
-//                Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
-//                        Snackbar.LENGTH_SHORT).show();
-//            }
-//        }, 3000);
     }
 
 

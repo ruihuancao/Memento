@@ -19,7 +19,7 @@ import com.memento.android.R;
 import com.memento.android.data.repository.preference.SharePreferenceManager;
 import com.memento.android.navigation.Navigator;
 import com.memento.android.ui.base.BaseActivity;
-import com.memento.android.widget.TransitionHelper;
+import com.memento.android.helper.TransitionHelper;
 
 import java.util.List;
 
