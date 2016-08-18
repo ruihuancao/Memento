@@ -12,6 +12,4 @@ public class BaseFragment extends Fragment {
         setRetainInstance(true);
     }
 
-
-
 }

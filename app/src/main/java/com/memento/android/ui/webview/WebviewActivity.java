@@ -3,7 +3,6 @@ package com.memento.android.ui.webview;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -11,11 +10,12 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.memento.android.R;
+import com.memento.android.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WebviewActivity extends AppCompatActivity {
+public class WebviewActivity extends BaseActivity {
 
     public static final String EXTRA_URL = "extra_url";
 

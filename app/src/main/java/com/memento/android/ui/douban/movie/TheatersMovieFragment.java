@@ -22,9 +22,9 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.DouBanMovieEntity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
@@ -43,8 +43,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * 作者: caorh@dxyer.com
@@ -58,21 +60,20 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     private static final int RC_LOCATION_PERM = 121;
     private static final String MOBILE_URL = "https://movie.douban.com/subject/%s/mobile";
 
-
     @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
     private Unbinder mUnbinder;
 
+    private CompositeSubscription compositeSubscription;
     private Adapter  mAdapter;
     private GridLayoutManager mGridLayoutManager;
-
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
 
     @Inject
-    Repository mRepository;
+    DataManager mDataManager;
 
     public void TheatersMovieFragment() {
     }
@@ -85,9 +86,7 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     }
 
     public static TheatersMovieFragment newInstance() {
-        Logger.d("TheatersMovieFragment create");
-        TheatersMovieFragment fragment = new TheatersMovieFragment();
-        return fragment;
+        return new TheatersMovieFragment();
     }
 
 
@@ -96,6 +95,7 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_douban_theater_movie, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        compositeSubscription = new CompositeSubscription();
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerview.setLayoutManager(mGridLayoutManager);
         mAdapter = new Adapter();
@@ -106,7 +106,7 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
 
 
     protected void localtionResult(AMapLocation amapLocation) {
-        mRepository.getTheatersMovie("杭州")
+        Subscription subscription = mDataManager.getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -129,8 +129,14 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
                         mAdapter.addList(douBanMovieEntity.getSubjects());
                     }
                 });
+        compositeSubscription.add(subscription);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        compositeSubscription.clear();
+    }
 
     @AfterPermissionGranted(RC_LOCATION_PERM)
     public void getLocaltionPermission() {

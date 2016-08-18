@@ -11,9 +11,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.SplashImageEntity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.navigation.Navigator;
 import com.memento.android.ui.animators.ZhihuSplashAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;
@@ -40,7 +40,7 @@ public class ZhihuSplashActivity extends BaseActivity{
     TextView mTitle;
 
     @Inject
-    Repository mRepository;
+    DataManager mDataManager;
     @Inject
     Navigator mNavigator;
 
@@ -58,7 +58,7 @@ public class ZhihuSplashActivity extends BaseActivity{
     }
 
     private void initData(){
-        mSubscription = mRepository.getImageList()
+        mSubscription = mDataManager.getImageList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<List<SplashImageEntity>, String>() {

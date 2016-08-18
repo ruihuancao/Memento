@@ -9,7 +9,7 @@ package com.memento.android.data.exception;
  */
 public class ApiException extends Exception {
 
-    public ApiException(String detailMessage) {
-        super(detailMessage);
+    public ApiException() {
+        super();
     }
 }

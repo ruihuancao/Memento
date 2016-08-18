@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.memento.android.ui.splash.SplashUrlActivity">
+
+    <ImageView
+        android:id="@+id/fullscreen_imageview"
+        style="@style/ImageStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/contenttext"
+        style="@style/SelectableItemStyle.Rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/text"
+            style="@style/TextStyle.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:padding="@dimen/padding_normal"
+            android:text="@string/splash_title"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</FrameLayout>

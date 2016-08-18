@@ -3,9 +3,8 @@ package com.memento.android.injection.module;
 import android.app.Application;
 import android.content.Context;
 
-import com.memento.android.data.Repository;
-import com.memento.android.data.repository.DataRepository;
-import com.memento.android.data.repository.remote.APIService;
+import com.memento.android.data.store.cache.Cache;
+import com.memento.android.data.store.cache.CacheImpl;
 import com.memento.android.injection.ApplicationContext;
 
 import javax.inject.Singleton;
@@ -35,15 +34,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    APIService provideAPIService(){
-        return APIService.Factory.createService(mApplication);
+    Cache provideCache(CacheImpl cacheImpl){
+        return cacheImpl;
     }
-
-    @Provides
-    @Singleton
-    Repository provideRepository(DataRepository dataRepository){
-        return dataRepository;
-    }
-
-
 }

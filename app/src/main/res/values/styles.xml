@@ -2,10 +2,8 @@
 <resources>
 
     <!-- Base Theme -->
-    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Attributes for all APIs -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
         <item name="dialogTheme">@style/AppTheme.Dialog</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog.Alert</item>
         <item name="colorControlHighlight">@color/selector_black_pressed</item>

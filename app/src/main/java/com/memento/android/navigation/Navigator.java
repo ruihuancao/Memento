@@ -11,6 +11,7 @@ import com.memento.android.ui.douban.movie.DoubanMovieActivity;
 import com.memento.android.ui.main.MainActivity;
 import com.memento.android.ui.preference.SettingsActivity;
 import com.memento.android.ui.splash.SplashUrlActivity;
+import com.memento.android.ui.test.TestActivity;
 import com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity;
 import com.memento.android.ui.zhihu.main.ZhihuActivity;
 
@@ -49,6 +50,11 @@ public class Navigator {
     public void openSettingActivty(Context mContext){
         mContext.startActivity(new Intent(mContext, SettingsActivity.class));
     }
+
+    public void openTestUtilsActivty(Context mContext){
+        mContext.startActivity(new Intent(mContext, TestActivity.class));
+    }
+
 
     public void openZhihuActivity(Context mContext){
         mContext.startActivity(new Intent(mContext, ZhihuActivity.class));

@@ -19,17 +19,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.ZhihuArticleEntity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.model.ArticleBannerModel;
 import com.memento.android.model.ArticleModel;
 import com.memento.android.model.mapper.DataMapper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
-import com.memento.android.ui.widget.banner.ConvenientBanner;
-import com.memento.android.ui.widget.banner.holder.Holder;
-import com.memento.android.ui.widget.banner.holder.ViewHolderCreator;
+import com.memento.android.widget.banner.ConvenientBanner;
+import com.memento.android.widget.banner.holder.Holder;
+import com.memento.android.widget.banner.holder.ViewHolderCreator;
 import com.memento.android.widget.DividerItemDecoration;
 import com.memento.android.helper.TransitionHelper;
 
@@ -58,7 +58,7 @@ public class ZhihuMainFragment extends BaseFragment{
 
     private Unbinder mUnbinder;
     @Inject
-    Repository mRepository;
+    DataManager mDataManager;
 
     @Inject
     DataMapper mDataMapper;
@@ -149,7 +149,7 @@ public class ZhihuMainFragment extends BaseFragment{
 
     public void getNewArticle(String... date) {
         if(date != null && date.length > 0){
-            mSubscription = mRepository.getNewArticle(date[0])
+            mSubscription = mDataManager.getNewArticle(date[0])
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {
@@ -167,7 +167,7 @@ public class ZhihuMainFragment extends BaseFragment{
                         }
                     });
         }else{
-            mSubscription = mRepository.getNewArticle()
+            mSubscription = mDataManager.getNewArticle()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {

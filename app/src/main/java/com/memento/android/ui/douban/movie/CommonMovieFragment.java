@@ -18,9 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.DouBanMovieEntity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
@@ -39,6 +39,7 @@ import butterknife.Unbinder;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * 作者: caorh@dxyer.com
@@ -58,6 +59,7 @@ public class CommonMovieFragment extends BaseFragment {
 
     private static final String TYPE = "TYPE";
 
+    private CompositeSubscription compositeSubscription;
     @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
     @BindView(R.id.recyclerview)
@@ -69,10 +71,9 @@ public class CommonMovieFragment extends BaseFragment {
     private int type;
     private DouBanMovieEntity mDouBanMovieEntity;
     private boolean isLoading = false;
-    private Subscription mSubscription;
 
     @Inject
-    Repository mRepository;
+    DataManager mDataManager;
 
 
     public void Top250Fragment() {
@@ -102,8 +103,8 @@ public class CommonMovieFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_douban_top250, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        compositeSubscription = new CompositeSubscription();
         setupRecyclerView();
-        initData();
         return view;
     }
 
@@ -134,14 +135,27 @@ public class CommonMovieFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        compositeSubscription.clear();
+    }
+
     private void initData(){
         loadMore(0, PAGE_SIZE);
     }
 
     private void loadMore(int start, int count){
+        Subscription subscription = null;
         switch (type){
             case TOP250_TYPE:
-                mSubscription = mRepository.getTop250Movie(start, count)
+                subscription = mDataManager.getTop250Movie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -167,7 +181,7 @@ public class CommonMovieFragment extends BaseFragment {
                         });
                 break;
             case COMINGSOON_TYPE:
-                mSubscription = mRepository.getComingSoonMovie(start, count)
+                subscription = mDataManager.getComingSoonMovie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -194,6 +208,9 @@ public class CommonMovieFragment extends BaseFragment {
                 break;
 
         }
+        if(subscription != null){
+            compositeSubscription.add(subscription);
+        }
     }
 
     private void hideProgress(){
@@ -208,9 +225,6 @@ public class CommonMovieFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-        if(mSubscription != null){
-            mSubscription.unsubscribe();
-        }
     }
 
     class Adapter extends RecyclerView.Adapter<ListViewHolder>{

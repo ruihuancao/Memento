@@ -18,9 +18,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.ZhihuArticleDetailEmtity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.model.mapper.DataMapper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
@@ -58,7 +58,7 @@ public class ZhihuArticleDetailActivity extends BaseActivity{
     WebView mWebview;
 
     @Inject
-    Repository mRepository;
+    DataManager mDataManager;
     @Inject
     DataMapper mDataMapper;
 
@@ -132,7 +132,7 @@ public class ZhihuArticleDetailActivity extends BaseActivity{
         if(TextUtils.isEmpty(id)){
             return;
         }
-        mSubscription = mRepository.getArticleDetail(id)
+        mSubscription = mDataManager.getArticleDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<ZhihuArticleDetailEmtity, ZhihuArticleDetailEmtity>() {

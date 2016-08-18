@@ -3,10 +3,6 @@
     <!-- Default App Theme -->
     <style name="AppTheme" parent="BaseTheme">
 
-        <item name="android:windowContentTransitions">true</item>
-  <!--      <item name="android:windowEnterTransition">@transition/activity_fade</item>
-        <item name="android:windowExitTransition">@transition/activity_fade</item>-->
-
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
         <!-- API specific attributes 21+ -->

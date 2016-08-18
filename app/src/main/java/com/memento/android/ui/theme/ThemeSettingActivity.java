@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.memento.android.R;
-import com.memento.android.data.repository.preference.SharePreferenceManager;
+import com.memento.android.preference.PreferenceManager;
 import com.memento.android.navigation.Navigator;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.helper.TransitionHelper;
@@ -43,7 +43,7 @@ public class ThemeSettingActivity extends BaseActivity {
     Navigator mNavigator;
 
     @Inject
-    SharePreferenceManager mSharePreferenceManager;
+    PreferenceManager mPreferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +115,9 @@ public class ThemeSettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     MaterialTheme materialTheme = (MaterialTheme) v.getTag();
-                    if (mSharePreferenceManager.getCurrentTheme().equals(materialTheme)) {
+                    if (mPreferenceManager.getCurrentTheme().equals(materialTheme)) {
                     } else {
-                        mSharePreferenceManager.addMaterilaTheme(materialTheme);
+                        mPreferenceManager.addMaterilaTheme(materialTheme);
                     }
                     mNavigator.openMainActivity(ThemeSettingActivity.this, pairs);
                 }

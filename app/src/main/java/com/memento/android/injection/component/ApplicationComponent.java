@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.memento.android.MementoApplication;
-import com.memento.android.data.Repository;
-import com.memento.android.data.repository.file.FileManager;
-import com.memento.android.data.repository.preference.SharePreferenceManager;
+import com.memento.android.data.DataManager;
+import com.memento.android.data.store.http.HttpHelper;
+import com.memento.android.preference.PreferenceManager;
 import com.memento.android.model.mapper.DataMapper;
 import com.memento.android.injection.ApplicationContext;
 import com.memento.android.injection.module.ApplicationModule;
@@ -25,10 +25,11 @@ public interface ApplicationComponent {
 
     @ApplicationContext
     Context context();
+
     Application application();
-    Repository repository();
     DataMapper dataMapper();
-    SharePreferenceManager preference();
+    PreferenceManager preference();
     Navigator navigate();
-    FileManager fileManager();
+    DataManager dataManager();
+    HttpHelper httpHelper();
 }

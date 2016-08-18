@@ -21,9 +21,9 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
+import com.memento.android.data.DataManager;
 import com.memento.android.data.entity.SplashImageEntity;
-import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 
@@ -54,7 +54,7 @@ public class PhotoFragment extends BaseFragment  implements EasyPermissions.Perm
 
     private Unbinder mUnbinder;
     @Inject
-    Repository repository;
+    DataManager mDataManager;
 
     private PhotoAdapter photoAdapter;
 
@@ -152,7 +152,7 @@ public class PhotoFragment extends BaseFragment  implements EasyPermissions.Perm
     }
 
     private void getData(){
-        repository.getImageList()
+        mDataManager.getImageList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<List<SplashImageEntity>>(){

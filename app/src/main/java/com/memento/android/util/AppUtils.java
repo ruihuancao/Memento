@@ -34,9 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * Created by android on 16-6-8.
- */
+
 public class AppUtils {
 
 

@@ -1,6 +1,8 @@
 package com.memento.android.ui.main;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +17,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.memento.android.R;
-import com.memento.android.data.Repository;
 import com.memento.android.navigation.Navigator;
 import com.memento.android.ui.animators.FloatingActionButtonAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;
@@ -55,8 +56,6 @@ public class MainActivity extends BaseActivity{
 
     @Inject
     Navigator mNavigator;
-    @Inject
-    Repository mRepository;
 
     private MainViewPagerAdapter adapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems;
@@ -69,6 +68,10 @@ public class MainActivity extends BaseActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+    }
+
+    public static Intent getCallIntent(Context context){
+        return new Intent(context, MainActivity.class);
     }
 
     private void initView(){
@@ -103,9 +106,9 @@ public class MainActivity extends BaseActivity{
                 viewPager.setCurrentItem(position, false);
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
-                    showFloatingActionButton();
+                    showFloatingActionButton(floatingActionButton);
                 } else {
-                    hideFloatingActionButton();
+                    hideFloatingActionButton(floatingActionButton);
                 }
             }
         });
@@ -119,24 +122,24 @@ public class MainActivity extends BaseActivity{
         fragments.add(PeopleFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-        Observable.interval(3000, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
-            @Override
-            public void call(Long aLong) {
-                bottomNavigation.setNotification("16", 1);
-                Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
-                        Snackbar.LENGTH_SHORT).show();
-            }
-        });
+//        Observable.interval(3000, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+//            @Override
+//            public void call(Long aLong) {
+//                bottomNavigation.setNotification("16", 1);
+//                Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
+//                        Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
 
-    private void showFloatingActionButton(){
+    private void showFloatingActionButton(final FloatingActionButton floatingActionButton){
         floatingActionButton.setVisibility(View.VISIBLE);
         FloatingActionButtonAnimator actionButtonAnimator = new FloatingActionButtonAnimator(floatingActionButton, true);
         actionButtonAnimator.play();
     }
 
-    private void hideFloatingActionButton(){
+    private void hideFloatingActionButton(final FloatingActionButton floatingActionButton){
         if (floatingActionButton.getVisibility() == View.VISIBLE) {
             FloatingActionButtonAnimator actionButtonAnimator = new FloatingActionButtonAnimator(floatingActionButton, new AnimatorEndListener() {
                 @Override

@@ -3,7 +3,6 @@ package com.memento.android.ui.base;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -22,11 +21,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.jaeger.library.StatusBarUtil;
+import com.memento.android.BuildConfig;
 import com.memento.android.MementoApplication;
 import com.memento.android.R;
-import com.memento.android.data.repository.preference.SharePreferenceManager;
-import com.memento.android.event.ShowMessageEvent;
-import com.memento.android.event.UpdateNavMenuEvent;
+import com.memento.android.event.Event;
+import com.memento.android.preference.PreferenceManager;
 import com.memento.android.injection.component.ActivityComponent;
 import com.memento.android.injection.component.DaggerActivityComponent;
 import com.memento.android.injection.module.ActivityModule;
@@ -43,13 +42,14 @@ import javax.inject.Inject;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private static final String TAG = BaseActivity.class.getSimpleName();
 
-    protected ActivityComponent mActivityComponent;
+    ActivityComponent mActivityComponent;
 
     @Inject
     Navigator mNavigator;
     @Inject
-    SharePreferenceManager mSharePreferenceManager;
+    PreferenceManager mPreferenceManager;
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
@@ -85,7 +85,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void updateTheme(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPref = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         int pos = sharedPref.getInt(SettingsActivity.PREF_KEY_THEME, 0);
         setTheme(MaterialTheme.getThemeList().get(pos).getThemeResId());
     }
@@ -162,6 +162,8 @@ public class BaseActivity extends AppCompatActivity {
 
         }else if(id  == R.id.nav_setting){
             mNavigator.openSettingActivty(this);
+        }else if(id == R.id.nav_utils){
+            mNavigator.openTestUtilsActivty(this);
         }
     }
 
@@ -172,7 +174,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void updateNavMenu(){
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPref = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         boolean isShow_dxys = sharedPref.getBoolean(SettingsActivity.FUNCTION_DXYS_KEY, true);
         boolean isShow_douban_movie = sharedPref.getBoolean(SettingsActivity.FUNCTION_DOUBAN_MOIVE_KEY, true);
         boolean isShow_douban_book = sharedPref.getBoolean(SettingsActivity.FUNCTION_DOUBAN_BOOK_KEY, true);
@@ -186,7 +188,15 @@ public class BaseActivity extends AppCompatActivity {
             mNavigationView.getMenu().findItem(R.id.nav_wxjingxuan).setVisible(isShow_weixin);
             mNavigationView.getMenu().findItem(R.id.nav_zhihu).setVisible(isShow_zhihu);
             mNavigationView.getMenu().findItem(R.id.nav_meitu).setVisible(isShow_meitu);
+
+            if(BuildConfig.DEBUG){
+                mNavigationView.getMenu().findItem(R.id.nav_utils).setVisible(true);
+            }else{
+                mNavigationView.getMenu().findItem(R.id.nav_utils).setVisible(false);
+            }
         }
+
+
     }
 
 
@@ -201,12 +211,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onEvent(ShowMessageEvent event) {
+    public void onEvent(Event.ShowMessageEvent event) {
         Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe
-    public void onEvent(UpdateNavMenuEvent event){
+    public void onEvent(Event.UpdateNavMenuEvent event){
         updateNavMenu();
     }
 
