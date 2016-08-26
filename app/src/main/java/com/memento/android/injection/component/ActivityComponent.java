@@ -11,12 +11,10 @@ import com.memento.android.ui.main.HomeFragment;
 import com.memento.android.ui.main.MainActivity;
 import com.memento.android.ui.main.PhotoFragment;
 import com.memento.android.ui.preference.SettingsActivity;
-import com.memento.android.ui.splash.SplashFragment;
 import com.memento.android.ui.splash.SplashUrlActivity;
 import com.memento.android.ui.theme.ThemeSettingActivity;
 import com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity;
 import com.memento.android.ui.zhihu.main.ZhihuActivity;
-import com.memento.android.ui.zhihu.main.ZhihuMainFragment;
 import com.memento.android.ui.zhihu.splash.ZhihuSplashActivity;
 
 import dagger.Component;
@@ -33,8 +31,6 @@ public interface ActivityComponent {
     void inject(SettingsActivity settingsActivity);
 
 
-    void inject(SplashFragment splashFragment);
-
     void inject(HomeFragment homeFragment);
     void inject(PhotoFragment photoFragment);
 
@@ -45,6 +41,5 @@ public interface ActivityComponent {
     void inject(ZhihuActivity zhihuActivity);
     void inject(ZhihuSplashActivity zhihuSplashActivity);
     void inject(ZhihuArticleDetailActivity zhihuArticleDetailActivity);
-    void inject(ZhihuMainFragment mainFragment);
 }
 

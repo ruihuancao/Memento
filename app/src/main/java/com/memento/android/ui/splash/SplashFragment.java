@@ -63,7 +63,6 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        ((BaseActivity) getActivity()).activityComponent().inject(this);
     }
 
     @Override

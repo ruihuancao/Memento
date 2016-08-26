@@ -1,52 +1,45 @@
 package com.memento.android.ui.main;
 
-import android.animation.Animator;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.memento.android.R;
 import com.memento.android.navigation.Navigator;
-import com.memento.android.ui.animators.FloatingActionButtonAnimator;
-import com.memento.android.ui.animators.listener.AnimatorEndListener;
+import com.memento.android.ui.base.ActivityUtils;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.douban.movie.CommonMovieFragment;
 import com.memento.android.ui.douban.movie.TheatersMovieFragment;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks{
 
+    private static final int RC_LOCATION_PERM = 121;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout mCoordinatorlayout;
-    @BindView(R.id.nav_view)
-    NavigationView mNavView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
     @BindView(R.id.view_pager)
     AHBottomNavigationViewPager viewPager;
     @BindView(R.id.floating_action_button)
@@ -68,6 +61,7 @@ public class MainActivity extends BaseActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        getPermission();
     }
 
     public static Intent getCallIntent(Context context){
@@ -106,9 +100,9 @@ public class MainActivity extends BaseActivity{
                 viewPager.setCurrentItem(position, false);
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
-                    showFloatingActionButton(floatingActionButton);
+                    ActivityUtils.showFloatingActionButton(floatingActionButton);
                 } else {
-                    hideFloatingActionButton(floatingActionButton);
+                    ActivityUtils.hideFloatingActionButton(floatingActionButton);
                 }
             }
         });
@@ -122,32 +116,44 @@ public class MainActivity extends BaseActivity{
         fragments.add(PeopleFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
-//        Observable.interval(3000, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
-//            @Override
-//            public void call(Long aLong) {
-//                bottomNavigation.setNotification("16", 1);
-//                Snackbar.make(bottomNavigation, "Snackbar with bottom navigation",
-//                        Snackbar.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
+    private void initLocaltion(){
 
-    private void showFloatingActionButton(final FloatingActionButton floatingActionButton){
-        floatingActionButton.setVisibility(View.VISIBLE);
-        FloatingActionButtonAnimator actionButtonAnimator = new FloatingActionButtonAnimator(floatingActionButton, true);
-        actionButtonAnimator.play();
     }
 
-    private void hideFloatingActionButton(final FloatingActionButton floatingActionButton){
-        if (floatingActionButton.getVisibility() == View.VISIBLE) {
-            FloatingActionButtonAnimator actionButtonAnimator = new FloatingActionButtonAnimator(floatingActionButton, new AnimatorEndListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-            }, false);
-            actionButtonAnimator.play();
+    @AfterPermissionGranted(RC_LOCATION_PERM)
+    public void getPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE };
+        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
+            //
+            Logger.d("has all permissions");
+        } else {
+            Logger.d("request permissions");
+            EasyPermissions.requestPermissions(this, getString(R.string.retionale_tip),
+                    RC_LOCATION_PERM, perms);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Logger.d("onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Logger.d("onPermissionsDenied:" + requestCode + ":" + perms.size());
+        EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
+                getString(R.string.rationale_ask_again),
+                R.string.setting, R.string.cancel, perms);
     }
 }
