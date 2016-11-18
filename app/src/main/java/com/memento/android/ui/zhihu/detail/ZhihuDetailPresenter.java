@@ -2,9 +2,9 @@ package com.memento.android.ui.zhihu.detail;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.data.DataManager;
-import com.memento.android.data.entity.ZhihuArticleDetailEmtity;
-import com.memento.android.subscriber.DefaultSubscriber;
+import com.memento.android.assistlibrary.data.DataManager;
+import com.memento.android.assistlibrary.data.entity.ZhihuDetailEntity;
+import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,12 +49,12 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
 
     @Override
     public void loadDetail(String id) {
-        Subscription subscribe = mDataManager.getArticleDetail(id)
+        Subscription subscribe = mDataManager.getZhihuApiService().getArticleDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<ZhihuArticleDetailEmtity, ZhihuArticleDetailEmtity>() {
+                .map(new Func1<ZhihuDetailEntity, ZhihuDetailEntity>() {
                     @Override
-                    public ZhihuArticleDetailEmtity call(ZhihuArticleDetailEmtity articleDetail) {
+                    public ZhihuDetailEntity call(ZhihuDetailEntity articleDetail) {
                         StringBuilder stringBuilder = new StringBuilder();
                         if(articleDetail.getCss() != null){
                             for (String css : articleDetail.getCss()){
@@ -65,10 +65,10 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
                         return articleDetail;
                     }
                 })
-                .subscribe(new DefaultSubscriber<ZhihuArticleDetailEmtity>(){
+                .subscribe(new DefaultSubscriber<ZhihuDetailEntity>(){
 
                     @Override
-                    public void onNext(ZhihuArticleDetailEmtity articleDetail) {
+                    public void onNext(ZhihuDetailEntity articleDetail) {
                         super.onNext(articleDetail);
                         mView.showDetail(articleDetail.getTitle(), articleDetail.getImage(), articleDetail.getBody());
                     }

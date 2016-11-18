@@ -1,40 +1,36 @@
 package com.memento.android.ui.main;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 import com.memento.android.R;
-import com.memento.android.navigation.Navigator;
-import com.memento.android.ui.base.ActivityUtils;
-import com.memento.android.ui.base.BaseActivity;
+import com.memento.android.event.Event;
+import com.memento.android.ui.animators.FloatingActionButtonAnimator;
 import com.memento.android.ui.base.BaseFragment;
+import com.memento.android.ui.base.NavActivity;
 import com.memento.android.ui.douban.movie.CommonMovieFragment;
-import com.memento.android.ui.douban.movie.TheatersMovieFragment;
-import com.orhanobut.logger.Logger;
+import com.memento.android.ui.search.SearchActivity;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks{
-
-    private static final int RC_LOCATION_PERM = 121;
+public class MainActivity extends NavActivity{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -47,9 +43,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation bottomNavigation;
 
-    @Inject
-    Navigator mNavigator;
-
     private MainViewPagerAdapter adapter;
     private ArrayList<AHBottomNavigationItem> bottomNavigationItems;
 
@@ -57,12 +50,29 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityComponent().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
         getPermission();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // your logic
+                startActivity(SearchActivity.getCallIntent(MainActivity.this));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public static Intent getCallIntent(Context context){
         return new Intent(context, MainActivity.class);
@@ -70,10 +80,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     private void initView(){
         setSupportActionBar(mToolbar);
-        initBottomView();
-    }
-
-    private void initBottomView(){
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
         int colorPrimaryRes = typedValue.resourceId;
@@ -93,6 +99,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         bottomNavigation.setForceTitlesDisplay(true);
         bottomNavigation.setAccentColor(getResources().getColor(colorPrimaryRes));
         bottomNavigation.setNotificationBackgroundColorResource(colorPrimaryRes);
+
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.secondary_text));
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -100,60 +107,26 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 viewPager.setCurrentItem(position, false);
                 if (position == 1) {
                     bottomNavigation.setNotification("", 1);
-                    ActivityUtils.showFloatingActionButton(floatingActionButton);
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                    new FloatingActionButtonAnimator(floatingActionButton, true).play();
                 } else {
-                    ActivityUtils.hideFloatingActionButton(floatingActionButton);
+                    new FloatingActionButtonAnimator(floatingActionButton, false).play();
                 }
             }
         });
 
         viewPager.setOffscreenPageLimit(4);
         ArrayList<BaseFragment> fragments = new ArrayList<>();
-
-        fragments.add(TheatersMovieFragment.newInstance());
+        fragments.add(MainFragment.newInstance());
+        fragments.add(PeopleFragment.newInstance());
         fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.COMINGSOON_TYPE));
         fragments.add(CommonMovieFragment.newInstance(CommonMovieFragment.TOP250_TYPE));
-        fragments.add(PeopleFragment.newInstance());
         adapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
     }
 
-    private void initLocaltion(){
-
-    }
-
-    @AfterPermissionGranted(RC_LOCATION_PERM)
-    public void getPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE };
-        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
-            //
-            Logger.d("has all permissions");
-        } else {
-            Logger.d("request permissions");
-            EasyPermissions.requestPermissions(this, getString(R.string.retionale_tip),
-                    RC_LOCATION_PERM, perms);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Logger.d("onPermissionsGranted:" + requestCode + ":" + perms.size());
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Logger.d("onPermissionsDenied:" + requestCode + ":" + perms.size());
-        EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
-                getString(R.string.rationale_ask_again),
-                R.string.setting, R.string.cancel, perms);
+    @Subscribe
+    public void onEvent(Event.LocaltionResultEvent event) {
+        Snackbar.make(bottomNavigation, "定位成功", Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default App Theme -->
+    <style name="AppTheme" parent="BaseTheme">
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColorDefault">?colorControlHighlight</item>
+        <item name="selectableDrawableColorInverse">@color/selector_white_pressed</item>
+        <item name="selectableDrawableColor">?colorControlHighlight</item>
+        <item name="selectableRectDrawable">@drawable/ripple_selectable_rect</item>
+        <item name="selectableRectDrawableInverse">@drawable/ripple_selectable_rect_inverse</item>
+        <item name="selectableRectDrawableColored">@drawable/ripple_selectable_rect_colored</item>
+        <item name="selectableRoundedRectDrawable">@drawable/ripple_selectable_rounded_rect</item>
+        <item name="selectableRoundedRectDrawableInverse">
+            @drawable/ripple_selectable_rounded_rect_inverse
+        </item>
+        <item name="selectableRoundedRectDrawableColored">
+            @drawable/ripple_selectable_rounded_rect_colored
+        </item>
+
+        <!--<item name="android:actionBarTheme">@style/AppTheme.AppBar.Dark</item>-->
+        <!--<item name="android:actionBarPopupTheme">@style/AppTheme.Overlay.Light</item>-->
+        <!--<item name="android:popupTheme">@style/AppTheme.Overlay.Light</item>-->
+    </style>
+
+    <!-- Red App Theme -->
+    <style name="AppTheme.Red" parent="BaseTheme.Red">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_red_pressed</item>
+    </style>
+
+    <!-- Orange App Theme -->
+    <style name="AppTheme.Orange" parent="BaseTheme.Orange">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_orange_pressed</item>
+    </style>
+
+    <!-- Lime App Theme -->
+    <style name="AppTheme.Lime" parent="BaseTheme.Lime">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_lime_pressed</item>
+    </style>
+
+    <!-- Green App Theme -->
+    <style name="AppTheme.Green" parent="BaseTheme.Green">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_green_pressed</item>
+    </style>
+
+    <!-- Teal App Theme -->
+    <style name="AppTheme.Teal" parent="BaseTheme.Teal">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_teal_pressed</item>
+    </style>
+
+    <!-- Blue App Theme -->
+    <style name="AppTheme.Blue" parent="BaseTheme.Blue">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_blue_pressed</item>
+    </style>
+
+    <!-- Purple App Theme -->
+    <style name="AppTheme.Purple" parent="BaseTheme.Purple">
+        <!-- API specific attributes 21+ -->
+        <item name="selectableDrawableColor">@color/selector_purple_pressed</item>
+    </style>
+
+    <!-- Selectable Item Styles -->
+    <style name="SelectableItemStyle">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SelectableItemStyle.Rect">
+        <item name="android:background">?selectableRectDrawable</item>
+    </style>
+
+    <style name="SelectableItemStyle.Rect.Colored">
+        <item name="android:background">?selectableRectDrawableColored</item>
+    </style>
+
+    <style name="SelectableItemStyle.Rect.Inverse">
+        <item name="android:background">?selectableRectDrawableInverse</item>
+    </style>
+
+    <style name="SelectableItemStyle.RoundedRect">
+        <item name="android:background">?selectableRoundedRectDrawable</item>
+    </style>
+
+    <style name="SelectableItemStyle.RoundedRect.Colored">
+        <item name="android:background">?selectableRoundedRectDrawableColored</item>
+    </style>
+
+    <style name="SelectableItemStyle.RoundedRect.Inverse">
+        <item name="android:background">?selectableRoundedRectDrawableInverse</item>
+    </style>
+</resources>

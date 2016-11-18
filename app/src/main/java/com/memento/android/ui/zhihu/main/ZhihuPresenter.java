@@ -2,12 +2,14 @@ package com.memento.android.ui.zhihu.main;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.data.DataManager;
-import com.memento.android.data.entity.ZhihuArticleEntity;
-import com.memento.android.model.ArticleModel;
-import com.memento.android.model.mapper.DataMapper;
-import com.memento.android.subscriber.DefaultSubscriber;
+import com.memento.android.assistlibrary.data.DataManager;
+import com.memento.android.assistlibrary.data.entity.ZhihuNewsEntity;
+import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
+import com.memento.android.assistlibrary.util.TimeUtil;
+import com.memento.android.bean.ArticleBannerModel;
+import com.memento.android.bean.ArticleModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -28,12 +30,9 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
     private DataManager mDataManager;
     private ZhihuContract.View mView;
 
-    private DataMapper mDataMapper;
-
-    public ZhihuPresenter(@NonNull DataManager dataManager, DataMapper dataMapper, @NonNull ZhihuContract.View view) {
+    public ZhihuPresenter(@NonNull DataManager dataManager, @NonNull ZhihuContract.View view) {
         mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
         mView =  checkNotNull(view, "splashview cannot be null!");
-        mDataMapper =  dataMapper;
         mSubscriptions = new CompositeSubscription();
         view.setPresenter(this);
     }
@@ -48,16 +47,16 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
         mSubscriptions.clear();
     }
 
-
     @Override
     public void getNewArticle() {
-        Subscription subscribe = mDataManager.getNewArticle()
+        Subscription subscribe = mDataManager.getZhihuApiService()
+                .getNewArticleList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {
+                .map(new Func1<ZhihuNewsEntity, List<ArticleModel>>() {
                     @Override
-                    public List<ArticleModel> call(ZhihuArticleEntity zhihuArticleEntity) {
-                        return mDataMapper.transform(zhihuArticleEntity);
+                    public List<ArticleModel> call(ZhihuNewsEntity zhihuArticleEntity) {
+                        return transform(zhihuArticleEntity);
                     }
                 })
                 .subscribe(new DefaultSubscriber<List<ArticleModel>>(){
@@ -73,13 +72,13 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     @Override
     public void getNextArticle(String date) {
-        Subscription subscribe = mDataManager.getNewArticle(date)
+        Subscription subscribe = mDataManager.getZhihuApiService().getArticleList(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<ZhihuArticleEntity, List<ArticleModel>>() {
+                .map(new Func1<ZhihuNewsEntity, List<ArticleModel>>() {
                     @Override
-                    public List<ArticleModel> call(ZhihuArticleEntity zhihuArticleEntity) {
-                        return mDataMapper.transform(zhihuArticleEntity);
+                    public List<ArticleModel> call(ZhihuNewsEntity zhihuArticleEntity) {
+                        return transform(zhihuArticleEntity);
                     }
                 })
                 .subscribe(new DefaultSubscriber<List<ArticleModel>>(){
@@ -91,5 +90,61 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
                     }
                 });
         mSubscriptions.add(subscribe);
+    }
+
+
+    public List<ArticleModel> transform(ZhihuNewsEntity zhihuArticleEntity){
+        List<ArticleModel> mList = null;
+        boolean isToday = false;
+        if(zhihuArticleEntity != null && zhihuArticleEntity.getTop_stories() != null
+                && zhihuArticleEntity.getTop_stories().size() > 0){
+            isToday = true;
+            if(mList == null){
+                mList = new ArrayList<>();
+            }
+            ArticleModel articleModel = new ArticleModel();
+            articleModel.setType(0);
+            articleModel.setDate(zhihuArticleEntity.getDate());
+            List<ArticleBannerModel> mBanner = new ArrayList<>();
+            ArticleBannerModel articleBannerModel = null;
+            for (ZhihuNewsEntity.TopStoriesEntity topStoriesEntity : zhihuArticleEntity.getTop_stories()){
+                articleBannerModel = new ArticleBannerModel();
+                articleBannerModel.setUrl(topStoriesEntity.getImage());
+                articleBannerModel.setTitle(topStoriesEntity.getTitle());
+                articleBannerModel.setId(String.valueOf(topStoriesEntity.getId()));
+                mBanner.add(articleBannerModel);
+            }
+            articleModel.setArticleBannerModels(mBanner);
+            mList.add(articleModel);
+        }
+        if(zhihuArticleEntity != null && zhihuArticleEntity.getStories() != null
+                && zhihuArticleEntity.getStories().size() > 0){
+            if(mList == null){
+                mList = new ArrayList<>();
+            }
+
+            ArticleModel titleArticleModel = new ArticleModel();
+            titleArticleModel.setType(1);
+            titleArticleModel.setDate(zhihuArticleEntity.getDate());
+            titleArticleModel.setTitle(TimeUtil.converDate(zhihuArticleEntity.getDate()));
+            mList.add(titleArticleModel);
+            if(isToday){
+                titleArticleModel.setTitle("今日新闻");
+            }
+
+            ArticleModel articleModel = null;
+            for (ZhihuNewsEntity.StoriesEntity storiesEntity : zhihuArticleEntity.getStories()){
+                articleModel = new ArticleModel();
+                if(storiesEntity.getImages() != null && storiesEntity.getImages().size() > 0){
+                    articleModel.setImageUrl(storiesEntity.getImages().get(0));
+                }
+                articleModel.setTitle(storiesEntity.getTitle());
+                articleModel.setId(String.valueOf(storiesEntity.getId()));
+                articleModel.setDate(zhihuArticleEntity.getDate());
+                articleModel.setType(2);
+                mList.add(articleModel);
+            }
+        }
+        return mList;
     }
 }

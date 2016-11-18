@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.memento.android.ui.test.CustomActivity">
+
+    <com.memento.android.ui.test.PView
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <com.memento.android.ui.test.CustomView
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+    </com.memento.android.ui.test.PView>
+
+
+</RelativeLayout>

@@ -7,9 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
-/**
- * Created by android on 16-6-13.
- */
 public class FloatingActionButtonAnimator {
 
     private FloatingActionButton floatingActionButton;

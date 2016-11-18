@@ -18,10 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.memento.android.R;
-import com.memento.android.data.DataManager;
-import com.memento.android.data.entity.DouBanMovieEntity;
-import com.memento.android.subscriber.DefaultSubscriber;
-import com.memento.android.ui.base.BaseActivity;
+import com.memento.android.assistlibrary.data.entity.DouBanMovieEntity;
+import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
 import com.memento.android.ui.webview.WebviewFallback;
@@ -30,8 +29,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,9 +69,6 @@ public class CommonMovieFragment extends BaseFragment {
     private DouBanMovieEntity mDouBanMovieEntity;
     private boolean isLoading = false;
 
-    @Inject
-    DataManager mDataManager;
-
 
     public void Top250Fragment() {
     }
@@ -91,7 +85,6 @@ public class CommonMovieFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((BaseActivity)getActivity()).activityComponent().inject(this);
         if (getArguments() != null) {
             type = getArguments().getInt(TYPE);
         }
@@ -155,7 +148,7 @@ public class CommonMovieFragment extends BaseFragment {
         Subscription subscription = null;
         switch (type){
             case TOP250_TYPE:
-                subscription = mDataManager.getTop250Movie(start, count)
+                subscription = DataHelper.getData().getDoubanService().getTop250Movie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -181,7 +174,7 @@ public class CommonMovieFragment extends BaseFragment {
                         });
                 break;
             case COMINGSOON_TYPE:
-                subscription = mDataManager.getComingSoonMovie(start, count)
+                subscription = DataHelper.getData().getDoubanService().getComingSoonMovie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){

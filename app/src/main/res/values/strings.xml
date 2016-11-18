@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Memento</string>
 
+    <string name="search_hint">搜索</string>
+    <string name="user_des">万物之中,希望至美;至美之物,永不凋零。</string>
 
     <string name="menu_douban_movie">豆瓣电影</string>
     <string name="menu_zhihu">知乎日报</string>
@@ -84,8 +86,28 @@
     <string name="title_activity_login_activity_test">Sign in</string>
     <string name="title_activity_settings">设置</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_login">登录</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">邮箱</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_username">用户名</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register">注册</string>
+
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_email">邮箱格式不正确</string>
+    <string name="error_invalid_password">密码太短,至少4位</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">请继续输入</string>
+
+
+    <string-array name="query_suggestions">
+        <item>Android</item>
+        <item>iOS</item>
+        <item>SCALA</item>
+        <item>Ruby</item>
+        <item>JavaScript</item>
+    </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>

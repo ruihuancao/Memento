@@ -1,5 +1,7 @@
 package com.memento.android.ui.douban.movie;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -35,6 +37,10 @@ public class DoubanMovieActivity extends BaseActivity {
         setContentView(R.layout.activity_douban_movie);
         ButterKnife.bind(this);
         initView();
+    }
+
+    public static Intent getCallIntent(Context context){
+        return new Intent(context, DoubanMovieActivity.class);
     }
 
     private void initView(){

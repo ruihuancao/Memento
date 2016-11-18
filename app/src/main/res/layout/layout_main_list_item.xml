@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/CardStyle"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            style="@style/SelectableItemStyle.RoundedRect"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/material_layout_vertical_spacing_between_content_areas"
+            android:orientation="vertical">
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/card_image"
+                android:layout_width="match_parent"
+                android:layout_height="256dp" />
+
+            <LinearLayout
+                android:id="@+id/card_primary_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/material_component_cards_primary_title_bottom_padding"
+                android:paddingRight="@dimen/material_component_cards_primary_title_bottom_padding"
+                android:paddingBottom="@dimen/material_component_cards_primary_title_bottom_padding"
+                android:paddingTop="@dimen/material_component_cards_primary_title_top_padding">
+
+                <TextView
+                    android:text="card_primary_title"
+                    android:id="@+id/card_primary_title"
+                    style="@style/TextStyle.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:text="card_primary_subtitle"
+                    android:id="@+id/card_primary_subtitle"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+

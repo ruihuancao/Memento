@@ -1,13 +1,10 @@
 package com.memento.android.ui.douban.movie;
 
-import android.Manifest;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,33 +13,23 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.DataManager;
-import com.memento.android.data.entity.DouBanMovieEntity;
-import com.memento.android.subscriber.DefaultSubscriber;
-import com.memento.android.ui.base.BaseActivity;
+import com.memento.android.assistlibrary.data.entity.DouBanMovieEntity;
+import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
 import com.memento.android.ui.webview.WebviewFallback;
-import com.orhanobut.logger.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,9 +42,8 @@ import rx.subscriptions.CompositeSubscription;
  * 描述：
  * 修改历史：
  */
-public class TheatersMovieFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks, AMapLocationListener {
+public class TheatersMovieFragment extends BaseFragment{
 
-    private static final int RC_LOCATION_PERM = 121;
     private static final String MOBILE_URL = "https://movie.douban.com/subject/%s/mobile";
 
     @BindView(R.id.progressbar)
@@ -72,9 +58,6 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
 
-    @Inject
-    DataManager mDataManager;
-
     public void TheatersMovieFragment() {
     }
 
@@ -82,7 +65,6 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        ((BaseActivity)getActivity()).activityComponent().inject(this);
     }
 
     public static TheatersMovieFragment newInstance() {
@@ -100,13 +82,13 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
         mRecyclerview.setLayoutManager(mGridLayoutManager);
         mAdapter = new Adapter();
         mRecyclerview.setAdapter(mAdapter);
-        getLocaltionPermission();
+        localtionResult();
         return view;
     }
 
 
-    protected void localtionResult(AMapLocation amapLocation) {
-        Subscription subscription = mDataManager.getTheatersMovie("杭州")
+    protected void localtionResult() {
+        Subscription subscription = DataHelper.getData().getDoubanService().getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -138,106 +120,10 @@ public class TheatersMovieFragment extends BaseFragment implements EasyPermissio
         compositeSubscription.clear();
     }
 
-    @AfterPermissionGranted(RC_LOCATION_PERM)
-    public void getLocaltionPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE };
-        if (EasyPermissions.hasPermissions(getContext(), perms)) {
-            initLocaltion();
-        } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.retionale_tip),
-                    RC_LOCATION_PERM, perms);
-        }
-    }
-
-    private void initLocaltion(){
-        //初始化定位
-        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
-        //设置定位回调监听
-        mLocationClient.setLocationListener(this);
-        //初始化定位参数
-        mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        //设置是否返回地址信息（默认返回地址信息）
-        mLocationOption.setNeedAddress(true);
-        //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(true);
-        //设置是否强制刷新WIFI，默认为强制刷新
-        mLocationOption.setWifiActiveScan(true);
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.setMockEnable(false);
-        //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000);
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
-    }
-
-    @Override
-    public void onLocationChanged(AMapLocation amapLocation) {
-        if (amapLocation != null) {
-            if (amapLocation.getErrorCode() == 0) {
-                //定位成功回调信息，设置相关消息
-                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                amapLocation.getLatitude();//获取纬度
-                amapLocation.getLongitude();//获取经度
-                amapLocation.getAccuracy();//获取精度信息
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date(amapLocation.getTime());
-                df.format(date);//定位时间
-                amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
-                amapLocation.getCountry();//国家信息
-                amapLocation.getProvince();//省信息
-                amapLocation.getCity();//城市信息
-                amapLocation.getDistrict();//城区信息
-                amapLocation.getStreet();//街道信息
-                amapLocation.getStreetNum();//街道门牌号信息
-                amapLocation.getCityCode();//城市编码
-                amapLocation.getAdCode();//地区编码
-                amapLocation.getAoiName();//获取当前定位点的AOI信息
-                Log.e("AmapLocaltion", amapLocation.getCountry() + amapLocation.getProvince() +amapLocation.getCity());
-                localtionResult(amapLocation);
-                mLocationClient.stopLocation();
-            } else {
-                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError","location Error, ErrCode:"
-                        + amapLocation.getErrorCode() + ", errInfo:"
-                        + amapLocation.getErrorInfo());
-                localtionResult(amapLocation);
-                mLocationClient.stopLocation();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // EasyPermissions handles the request result.
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-        Log.d("test", "onPermissionsGranted:" + requestCode + ":" + perms.size());
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-        EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
-                getString(R.string.rationale_ask_again),
-                R.string.setting, R.string.cancel, perms);
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
-        if(mLocationClient != null){
-            mLocationClient.onDestroy();
-        }
     }
 
     class Adapter extends RecyclerView.Adapter<ListViewHolder>{

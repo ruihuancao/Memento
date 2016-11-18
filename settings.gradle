@@ -1,1 +1,17 @@
-include ':app'
+//定义一个名为 initMinshengGradleEnvironment 的函数。该函数内部完成一些初始化操作
+//比如创建特定的目录，设置特定的参数等
+def initGradleEnvironment() {
+    println "initialize Gradle Environment ....."
+    println "initialize Gradle Environment completes..."
+}
+
+//settings.gradle 加载的时候，会执行 initMinshengGradleEnvironment
+initGradleEnvironment()
+
+//在 settings.gradle 中，则输出"In settings,gradle id is"
+println "In posdevice, gradle id is " + gradle.hashCode()
+println "Home Dir:" + gradle.gradleHomeDir
+println "User Home Dir:" + gradle.gradleUserHomeDir
+println "Parent: " + gradle.parent
+
+include ':app', ':assistlibrary'

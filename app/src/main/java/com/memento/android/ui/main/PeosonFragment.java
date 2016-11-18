@@ -1,11 +1,13 @@
 package com.memento.android.ui.main;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.memento.android.R;
 import com.memento.android.ui.base.BaseFragment;
@@ -25,6 +27,7 @@ public class PeosonFragment extends BaseFragment {
     private Unbinder mUnbinder;
 
     private LinearLayoutManager mLinearLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
 
     public PeosonFragment() {
@@ -42,7 +45,8 @@ public class PeosonFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_peoson, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerview.setLayoutManager(mLinearLayoutManager);
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mRecyclerview.setLayoutManager(mGridLayoutManager);
         mRecyclerview.setAdapter(new PeosonAdapter());
         return view;
     }
@@ -53,25 +57,19 @@ public class PeosonFragment extends BaseFragment {
         mUnbinder.unbind();
     }
 
-    static class PeosonAdapter extends RecyclerView.Adapter<PeosonAdapter.ViewHolder> {
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public ViewHolder(View itemView) {
-                super(itemView);
-            }
-        }
+    class PeosonAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent,
+        public ListViewHolder onCreateViewHolder(ViewGroup parent,
                                              int viewType) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.view_main_list_item, parent, false);
-            ViewHolder vh = new ViewHolder(v);
+            ListViewHolder vh = new ListViewHolder(v);
             return vh;
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ListViewHolder holder, int position) {
 
         }
 
@@ -80,4 +78,16 @@ public class PeosonFragment extends BaseFragment {
             return 21;
         }
     }
+
+    class ListViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.info_text)
+        TextView infoText;
+
+        ListViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+
 }

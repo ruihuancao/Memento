@@ -1,6 +1,6 @@
 package com.memento.android.ui.zhihu.main;
 
-import com.memento.android.model.ArticleModel;
+import com.memento.android.bean.ArticleModel;
 import com.memento.android.ui.base.BasePresenter;
 import com.memento.android.ui.base.BaseView;
 

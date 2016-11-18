@@ -2,7 +2,7 @@ package com.memento.android.ui.splash;
 
 
 import android.animation.Animator;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,19 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.memento.android.R;
-import com.memento.android.event.Event;
+import com.memento.android.assistlibrary.view.glide.GlideHelper;
 import com.memento.android.ui.animators.SplashAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;
-import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.base.BaseFragment;
-import com.memento.android.ui.main.MainActivity;
-import com.orhanobut.logger.Logger;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +44,7 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
 
     private SplashContract.Presenter mPresenter;
     private Unbinder unbinder;
+    private OnFragmentInteractionListener mListener;
 
     public SplashFragment() {
         // Required empty public constructor
@@ -57,6 +52,23 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
 
     public static SplashFragment newInstance() {
         return new SplashFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SplashFragment.OnFragmentInteractionListener) {
+            mListener = (SplashFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
@@ -99,37 +111,67 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
 
     @Override
     public void showImage(String url) {
-        Glide.with(getContext()).load(url).asBitmap().
-                into(new BitmapImageViewTarget(fullscreenImageview) {
+        GlideHelper.loadBitmap(url, new BitmapImageViewTarget(fullscreenImageview) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                super.onResourceReady(resource, glideAnimation);
+                Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        super.onResourceReady(resource, glideAnimation);
-                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-                                Palette.Swatch s1 = palette.getVibrantSwatch();
-                                if (s1 != null) {
-                                    contenttext.setBackgroundColor(s1.getRgb());
-                                }
-                                contenttext.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview,
-                                text, new AnimatorEndListener() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                openMainActivity();
-                            }
-                        });
-                        splashAnimator.play();
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch s1 = palette.getVibrantSwatch();
+                        if (s1 != null) {
+                            contenttext.setBackgroundColor(s1.getRgb());
+                        }
+                        contenttext.setVisibility(View.VISIBLE);
                     }
-
+                });
+                SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview,
+                        text, new AnimatorEndListener() {
                     @Override
-                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                        super.onLoadFailed(e, errorDrawable);
+                    public void onAnimationEnd(Animator animation) {
                         openMainActivity();
                     }
                 });
+                splashAnimator.play();
+            }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                super.onLoadFailed(e, errorDrawable);
+                openMainActivity();
+            }
+        });
+//        Glide.with(getContext()).load(url).asBitmap().
+//                into(new BitmapImageViewTarget(fullscreenImageview) {
+//                    @Override
+//                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                        super.onResourceReady(resource, glideAnimation);
+//                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
+//                            @Override
+//                            public void onGenerated(Palette palette) {
+//                                Palette.Swatch s1 = palette.getVibrantSwatch();
+//                                if (s1 != null) {
+//                                    contenttext.setBackgroundColor(s1.getRgb());
+//                                }
+//                                contenttext.setVisibility(View.VISIBLE);
+//                            }
+//                        });
+//                        SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview,
+//                                text, new AnimatorEndListener() {
+//                            @Override
+//                            public void onAnimationEnd(Animator animation) {
+//                                openMainActivity();
+//                            }
+//                        });
+//                        splashAnimator.play();
+//                    }
+//
+//                    @Override
+//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+//                        super.onLoadFailed(e, errorDrawable);
+//                        openMainActivity();
+//                    }
+//                });
     }
 
     @Override
@@ -138,7 +180,11 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
     }
 
     private void openMainActivity(){
-        EventBus.getDefault().post(new Event.OpenMainActivityEvent());
+        mListener.openMainActivity();
+    }
+
+    interface OnFragmentInteractionListener{
+        void openMainActivity();
     }
 
 }

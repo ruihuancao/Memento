@@ -17,9 +17,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.DataManager;
+import com.memento.android.assistlibrary.view.glide.GlideHelper;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
 import com.memento.android.ui.webview.WebviewFallback;
@@ -27,10 +27,10 @@ import com.memento.android.ui.webview.WebviewFallback;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+;
 
 public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDetailContract.View{
 
@@ -51,8 +51,6 @@ public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDet
     @BindView(R.id.webview)
     WebView mWebview;
 
-    @Inject
-    DataManager mDataManager;
 
     private ZhihuDetailPresenter mPresenter;
     private String articleId;
@@ -60,13 +58,12 @@ public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityComponent().inject(this);
         setContentView(R.layout.activity_zhihu_article_detail);
         ButterKnife.bind(this);
         setupWindowAnimations();
         initExtra();
         initView();
-        mPresenter = new ZhihuDetailPresenter(mDataManager, this, articleId, getContentTemplate(), getString(R.string.zhihu_css));
+        mPresenter = new ZhihuDetailPresenter(DataHelper.getData(), this, articleId, getContentTemplate(), getString(R.string.zhihu_css));
     }
 
     private String getContentTemplate(){
@@ -113,8 +110,13 @@ public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDet
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_share:
                 // your logic
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "send message"));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -157,7 +159,7 @@ public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDet
     @Override
     public void showDetail(String title, String imageUrl, String content) {
         mCollapsingToolbar.setTitle(title);
-        Glide.with(ZhihuArticleDetailActivity.this).load(imageUrl).into(mBackdrop);
+        GlideHelper.loadResource(imageUrl, mBackdrop);
         mWebview.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
     }
 

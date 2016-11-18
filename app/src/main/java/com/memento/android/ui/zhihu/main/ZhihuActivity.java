@@ -7,16 +7,13 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 
 import com.memento.android.R;
-import com.memento.android.data.DataManager;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.event.Event;
-import com.memento.android.model.mapper.DataMapper;
+import com.memento.android.assistlibrary.util.ActivityUtils;
 import com.memento.android.ui.base.BaseActivity;
-import com.memento.android.ui.base.ActivityUtils;
 import com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,15 +24,10 @@ public class ZhihuActivity extends BaseActivity {
     Toolbar toolbar;
 
 
-    @Inject
-    DataManager mDataManager;
-    @Inject
-    DataMapper mDataMapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityComponent().inject(this);
         setContentView(R.layout.activity_zhihu);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -46,7 +38,7 @@ public class ZhihuActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), zhihuMainFragment, R.id.contentLayout);
         }
-        new ZhihuPresenter(mDataManager, mDataMapper, zhihuMainFragment);
+        new ZhihuPresenter(DataHelper.getData(), zhihuMainFragment);
     }
 
     public static Intent getCallIntent(Context context){

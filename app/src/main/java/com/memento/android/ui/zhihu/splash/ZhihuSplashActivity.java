@@ -5,24 +5,20 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.memento.android.R;
-import com.memento.android.data.DataManager;
+import com.memento.android.assistlibrary.util.DensityUtil;
 import com.memento.android.event.Event;
+import com.memento.android.helper.DataHelper;
+import com.memento.android.assistlibrary.util.ActivityUtils;
 import com.memento.android.ui.base.BaseActivity;
-import com.memento.android.ui.base.ActivityUtils;
 import com.memento.android.ui.zhihu.main.ZhihuActivity;
-import com.memento.android.util.DensityUtil;
 
 import org.greenrobot.eventbus.Subscribe;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ZhihuSplashActivity extends BaseActivity {
 
-    @Inject
-    DataManager mDataManager;
 
     @BindView(R.id.contentLayout)
     FrameLayout contentLayout;
@@ -32,7 +28,6 @@ public class ZhihuSplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        activityComponent().inject(this);
         setContentView(R.layout.activity_zhihu_splash);
         ButterKnife.bind(this);
 
@@ -43,11 +38,11 @@ public class ZhihuSplashActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), splashFragment, R.id.contentLayout);
         }
-        new ZhihuSplashPresenter(mDataManager, splashFragment, DensityUtil.getScreenW(getApplicationContext()));
+        new ZhihuSplashPresenter(DataHelper.getData(), splashFragment, DensityUtil.getScreenW(getApplicationContext()));
     }
 
     @Subscribe
-    public void onEvent(Event.OpenMainActivityEvent event) {
+    public void onEvent(Event.OpenZhihuMainActivity event) {
         startActivity(ZhihuActivity.getCallIntent(this));
         finish();
     }

@@ -1,5 +1,7 @@
 package com.memento.android.ui.test;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -13,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.memento.android.R;
+import com.memento.android.assistlibrary.util.AppUtils;
 import com.memento.android.ui.base.BaseActivity;
-import com.memento.android.util.AppUtils;
 import com.memento.android.widget.DividerItemDecoration;
 
 import butterknife.BindView;
@@ -51,6 +53,11 @@ public class TestActivity extends BaseActivity {
         mAdapter = new Adapter();
         mRecyclerview.setAdapter(mAdapter);
     }
+
+    public static Intent getCallIntent(Context context){
+        return new Intent(context, TestActivity.class);
+    }
+
 
 
     class Adapter extends RecyclerView.Adapter<ListViewHolder>{

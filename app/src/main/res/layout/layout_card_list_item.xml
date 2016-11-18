@@ -24,6 +24,7 @@
                       android:layout_height="@dimen/material_layout_vertical_spacing_list_item">
 
             <ImageView
+                android:src="@mipmap/ic_launcher"
                 android:id="@+id/list_left_icon"
                 android:layout_gravity="start|center_vertical"
                 android:scaleType="centerCrop"
@@ -39,6 +40,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:text="list_title"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:id="@+id/list_title"
@@ -47,6 +49,7 @@
                     android:layout_height="0dp"/>
 
                 <TextView
+                    android:text="list_subtitle"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:id="@+id/list_subtitle"
