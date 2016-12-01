@@ -1,12 +1,19 @@
 package com.memento.android.helper;
 
-import com.memento.android.MementoApplication;
-import com.memento.android.assistlibrary.data.DataManager;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.source.local.cache.Cache;
+import com.crh.android.common.data.source.remote.RemoteDataSource;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class DataHelper {
 
-    public static DataManager getData(){
-        return  DataManager.getInstance(MementoApplication.getMementoApplication());
+    public static DataRepository provideRepository(@NonNull Context context) {
+        checkNotNull(context);
+        return DataRepository.getInstance(Cache.getInstance(context), RemoteDataSource.getInstance());
     }
 }

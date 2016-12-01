@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
+import com.crh.android.common.login.LoginManager;
+import com.crh.android.common.theme.RootActivity;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.base.RootActivity;
-import com.memento.android.assistlibrary.login.LoginHelper;
 import com.memento.android.event.Event;
 import com.memento.android.ui.service.LocaltionService;
 
@@ -95,12 +95,12 @@ public class BaseActivity extends RootActivity implements EasyPermissions.Permis
 
     @Subscribe
     public void onEvent(Event.LoginSuccessEvent event) {
-        LoginHelper.login(this, event.leanCloudUser);
+        LoginManager.login(this, event.leanCloudUserEntiry);
     }
 
     @Subscribe
     public void onEvent(Event.RegisterSuccessEvent event) {
-        LoginHelper.login(this, event.leanCloudUser);
+        LoginManager.login(this, event.leanCloudUserEntiry);
     }
 
     public void localtion(){

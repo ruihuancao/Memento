@@ -2,10 +2,10 @@ package com.memento.android.ui.zhihu.main;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.assistlibrary.data.DataManager;
-import com.memento.android.assistlibrary.data.entity.ZhihuNewsEntity;
-import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
-import com.memento.android.assistlibrary.util.TimeUtil;
+import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.source.entity.ZhihuNewsEntity;
+import com.crh.android.common.subscriber.DefaultSubscriber;
+import com.crh.android.common.util.TimeUtil;
 import com.memento.android.bean.ArticleBannerModel;
 import com.memento.android.bean.ArticleModel;
 
@@ -27,11 +27,11 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataManager mDataManager;
+    private DataRepository mDataRepository;
     private ZhihuContract.View mView;
 
-    public ZhihuPresenter(@NonNull DataManager dataManager, @NonNull ZhihuContract.View view) {
-        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
+    public ZhihuPresenter(@NonNull DataRepository dataRepository, @NonNull ZhihuContract.View view) {
+        mDataRepository = checkNotNull(dataRepository, "dataRepository cannot be null");
         mView =  checkNotNull(view, "splashview cannot be null!");
         mSubscriptions = new CompositeSubscription();
         view.setPresenter(this);
@@ -49,7 +49,7 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     @Override
     public void getNewArticle() {
-        Subscription subscribe = mDataManager.getZhihuApiService()
+        Subscription subscribe = mDataRepository
                 .getNewArticleList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,7 +72,7 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     @Override
     public void getNextArticle(String date) {
-        Subscription subscribe = mDataManager.getZhihuApiService().getArticleList(date)
+        Subscription subscribe = mDataRepository.getArticleList(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<ZhihuNewsEntity, List<ArticleModel>>() {

@@ -15,7 +15,7 @@ public class PhotoFragment extends BaseFragment{
 //
 //    private Unbinder mUnbinder;
 //
-//    DataManager mDataManager;
+//    DataRepository mDataManager;
 //
 //    private PhotoAdapter photoAdapter;
 //

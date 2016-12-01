@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.crh.android.common.util.ActivityUtils;
+import com.crh.android.common.util.DensityUtil;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.util.DensityUtil;
 import com.memento.android.event.Event;
 import com.memento.android.helper.DataHelper;
-import com.memento.android.assistlibrary.util.ActivityUtils;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.zhihu.main.ZhihuActivity;
 
@@ -38,7 +38,9 @@ public class ZhihuSplashActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), splashFragment, R.id.contentLayout);
         }
-        new ZhihuSplashPresenter(DataHelper.getData(), splashFragment, DensityUtil.getScreenW(getApplicationContext()));
+        new ZhihuSplashPresenter(DataHelper.provideRepository(getApplicationContext()),
+                splashFragment,
+                DensityUtil.getScreenW(getApplicationContext()));
     }
 
     @Subscribe

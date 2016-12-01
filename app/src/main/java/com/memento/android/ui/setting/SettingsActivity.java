@@ -19,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.memento.android.assistlibrary.theme.ThemeHelper.PREF_KEY_THEME;
+import static com.crh.android.common.theme.ThemeHelper.PREF_KEY_THEME;
 
 
 public class SettingsActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {

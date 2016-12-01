@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crh.android.common.login.LoginManager;
+import com.crh.android.common.view.glide.GlideHelper;
 import com.memento.android.BuildConfig;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.login.LoginHelper;
-import com.memento.android.assistlibrary.view.glide.GlideHelper;
 import com.memento.android.event.Event;
 import com.memento.android.ui.douban.movie.DoubanMovieActivity;
 import com.memento.android.ui.login.LoginActivity;
@@ -74,8 +74,8 @@ public class NavActivity extends BaseActivity {
             headView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(LoginHelper.isLogin(NavActivity.this)){
-                        LoginHelper.logout(NavActivity.this);
+                    if(LoginManager.isLogin(NavActivity.this)){
+                        LoginManager.logout(NavActivity.this);
                     }else{
                         startActivity(LoginActivity.getCallIntent(NavActivity.this));
                     }
@@ -85,10 +85,10 @@ public class NavActivity extends BaseActivity {
             TextView nameView = (TextView) headView.findViewById(R.id.nameTextView);
             TextView desView = (TextView) headView.findViewById(R.id.desTextView);
 
-            if(LoginHelper.isLogin(this)){
-                nameView.setText(LoginHelper.getCurrentUser(this).getUsername());
+            if(LoginManager.isLogin(this)){
+                nameView.setText(LoginManager.getCurrentUser(this).getUsername());
                 desView.setText(getString(R.string.user_des));
-                GlideHelper.loadCircleResource(LoginHelper.getCurrentUser(this).getAvatar(), iconView);
+                GlideHelper.loadCircleResource(LoginManager.getCurrentUser(this).getAvatar(), iconView);
             }else{
                 nameView.setText("未登录");
             }

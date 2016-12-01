@@ -37,8 +37,6 @@ public class PersonActivity extends BaseActivity {
         setContentView(R.layout.activity_person);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-        
     }
 
 

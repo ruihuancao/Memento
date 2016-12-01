@@ -19,9 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
+import com.crh.android.common.util.AppUtils;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.data.entity.LeanCloudUser;
-import com.memento.android.assistlibrary.util.AppUtils;
 import com.memento.android.event.Event;
 import com.memento.android.ui.base.BaseFragment;
 
@@ -225,13 +225,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     @Override
-    public void showLoginSuccess(LeanCloudUser leanCloudUser) {
-        EventBus.getDefault().post(new Event.LoginSuccessEvent(leanCloudUser));
+    public void showLoginSuccess(LeanCloudUserEntiry leanCloudUserEntiry) {
+        EventBus.getDefault().post(new Event.LoginSuccessEvent(leanCloudUserEntiry));
     }
 
     @Override
-    public void showRegisterSuccess(LeanCloudUser leanCloudUser) {
-        EventBus.getDefault().post(new Event.RegisterSuccessEvent(leanCloudUser));
+    public void showRegisterSuccess(LeanCloudUserEntiry leanCloudUserEntiry) {
+        EventBus.getDefault().post(new Event.RegisterSuccessEvent(leanCloudUserEntiry));
     }
 
     @Override

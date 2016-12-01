@@ -4,7 +4,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
-import com.memento.android.assistlibrary.data.entity.LeanCloudUser;
+import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
 
 /**
  * Created by 曹瑞环 on 2016/8/15.
@@ -45,19 +45,19 @@ public interface Event {
     }
 
     class LoginSuccessEvent{
-        public LeanCloudUser leanCloudUser;
+        public LeanCloudUserEntiry leanCloudUserEntiry;
 
-        public LoginSuccessEvent(LeanCloudUser leanCloudUser){
-            this.leanCloudUser = leanCloudUser;
+        public LoginSuccessEvent(LeanCloudUserEntiry leanCloudUserEntiry){
+            this.leanCloudUserEntiry = leanCloudUserEntiry;
         }
 
     }
 
     class RegisterSuccessEvent{
-        public LeanCloudUser leanCloudUser;
+        public LeanCloudUserEntiry leanCloudUserEntiry;
 
-        public RegisterSuccessEvent(LeanCloudUser leanCloudUser){
-            this.leanCloudUser = leanCloudUser;
+        public RegisterSuccessEvent(LeanCloudUserEntiry leanCloudUserEntiry){
+            this.leanCloudUserEntiry = leanCloudUserEntiry;
         }
     }
 }

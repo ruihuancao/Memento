@@ -2,26 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.memento.android">
 
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <!-- 请求网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 读取缓存数据 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -29,7 +18,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name=".MementoApplication"
+        android:name="com.memento.android.MementoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -45,13 +34,13 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/app_name" />
-        <activity android:name=".ui.zhihu.main.ZhihuActivity" />
-        <activity android:name=".ui.zhihu.detail.ZhihuArticleDetailActivity" />
+        <activity android:name="com.memento.android.ui.zhihu.main.ZhihuActivity" />
+        <activity android:name="com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity" />
         <activity
-            android:name=".ui.setting.SettingsActivity"
+            android:name="com.memento.android.ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".ui.douban.movie.DoubanMovieActivity"
+            android:name="com.memento.android.ui.douban.movie.DoubanMovieActivity"
             android:label="@string/menu_douban_movie" />
 
         <meta-data
@@ -60,20 +49,20 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".ui.react.MementoReactActivity" />
-        <activity android:name=".ui.webview.WebviewActivity" />
-        <activity android:name=".ui.test.TestActivity" />
+        <activity android:name="com.memento.android.ui.react.MementoReactActivity" />
+        <activity android:name="com.memento.android.ui.webview.WebviewActivity" />
+        <activity android:name="com.memento.android.ui.test.TestActivity" />
 
         <service
-            android:name=".ui.service.MementoIntentService"
+            android:name="com.memento.android.ui.service.MementoIntentService"
             android:exported="false" />
 
-        <activity android:name=".ui.test.CustomActivity" />
+        <activity android:name="com.memento.android.ui.test.CustomActivity" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="com.memento.android.ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name="com.memento.android.ui.search.SearchActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -83,10 +72,10 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".ui.person.PersonActivity" />
+        <activity android:name="com.memento.android.ui.person.PersonActivity" />
 
         <service
-            android:name=".ui.service.LocaltionService"
+            android:name="com.memento.android.ui.service.LocaltionService"
             android:enabled="true"
             android:exported="true"/>
     </application>

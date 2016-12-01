@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.crh.android.common.data.source.entity.DouBanMovieEntity;
+import com.crh.android.common.subscriber.DefaultSubscriber;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.data.entity.DouBanMovieEntity;
-import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
 import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
@@ -148,7 +148,7 @@ public class CommonMovieFragment extends BaseFragment {
         Subscription subscription = null;
         switch (type){
             case TOP250_TYPE:
-                subscription = DataHelper.getData().getDoubanService().getTop250Movie(start, count)
+                subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getTop250Movie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -174,7 +174,7 @@ public class CommonMovieFragment extends BaseFragment {
                         });
                 break;
             case COMINGSOON_TYPE:
-                subscription = DataHelper.getData().getDoubanService().getComingSoonMovie(start, count)
+                subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getComingSoonMovie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){

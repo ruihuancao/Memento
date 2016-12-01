@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.crh.android.common.view.glide.GlideHelper;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.view.glide.GlideHelper;
 import com.memento.android.ui.base.BaseFragment;
 import com.orhanobut.logger.Logger;
 

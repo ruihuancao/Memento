@@ -2,9 +2,9 @@ package com.memento.android.ui.zhihu.detail;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.assistlibrary.data.DataManager;
-import com.memento.android.assistlibrary.data.entity.ZhihuDetailEntity;
-import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
+import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.source.entity.ZhihuDetailEntity;
+import com.crh.android.common.subscriber.DefaultSubscriber;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,17 +21,17 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataManager mDataManager;
+    private DataRepository mDataRepository;
     private ZhihuDetailContract.View mView;
     private String id;
     private String contentTemplate;
     private String cssTemplate;
 
-    public ZhihuDetailPresenter(@NonNull DataManager dataManager, @NonNull ZhihuDetailContract.View view, String id, String contentTemplate,
+    public ZhihuDetailPresenter(@NonNull DataRepository dataRepository, @NonNull ZhihuDetailContract.View view, String id, String contentTemplate,
                                 String cssTemplate) {
-        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
-        mView =  checkNotNull(view, "splashview cannot be null!");
-        this.id =  id;
+        mDataRepository = checkNotNull(dataRepository, "dataRepository cannot be null");
+        mView =  checkNotNull(view, "view cannot be null!");
+        this.id = id;
         this.contentTemplate = contentTemplate;
         this.cssTemplate = cssTemplate;
         mSubscriptions = new CompositeSubscription();
@@ -49,7 +49,7 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
 
     @Override
     public void loadDetail(String id) {
-        Subscription subscribe = mDataManager.getZhihuApiService().getArticleDetail(id)
+        Subscription subscribe = mDataRepository.getArticleDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<ZhihuDetailEntity, ZhihuDetailEntity>() {

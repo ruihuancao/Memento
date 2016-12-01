@@ -16,9 +16,9 @@ import android.widget.TextView;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.bumptech.glide.Glide;
+import com.crh.android.common.data.source.entity.DouBanMovieEntity;
+import com.crh.android.common.subscriber.DefaultSubscriber;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.data.entity.DouBanMovieEntity;
-import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
 import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
@@ -88,7 +88,7 @@ public class TheatersMovieFragment extends BaseFragment{
 
 
     protected void localtionResult() {
-        Subscription subscription = DataHelper.getData().getDoubanService().getTheatersMovie("杭州")
+        Subscription subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){

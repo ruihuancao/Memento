@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.crh.android.common.view.glide.GlideHelper;
 import com.memento.android.R;
-import com.memento.android.assistlibrary.view.glide.GlideHelper;
 import com.memento.android.ui.animators.SplashAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;
 import com.memento.android.ui.base.BaseFragment;
@@ -30,9 +29,7 @@ import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class SplashFragment extends BaseFragment implements SplashContract.View {
 
     @BindView(R.id.fullscreen_imageview)
@@ -141,37 +138,6 @@ public class SplashFragment extends BaseFragment implements SplashContract.View 
                 openMainActivity();
             }
         });
-//        Glide.with(getContext()).load(url).asBitmap().
-//                into(new BitmapImageViewTarget(fullscreenImageview) {
-//                    @Override
-//                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                        super.onResourceReady(resource, glideAnimation);
-//                        Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-//                            @Override
-//                            public void onGenerated(Palette palette) {
-//                                Palette.Swatch s1 = palette.getVibrantSwatch();
-//                                if (s1 != null) {
-//                                    contenttext.setBackgroundColor(s1.getRgb());
-//                                }
-//                                contenttext.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                        SplashAnimator splashAnimator = new SplashAnimator(fullscreenImageview,
-//                                text, new AnimatorEndListener() {
-//                            @Override
-//                            public void onAnimationEnd(Animator animation) {
-//                                openMainActivity();
-//                            }
-//                        });
-//                        splashAnimator.play();
-//                    }
-//
-//                    @Override
-//                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-//                        super.onLoadFailed(e, errorDrawable);
-//                        openMainActivity();
-//                    }
-//                });
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.memento.android.ui.splash;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.assistlibrary.util.ActivityUtils;
+import com.crh.android.common.util.ActivityUtils;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -63,6 +63,5 @@ public class SplashPresenter implements SplashContract.Presenter {
 //                    }
 //                });
         mView.showImage(ActivityUtils.getQiniuImageUrl());
-
     }
 }

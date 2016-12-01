@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 
+import com.crh.android.common.util.ActivityUtils;
 import com.memento.android.R;
-import com.memento.android.helper.DataHelper;
 import com.memento.android.event.Event;
-import com.memento.android.assistlibrary.util.ActivityUtils;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity;
 
@@ -22,8 +22,6 @@ public class ZhihuActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class ZhihuActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), zhihuMainFragment, R.id.contentLayout);
         }
-        new ZhihuPresenter(DataHelper.getData(), zhihuMainFragment);
+        new ZhihuPresenter(DataHelper.provideRepository(getApplicationContext()), zhihuMainFragment);
     }
 
     public static Intent getCallIntent(Context context){

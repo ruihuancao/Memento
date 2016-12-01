@@ -2,11 +2,11 @@ package com.memento.android.ui.login;
 
 import android.support.annotation.NonNull;
 
-import com.memento.android.assistlibrary.data.DataManager;
-import com.memento.android.assistlibrary.data.entity.LeanCloudUser;
-import com.memento.android.assistlibrary.data.subscriber.DefaultSubscriber;
-import com.memento.android.assistlibrary.login.ErrorCode;
-import com.memento.android.assistlibrary.login.LoginHelper;
+import com.crh.android.common.data.DataSource;
+import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
+import com.crh.android.common.login.ErrorCode;
+import com.crh.android.common.login.LoginManager;
+import com.crh.android.common.subscriber.DefaultSubscriber;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,11 +22,11 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataManager mDataManager;
+    private DataSource mDataSource;
     private LoginContract.View mView;
 
-    public LoginPresenter(@NonNull DataManager dataManager, @NonNull LoginContract.View view) {
-        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
+    public LoginPresenter(@NonNull DataSource dataSource, @NonNull LoginContract.View view) {
+        mDataSource = checkNotNull(dataSource, "mDataSource cannot be null");
         mView = checkNotNull(view, "view cannot be null!");
         mSubscriptions = new CompositeSubscription();
         view.setPresenter(this);
@@ -44,16 +44,16 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void register(final String userName, final String passwd, final String email) {
-        final LeanCloudUser user = new LeanCloudUser();
+        final LeanCloudUserEntiry user = new LeanCloudUserEntiry();
         user.setUsername(userName);
         user.setPassword(passwd);
         user.setEmail(email);
-        user.setAvatar(LoginHelper.getDefaultAvatar(email));
-        Subscription registerSubscription = mDataManager.getLeanCloudApiService()
+        user.setAvatar(LoginManager.getDefaultAvatar(email));
+        Subscription registerSubscription = mDataSource
                 .register(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<LeanCloudUser>() {
+                .subscribe(new DefaultSubscriber<LeanCloudUserEntiry>() {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -61,7 +61,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(LeanCloudUser leanCloudUser) {
+                    public void onNext(LeanCloudUserEntiry leanCloudUser) {
                         super.onNext(leanCloudUser);
                         if(leanCloudUser.getSessionToken() != null){
                             mView.showRegisterSuccess(leanCloudUser);
@@ -84,14 +84,14 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(final String userName, final String passwd) {
-        final LeanCloudUser user = new LeanCloudUser();
+        final LeanCloudUserEntiry user = new LeanCloudUserEntiry();
         user.setUsername(userName);
         user.setPassword(passwd);
-        Subscription loginSubscription = mDataManager.getLeanCloudApiService()
+        Subscription loginSubscription = mDataSource
                 .login(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<LeanCloudUser>(){
+                .subscribe(new DefaultSubscriber<LeanCloudUserEntiry>(){
 
                     @Override
                     public void onError(Throwable e) {
@@ -100,7 +100,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(LeanCloudUser leanCloudUser) {
+                    public void onNext(LeanCloudUserEntiry leanCloudUser) {
                         super.onNext(leanCloudUser);
                         if(leanCloudUser.getSessionToken() != null){
                             mView.showLoginSuccess(leanCloudUser);

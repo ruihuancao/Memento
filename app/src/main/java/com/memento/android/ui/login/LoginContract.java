@@ -1,6 +1,6 @@
 package com.memento.android.ui.login;
 
-import com.memento.android.assistlibrary.data.entity.LeanCloudUser;
+import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
 import com.memento.android.ui.base.BasePresenter;
 import com.memento.android.ui.base.BaseView;
 
@@ -11,8 +11,8 @@ public interface LoginContract {
 
     interface View extends BaseView<Presenter> {
         void showError(String ... message);
-        void showRegisterSuccess(LeanCloudUser user);
-        void showLoginSuccess(LeanCloudUser user);
+        void showRegisterSuccess(LeanCloudUserEntiry user);
+        void showLoginSuccess(LeanCloudUserEntiry user);
     }
 
     interface Presenter extends BasePresenter {

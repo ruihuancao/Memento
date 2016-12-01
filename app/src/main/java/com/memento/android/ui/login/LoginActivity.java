@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 
+import com.crh.android.common.util.ActivityUtils;
 import com.memento.android.R;
-import com.memento.android.helper.DataHelper;
 import com.memento.android.event.Event;
-import com.memento.android.assistlibrary.util.ActivityUtils;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.main.MainActivity;
 
@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), loginFragment, R.id.contentLayout);
         }
-        new LoginPresenter(DataHelper.getData(), loginFragment);
+        new LoginPresenter(DataHelper.provideRepository(getApplicationContext()), loginFragment);
     }
 
 
