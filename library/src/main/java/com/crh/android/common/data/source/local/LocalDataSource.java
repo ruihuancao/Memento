@@ -22,21 +22,12 @@ import rx.Subscriber;
 
 public class LocalDataSource implements DataSource{
 
-    private static LocalDataSource INSTANCE;
-
     private Cache mCache;
     private Gson mGson;
 
     public LocalDataSource(Cache cache, Gson gson){
         mCache = cache;
         mGson = gson;
-    }
-
-    public static LocalDataSource getInstance(Cache cache, Gson gson) {
-        if (INSTANCE == null) {
-            INSTANCE = new LocalDataSource(cache, gson);
-        }
-        return INSTANCE;
     }
 
     @Override

@@ -148,7 +148,7 @@ public class CommonMovieFragment extends BaseFragment {
         Subscription subscription = null;
         switch (type){
             case TOP250_TYPE:
-                subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getTop250Movie(start, count)
+                subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getTop250Movie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
@@ -174,7 +174,7 @@ public class CommonMovieFragment extends BaseFragment {
                         });
                 break;
             case COMINGSOON_TYPE:
-                subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getComingSoonMovie(start, count)
+                subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getComingSoonMovie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){

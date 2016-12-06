@@ -2,7 +2,7 @@ package com.memento.android.ui.zhihu.main;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.DataManager;
 import com.crh.android.common.data.source.entity.ZhihuNewsEntity;
 import com.crh.android.common.subscriber.DefaultSubscriber;
 import com.crh.android.common.util.TimeUtil;
@@ -27,11 +27,11 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataRepository mDataRepository;
+    private DataManager mDataManager;
     private ZhihuContract.View mView;
 
-    public ZhihuPresenter(@NonNull DataRepository dataRepository, @NonNull ZhihuContract.View view) {
-        mDataRepository = checkNotNull(dataRepository, "dataRepository cannot be null");
+    public ZhihuPresenter(@NonNull DataManager dataManager, @NonNull ZhihuContract.View view) {
+        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
         mView =  checkNotNull(view, "splashview cannot be null!");
         mSubscriptions = new CompositeSubscription();
         view.setPresenter(this);
@@ -49,7 +49,7 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     @Override
     public void getNewArticle() {
-        Subscription subscribe = mDataRepository
+        Subscription subscribe = mDataManager.getDataSource()
                 .getNewArticleList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,7 +72,8 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
 
     @Override
     public void getNextArticle(String date) {
-        Subscription subscribe = mDataRepository.getArticleList(date)
+        Subscription subscribe = mDataManager.getDataSource()
+                .getArticleList(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<ZhihuNewsEntity, List<ArticleModel>>() {

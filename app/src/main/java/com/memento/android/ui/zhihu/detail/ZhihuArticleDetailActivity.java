@@ -63,7 +63,7 @@ public class ZhihuArticleDetailActivity extends BaseActivity implements ZhihuDet
         setupWindowAnimations();
         initExtra();
         initView();
-        mPresenter = new ZhihuDetailPresenter(DataHelper.provideRepository(getApplicationContext()), this, articleId, getContentTemplate(), getString(R.string.zhihu_css));
+        mPresenter = new ZhihuDetailPresenter(DataHelper.provideDataManager(getApplicationContext()), this, articleId, getContentTemplate(), getString(R.string.zhihu_css));
     }
 
     private String getContentTemplate(){

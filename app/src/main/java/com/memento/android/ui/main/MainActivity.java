@@ -15,13 +15,17 @@ import android.view.View;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+import com.crh.android.common.data.download.DownLoad;
+import com.crh.android.common.subscriber.DefaultSubscriber;
 import com.memento.android.R;
 import com.memento.android.event.Event;
+import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.animators.FloatingActionButtonAnimator;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.base.NavActivity;
 import com.memento.android.ui.douban.movie.CommonMovieFragment;
 import com.memento.android.ui.search.SearchActivity;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends NavActivity{
 
@@ -54,6 +60,29 @@ public class MainActivity extends NavActivity{
         ButterKnife.bind(this);
         initView();
         getPermission();
+
+        DataHelper.provideDataManager(getApplicationContext())
+                .getDownloadManager()
+                .downLoadFile("http://application-release.guokr.com/v3400Mentor-release-QDHome.apk?t=1480916745")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultSubscriber<DownLoad>(){
+
+                    @Override
+                    public void onNext(DownLoad downLoad) {
+                        super.onNext(downLoad);
+                        Logger.d("progress: "+downLoad.getProgress());
+                        if(downLoad.isDone()){
+                            Logger.d("file:"+downLoad.getFilePath());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+                    }
+                });
     }
 
     @Override

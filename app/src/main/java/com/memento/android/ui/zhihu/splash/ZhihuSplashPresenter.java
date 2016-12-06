@@ -2,7 +2,7 @@ package com.memento.android.ui.zhihu.splash;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.DataManager;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -15,12 +15,12 @@ public class ZhihuSplashPresenter implements ZhihuSplashContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataRepository mDataRepository;
+    private DataManager mDataManager;
     private ZhihuSplashContract.View mView;
     private int mWidth;
 
-    public ZhihuSplashPresenter(@NonNull DataRepository dataRepository, @NonNull ZhihuSplashContract.View view, int width) {
-        mDataRepository = checkNotNull(dataRepository, "dataRepository cannot be null");
+    public ZhihuSplashPresenter(@NonNull DataManager dataManager, @NonNull ZhihuSplashContract.View view, int width) {
+        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
         mView =  checkNotNull(view, "splashview cannot be null!");
         mWidth =  width;
         mSubscriptions = new CompositeSubscription();
@@ -39,7 +39,7 @@ public class ZhihuSplashPresenter implements ZhihuSplashContract.Presenter {
 
     @Override
     public void loadImageUrl() {
-//        mDataRepository.getImageList()
+//        mDataManager.getImageList()
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .map(new Func1<List<SplashImageEntity>, String>() {

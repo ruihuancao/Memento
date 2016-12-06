@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.crh.android.common.config.LocalConfig;
+import com.crh.android.common.data.config.LocalConfig;
 
 import org.greenrobot.greendao.database.Database;
 

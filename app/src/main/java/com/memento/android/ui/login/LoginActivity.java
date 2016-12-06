@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), loginFragment, R.id.contentLayout);
         }
-        new LoginPresenter(DataHelper.provideRepository(getApplicationContext()), loginFragment);
+        new LoginPresenter(DataHelper.provideDataManager(getApplicationContext()), loginFragment);
     }
 
 

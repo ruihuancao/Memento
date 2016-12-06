@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.LruCache;
 
 import com.crh.android.common.data.source.local.dao.DaoSession;
-import com.crh.android.common.data.source.local.dao.GreenDao;
 import com.crh.android.common.data.source.local.dao.LocalDataDao;
 import com.crh.android.common.data.source.local.entity.LocalData;
 import com.orhanobut.logger.Logger;
@@ -19,29 +18,16 @@ import java.util.Date;
 
 public class Cache {
 
-    private volatile static Cache instance;
-
     private LruCache<String, String> mMemoryCache;
     private DaoSession mDaoSession;
 
-    private Cache(Context context){
-        this.mDaoSession = GreenDao.getInstance(context).getDaoSession();
+    public Cache(Context context, DaoSession daoSession){
+        this.mDaoSession = daoSession;
         int memClass = ((ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE))
                 .getMemoryClass();
         // Use 1/8th of the available memory for this memory cache.
         int cacheSize =  1024 * 1024 * memClass / 8;
         mMemoryCache = new LruCache<>(cacheSize);
-    }
-
-    public static Cache getInstance(Context context){
-        if(instance == null){
-            synchronized (Cache.class){
-                if(instance == null){
-                    instance = new Cache(context);
-                }
-            }
-        }
-        return instance;
     }
 
     /**

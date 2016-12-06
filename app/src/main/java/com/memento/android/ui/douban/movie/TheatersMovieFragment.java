@@ -88,7 +88,7 @@ public class TheatersMovieFragment extends BaseFragment{
 
 
     protected void localtionResult() {
-        Subscription subscription = DataHelper.provideRepository(getActivity().getApplicationContext()).getTheatersMovie("杭州")
+        Subscription subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){

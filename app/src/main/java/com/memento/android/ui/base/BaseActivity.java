@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.crh.android.common.login.LoginManager;
-import com.crh.android.common.theme.RootActivity;
+import com.crh.android.theme.RootActivity;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.ui.service.LocaltionService;

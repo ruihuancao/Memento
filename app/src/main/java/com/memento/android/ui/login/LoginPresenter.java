@@ -2,7 +2,7 @@ package com.memento.android.ui.login;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataSource;
+import com.crh.android.common.data.DataManager;
 import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
 import com.crh.android.common.login.ErrorCode;
 import com.crh.android.common.login.LoginManager;
@@ -22,11 +22,11 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataSource mDataSource;
+    private DataManager mDataManager;
     private LoginContract.View mView;
 
-    public LoginPresenter(@NonNull DataSource dataSource, @NonNull LoginContract.View view) {
-        mDataSource = checkNotNull(dataSource, "mDataSource cannot be null");
+    public LoginPresenter(@NonNull DataManager dataManager, @NonNull LoginContract.View view) {
+        mDataManager = checkNotNull(dataManager, "mDataSource cannot be null");
         mView = checkNotNull(view, "view cannot be null!");
         mSubscriptions = new CompositeSubscription();
         view.setPresenter(this);
@@ -49,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         user.setPassword(passwd);
         user.setEmail(email);
         user.setAvatar(LoginManager.getDefaultAvatar(email));
-        Subscription registerSubscription = mDataSource
+        Subscription registerSubscription = mDataManager.getDataSource()
                 .register(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,7 +87,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         final LeanCloudUserEntiry user = new LeanCloudUserEntiry();
         user.setUsername(userName);
         user.setPassword(passwd);
-        Subscription loginSubscription = mDataSource
+        Subscription loginSubscription = mDataManager.getDataSource()
                 .login(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

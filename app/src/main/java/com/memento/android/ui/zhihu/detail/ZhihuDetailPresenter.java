@@ -2,7 +2,7 @@ package com.memento.android.ui.zhihu.detail;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataRepository;
+import com.crh.android.common.data.DataManager;
 import com.crh.android.common.data.source.entity.ZhihuDetailEntity;
 import com.crh.android.common.subscriber.DefaultSubscriber;
 
@@ -21,15 +21,15 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
 
     private CompositeSubscription mSubscriptions;
 
-    private DataRepository mDataRepository;
+    private DataManager mDataManager;
     private ZhihuDetailContract.View mView;
     private String id;
     private String contentTemplate;
     private String cssTemplate;
 
-    public ZhihuDetailPresenter(@NonNull DataRepository dataRepository, @NonNull ZhihuDetailContract.View view, String id, String contentTemplate,
+    public ZhihuDetailPresenter(@NonNull DataManager dataManager, @NonNull ZhihuDetailContract.View view, String id, String contentTemplate,
                                 String cssTemplate) {
-        mDataRepository = checkNotNull(dataRepository, "dataRepository cannot be null");
+        mDataManager = checkNotNull(dataManager, "dataManager cannot be null");
         mView =  checkNotNull(view, "view cannot be null!");
         this.id = id;
         this.contentTemplate = contentTemplate;
@@ -49,7 +49,7 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
 
     @Override
     public void loadDetail(String id) {
-        Subscription subscribe = mDataRepository.getArticleDetail(id)
+        Subscription subscribe = mDataManager.getDataSource().getArticleDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<ZhihuDetailEntity, ZhihuDetailEntity>() {

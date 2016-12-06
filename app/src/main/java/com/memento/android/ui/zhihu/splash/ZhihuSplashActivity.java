@@ -38,7 +38,7 @@ public class ZhihuSplashActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), splashFragment, R.id.contentLayout);
         }
-        new ZhihuSplashPresenter(DataHelper.provideRepository(getApplicationContext()),
+        new ZhihuSplashPresenter(DataHelper.provideDataManager(getApplicationContext()),
                 splashFragment,
                 DensityUtil.getScreenW(getApplicationContext()));
     }

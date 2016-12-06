@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 
+import com.crh.android.theme.ThemeHelper;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.ui.base.BaseActivity;
@@ -18,8 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.crh.android.common.theme.ThemeHelper.PREF_KEY_THEME;
 
 
 public class SettingsActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,7 +57,7 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
                 key.equals(FUNCTION_ZHIHU_KEY) || key.equals(FUNCTION_WEIXIN_KEY) ||
                 key.equals(FUNCTION_DXYS_KEY) || key.equals(FUNCTION_MEITU_KEY)){
             EventBus.getDefault().post(new Event.UpdateNavMenuEvent());
-        }else if(key.equals(PREF_KEY_THEME)){
+        }else if(key.equals(ThemeHelper.PREF_KEY_THEME)){
             Intent intent = MainActivity.getCallIntent(SettingsActivity.this);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

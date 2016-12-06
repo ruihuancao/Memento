@@ -1,9 +1,7 @@
 package com.crh.android.common.data.source.remote;
 
-import com.crh.android.common.BuildConfig;
-import com.crh.android.common.data.LocalKey;
-import com.crh.android.common.data.DataHelper;
 import com.crh.android.common.data.DataSource;
+import com.crh.android.common.data.DataHelper;
 import com.crh.android.common.data.source.entity.DouBanMovieEntity;
 import com.crh.android.common.data.source.remote.service.DoubanService;
 import com.crh.android.common.data.source.remote.service.DxyerApiService;
@@ -23,8 +21,6 @@ import rx.functions.Action1;
 
 public class RemoteDataSource implements DataSource {
 
-    private static RemoteDataSource INSTANCE;
-
     private OkHttpClient mOkHttpClient;
     private Gson mGson;
 
@@ -34,28 +30,18 @@ public class RemoteDataSource implements DataSource {
     private LeanCloudApiService mLeanCloudApiService;
     private DoubanService mDoubanService;
 
-    public RemoteDataSource() {
-        this.mOkHttpClient = RemoteHelper.initOkhttpClient(BuildConfig.DEBUG);
-        this.mGson = new Gson();
-        this.mZhihuApiService = RemoteHelper.createService(ZhihuApiService.API_BASE_URL, mOkHttpClient, ZhihuApiService.class);
-        this.mDoubanService = RemoteHelper.createService(DoubanService.API_BASE_URL, mOkHttpClient, DoubanService.class);
-        this.mDxyerApiService = RemoteHelper.createService(DxyerApiService.API_BASE_URL, mOkHttpClient, DxyerApiService.class);
-        this.mTulingApiService = RemoteHelper.createService(TulingApiService.API_BASE_URL, mOkHttpClient, TulingApiService.class);
-        this.mLeanCloudApiService = RemoteHelper.createService(LeanCloudApiService.API_BASE_URL, mOkHttpClient, LeanCloudApiService.class);
+    public RemoteDataSource(Gson gson, OkHttpClient okHttpClient) {
+        this.mGson = gson;
+        this.mOkHttpClient = okHttpClient;
+        this.mZhihuApiService = DataHelper.createService(ZhihuApiService.API_BASE_URL, mOkHttpClient, ZhihuApiService.class);
+        this.mDoubanService = DataHelper.createService(DoubanService.API_BASE_URL, mOkHttpClient, DoubanService.class);
+        this.mDxyerApiService = DataHelper.createService(DxyerApiService.API_BASE_URL, mOkHttpClient, DxyerApiService.class);
+        this.mTulingApiService = DataHelper.createService(TulingApiService.API_BASE_URL, mOkHttpClient, TulingApiService.class);
+        this.mLeanCloudApiService = DataHelper.createService(LeanCloudApiService.API_BASE_URL, mOkHttpClient, LeanCloudApiService.class);
     }
-
-    public static RemoteDataSource getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new RemoteDataSource();
-        }
-        return INSTANCE;
-    }
-
-
 
     @Override
     public Observable<DouBanMovieEntity> getTop250Movie(int start, int count) {
-        final String realKey = DataHelper.generatorKey(LocalKey.DOUBAN_TOP_250_CACHE, String.valueOf(start), String.valueOf(count));
         return mDoubanService.getTop250Movie(start, count)
                 .doOnNext(new Action1<DouBanMovieEntity>() {
                     @Override

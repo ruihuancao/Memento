@@ -36,7 +36,7 @@ public class ZhihuActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), zhihuMainFragment, R.id.contentLayout);
         }
-        new ZhihuPresenter(DataHelper.provideRepository(getApplicationContext()), zhihuMainFragment);
+        new ZhihuPresenter(DataHelper.provideDataManager(getApplicationContext()), zhihuMainFragment);
     }
 
     public static Intent getCallIntent(Context context){
