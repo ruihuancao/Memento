@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
-import com.crh.android.common.login.LoginManager;
-import com.crh.android.theme.RootActivity;
+import com.github.ruihuancao.theme.ThemeActivity;
 import com.memento.android.R;
 import com.memento.android.event.Event;
+import com.memento.android.helper.LoginHelper;
 import com.memento.android.ui.service.LocaltionService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,7 +21,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class BaseActivity extends RootActivity implements EasyPermissions.PermissionCallbacks{
+public class BaseActivity extends ThemeActivity implements EasyPermissions.PermissionCallbacks{
 
     private static final String TAG = BaseActivity.class.getSimpleName();
     private static final int RC_LOCATION_PERM = 121;
@@ -95,12 +95,12 @@ public class BaseActivity extends RootActivity implements EasyPermissions.Permis
 
     @Subscribe
     public void onEvent(Event.LoginSuccessEvent event) {
-        LoginManager.login(this, event.leanCloudUserEntiry);
+        LoginHelper.login(this, event.leanCloudUserEntiry);
     }
 
     @Subscribe
     public void onEvent(Event.RegisterSuccessEvent event) {
-        LoginManager.login(this, event.leanCloudUserEntiry);
+        LoginHelper.login(this, event.leanCloudUserEntiry);
     }
 
     public void localtion(){

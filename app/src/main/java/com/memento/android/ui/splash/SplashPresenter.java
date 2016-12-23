@@ -2,7 +2,7 @@ package com.memento.android.ui.splash;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.util.ActivityUtils;
+import com.memento.android.util.ActivityUtils;
 
 import rx.subscriptions.CompositeSubscription;
 

@@ -9,7 +9,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 
-import com.crh.android.theme.ThemeHelper;
+import com.github.ruihuancao.theme.ThemeHelper;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.ui.base.BaseActivity;

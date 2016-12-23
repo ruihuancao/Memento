@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.crh.android.common.data.source.entity.DouBanMovieEntity;
-import com.crh.android.common.subscriber.DefaultSubscriber;
 import com.memento.android.R;
+import com.memento.android.data.source.entity.DouBanMovieEntity;
 import com.memento.android.helper.DataHelper;
+import com.memento.android.data.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.ui.webview.CustomTabActivityHelper;
 import com.memento.android.ui.webview.WebviewFallback;

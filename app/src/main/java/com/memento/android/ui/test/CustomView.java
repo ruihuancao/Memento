@@ -1,6 +1,7 @@
 package com.memento.android.ui.test;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,27 +10,33 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.memento.android.R;
+
 
 /**
  * Created by caoruihuan on 16/8/26.
  */
 public class CustomView extends View {
 
-
     private Paint paint ;
-
-
+    float size ;
     public CustomView(Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public CustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomView);
+        size = a.getDimension(R.styleable.CustomView_defaultSize, 0);
+        a.recycle();
         init();
     }
 
     private void init(){
+
+
+
         // 初始化画笔
         setBackgroundColor(Color.BLACK);
         paint = new Paint();
@@ -52,6 +59,13 @@ public class CustomView extends View {
                 break;
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     @Override

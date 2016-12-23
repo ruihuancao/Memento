@@ -22,7 +22,9 @@
         <!-- Pre API 21 has no raise effect by default -->
     </style>
 
-    <style name="ButtonStyle.Colored" parent="Widget.AppCompat.Button.Colored"></style>
+    <style name="ButtonStyle.Colored" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:padding">@dimen/padding_normal</item>
+    </style>
 
     <style name="ButtonStyle.Colored.NoRaise">
         <!-- Pre API 21 has no raise effect by default -->

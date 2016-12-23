@@ -11,12 +11,12 @@
     <com.memento.android.ui.test.PView
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
 
         <com.memento.android.ui.test.CustomView
             android:id="@+id/contentView"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content" />
 
     </com.memento.android.ui.test.PView>
 

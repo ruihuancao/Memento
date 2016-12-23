@@ -4,11 +4,9 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
-import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.data.source.entity.LeanCloudUserEntiry;
 
-/**
- * Created by 曹瑞环 on 2016/8/15.
- */
+
 public interface Event {
 
     class OpenMainActivityEvent{}

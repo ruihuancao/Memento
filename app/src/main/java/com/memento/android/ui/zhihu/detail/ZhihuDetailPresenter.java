@@ -2,9 +2,9 @@ package com.memento.android.ui.zhihu.detail;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataManager;
-import com.crh.android.common.data.source.entity.ZhihuDetailEntity;
-import com.crh.android.common.subscriber.DefaultSubscriber;
+import com.memento.android.data.DataManager;
+import com.memento.android.data.source.entity.ZhihuDetailEntity;
+import com.memento.android.data.subscriber.DefaultSubscriber;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

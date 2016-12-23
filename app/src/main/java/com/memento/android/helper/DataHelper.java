@@ -3,8 +3,8 @@ package com.memento.android.helper;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataManager;
-import com.crh.android.common.data.DataSource;
+import com.memento.android.data.DataManager;
+import com.memento.android.data.DataSource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

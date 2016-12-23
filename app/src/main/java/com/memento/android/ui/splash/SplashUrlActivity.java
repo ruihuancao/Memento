@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
-import com.crh.android.common.util.ActivityUtils;
-import com.crh.android.common.util.DensityUtil;
+import com.memento.android.util.ActivityUtils;
+import com.memento.android.util.DensityUtil;
 import com.memento.android.R;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.ui.main.MainActivity;

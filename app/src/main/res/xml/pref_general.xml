@@ -48,7 +48,7 @@
             android:summary="@string/pref_app_push_summary"
             android:title="@string/pref_app_push_title"/>
 
-        <com.crh.android.theme.ColorPickerPreference
+        <com.github.ruihuancao.theme.ColorPickerPreference
             android:defaultValue="0"
             android:key="pref_key_theme_setting"
             android:summary="@string/pref_app_theme_summary"

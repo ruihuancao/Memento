@@ -5,17 +5,32 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven {
-            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:latest.release'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
     }
+}
+
+ext{
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.0"
+    applicationId     = "com.memento.android"
+    minSdkVersion     = 16
+    targetSdkVersion  = 25
+    versionCode       = 1
+    versionName       ="1.0"
+
+    appcompatv7          = "com.android.support:appcompat-v7:25.1.0"
+    palettev7            = "com.android.support:palette-v7:25.1.0"
+    design               = "com.android.support:design:25.1.0"
+    cardviewv7           = "com.android.support:cardview-v7:25.1.0"
+    recyclerviewv7       = "com.android.support:recyclerview-v7:25.1.0"
+    supportv4            = "com.android.support:support-v4:25.1.0"
+    supportannotations   = "com.android.support:support-annotations:25.1.0"
+    customtabs           = "com.android.support:customtabs:25.1.0"
 }
 
 allprojects {

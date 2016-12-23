@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
 
-import com.crh.android.common.util.ActivityUtils;
+import com.memento.android.util.ActivityUtils;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.helper.DataHelper;

@@ -5,13 +5,13 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * Created by caoruihuan on 16/9/20.
  */
 
-public class PView extends LinearLayout {
+public class PView extends RelativeLayout {
 
 
     public PView(Context context) {
@@ -26,6 +26,17 @@ public class PView extends LinearLayout {
 
     public PView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
     }
 
     @Override

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.crh.android.common.util.AppUtils;
+import com.memento.android.util.AppUtils;
 import com.memento.android.R;
 import com.memento.android.ui.base.BaseActivity;
 import com.memento.android.widget.DividerItemDecoration;

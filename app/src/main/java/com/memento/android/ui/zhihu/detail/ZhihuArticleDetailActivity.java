@@ -17,7 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
-import com.crh.android.common.view.glide.GlideHelper;
+import com.memento.android.helper.GlideHelper;
 import com.memento.android.R;
 import com.memento.android.helper.DataHelper;
 import com.memento.android.ui.base.BaseActivity;

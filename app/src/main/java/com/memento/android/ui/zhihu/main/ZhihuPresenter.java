@@ -2,12 +2,12 @@ package com.memento.android.ui.zhihu.main;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataManager;
-import com.crh.android.common.data.source.entity.ZhihuNewsEntity;
-import com.crh.android.common.subscriber.DefaultSubscriber;
-import com.crh.android.common.util.TimeUtil;
 import com.memento.android.bean.ArticleBannerModel;
 import com.memento.android.bean.ArticleModel;
+import com.memento.android.data.DataManager;
+import com.memento.android.data.source.entity.ZhihuNewsEntity;
+import com.memento.android.data.subscriber.DefaultSubscriber;
+import com.memento.android.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;

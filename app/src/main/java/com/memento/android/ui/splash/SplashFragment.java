@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.crh.android.common.view.glide.GlideHelper;
+import com.memento.android.helper.GlideHelper;
 import com.memento.android.R;
 import com.memento.android.ui.animators.SplashAnimator;
 import com.memento.android.ui.animators.listener.AnimatorEndListener;

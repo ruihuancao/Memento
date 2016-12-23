@@ -2,15 +2,13 @@ package com.memento.android.ui.zhihu.splash;
 
 import android.support.annotation.NonNull;
 
-import com.crh.android.common.data.DataManager;
+import com.memento.android.data.DataManager;
 
 import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-/**
- * Created by 曹瑞环 on 2016/8/15.
- */
+
 public class ZhihuSplashPresenter implements ZhihuSplashContract.Presenter {
 
     private CompositeSubscription mSubscriptions;

@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.crh.android.common.data.source.entity.LeanCloudUserEntiry;
-import com.crh.android.common.util.MD5Util;
+import com.memento.android.util.MD5Util;
 
 /**
  * Created by caoruihuan on 16/9/29.

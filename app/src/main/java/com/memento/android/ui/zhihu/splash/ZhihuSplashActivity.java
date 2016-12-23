@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.crh.android.common.util.ActivityUtils;
-import com.crh.android.common.util.DensityUtil;
+import com.memento.android.util.ActivityUtils;
+import com.memento.android.util.DensityUtil;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.helper.DataHelper;

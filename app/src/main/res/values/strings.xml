@@ -94,6 +94,8 @@
     <string name="prompt_username">用户名</string>
     <string name="action_sign_in">登录</string>
     <string name="action_register">注册</string>
+    <string name="action_forget">忘记密码？找回密码</string>
+    <string name="action_creact_user">没有账号？创建一个</string>
 
     <string name="action_sign_in_short">登录</string>
     <string name="error_invalid_email">邮箱格式不正确</string>
