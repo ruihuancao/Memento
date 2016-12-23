@@ -1,4 +1,4 @@
-package com.memento.android.data.source.entity;
+package com.memento.android.bean;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Created by caoruihuan on 16/9/28.
  */
 
-public class ZhihuDetailEntity {
+public class ZhihuDetailBean {
 
 
     /**

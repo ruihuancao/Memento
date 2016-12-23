@@ -3,7 +3,7 @@ package com.memento.android.ui.zhihu.detail;
 import android.support.annotation.NonNull;
 
 import com.memento.android.data.DataManager;
-import com.memento.android.data.source.entity.ZhihuDetailEntity;
+import com.memento.android.bean.ZhihuDetailBean;
 import com.memento.android.data.subscriber.DefaultSubscriber;
 
 import rx.Subscription;
@@ -52,9 +52,9 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
         Subscription subscribe = mDataManager.getDataSource().getArticleDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<ZhihuDetailEntity, ZhihuDetailEntity>() {
+                .map(new Func1<ZhihuDetailBean, ZhihuDetailBean>() {
                     @Override
-                    public ZhihuDetailEntity call(ZhihuDetailEntity articleDetail) {
+                    public ZhihuDetailBean call(ZhihuDetailBean articleDetail) {
                         StringBuilder stringBuilder = new StringBuilder();
                         if(articleDetail.getCss() != null){
                             for (String css : articleDetail.getCss()){
@@ -65,10 +65,10 @@ public class ZhihuDetailPresenter implements ZhihuDetailContract.Presenter {
                         return articleDetail;
                     }
                 })
-                .subscribe(new DefaultSubscriber<ZhihuDetailEntity>(){
+                .subscribe(new DefaultSubscriber<ZhihuDetailBean>(){
 
                     @Override
-                    public void onNext(ZhihuDetailEntity articleDetail) {
+                    public void onNext(ZhihuDetailBean articleDetail) {
                         super.onNext(articleDetail);
                         mView.showDetail(articleDetail.getTitle(), articleDetail.getImage(), articleDetail.getBody());
                     }

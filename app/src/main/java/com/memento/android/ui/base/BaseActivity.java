@@ -95,12 +95,12 @@ public class BaseActivity extends ThemeActivity implements EasyPermissions.Permi
 
     @Subscribe
     public void onEvent(Event.LoginSuccessEvent event) {
-        LoginHelper.login(this, event.leanCloudUserEntiry);
+        LoginHelper.login(this, event.leanCloudUserBean);
     }
 
     @Subscribe
     public void onEvent(Event.RegisterSuccessEvent event) {
-        LoginHelper.login(this, event.leanCloudUserEntiry);
+        LoginHelper.login(this, event.leanCloudUserBean);
     }
 
     public void localtion(){

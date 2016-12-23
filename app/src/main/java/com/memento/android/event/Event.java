@@ -4,7 +4,7 @@ import android.support.v4.util.Pair;
 import android.view.View;
 
 import com.amap.api.location.AMapLocation;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.bean.LeanCloudUserBean;
 
 
 public interface Event {
@@ -43,19 +43,19 @@ public interface Event {
     }
 
     class LoginSuccessEvent{
-        public LeanCloudUserEntiry leanCloudUserEntiry;
+        public LeanCloudUserBean leanCloudUserBean;
 
-        public LoginSuccessEvent(LeanCloudUserEntiry leanCloudUserEntiry){
-            this.leanCloudUserEntiry = leanCloudUserEntiry;
+        public LoginSuccessEvent(LeanCloudUserBean leanCloudUserBean){
+            this.leanCloudUserBean = leanCloudUserBean;
         }
 
     }
 
     class RegisterSuccessEvent{
-        public LeanCloudUserEntiry leanCloudUserEntiry;
+        public LeanCloudUserBean leanCloudUserBean;
 
-        public RegisterSuccessEvent(LeanCloudUserEntiry leanCloudUserEntiry){
-            this.leanCloudUserEntiry = leanCloudUserEntiry;
+        public RegisterSuccessEvent(LeanCloudUserBean leanCloudUserBean){
+            this.leanCloudUserBean = leanCloudUserBean;
         }
     }
 }

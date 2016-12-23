@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.memento.android.util.ActivityUtils;
 import com.memento.android.helper.GlideHelper;
 import com.memento.android.R;
-import com.memento.android.bean.ListItemModel;
+import com.memento.android.bean.ListItemBean;
 import com.memento.android.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -62,12 +62,12 @@ public class MainFragment extends BaseFragment {
         mUnbinder.unbind();
     }
 
-    private List<ListItemModel> getData(){
-        List<ListItemModel> listItemModels = new ArrayList<>();
-        ListItemModel listItemModel = new ListItemModel("知乎日报", "", ActivityUtils.getQiniuImageUrl());
-        ListItemModel listItemModel1 = new ListItemModel("豆瓣电影", "", ActivityUtils.getQiniuImageUrl());
-        ListItemModel listItemModel2 = new ListItemModel("豆瓣读书", "", ActivityUtils.getQiniuImageUrl());
-        ListItemModel listItemModel3 = new ListItemModel("每日一刻", "", ActivityUtils.getQiniuImageUrl());
+    private List<ListItemBean> getData(){
+        List<ListItemBean> listItemModels = new ArrayList<>();
+        ListItemBean listItemModel = new ListItemBean("知乎日报", "", ActivityUtils.getQiniuImageUrl());
+        ListItemBean listItemModel1 = new ListItemBean("豆瓣电影", "", ActivityUtils.getQiniuImageUrl());
+        ListItemBean listItemModel2 = new ListItemBean("豆瓣读书", "", ActivityUtils.getQiniuImageUrl());
+        ListItemBean listItemModel3 = new ListItemBean("每日一刻", "", ActivityUtils.getQiniuImageUrl());
 
         listItemModels.add(listItemModel);
         listItemModels.add(listItemModel1);
@@ -79,9 +79,9 @@ public class MainFragment extends BaseFragment {
 
     class MainAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
-        List<ListItemModel> mList;
+        List<ListItemBean> mList;
 
-        public MainAdapter(List<ListItemModel> mList){
+        public MainAdapter(List<ListItemBean> mList){
             this.mList = mList;
         }
 
@@ -96,7 +96,7 @@ public class MainFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(ListViewHolder holder, int position) {
             String url = "http://pic4.zhimg.com/bc46ea6ea037d8c94e87104a10c0e647.jpg";
-            ListItemModel listItemModel = mList.get(position);
+            ListItemBean listItemModel = mList.get(position);
             GlideHelper.loadResource(listItemModel.getImageUrl(), holder.cardImage);
 
         }

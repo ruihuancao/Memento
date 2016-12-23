@@ -1,6 +1,6 @@
 package com.memento.android.data.source.remote.service;
 
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.bean.LeanCloudUserBean;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -17,27 +17,27 @@ public interface LeanCloudApiService {
 
     //注册
     @POST("users")
-    Observable<LeanCloudUserEntiry> register(@Body LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> register(@Body LeanCloudUserBean user);
 
     @GET("users/{objectId}")
-    Observable<LeanCloudUserEntiry> getUser(@Header("X-LC-Session") String session, @Path("objectId")String objectId);
+    Observable<LeanCloudUserBean> getUser(@Header("X-LC-Session") String session, @Path("objectId")String objectId);
 
     @PUT("users/{objectId}")
-    Observable<LeanCloudUserEntiry> updateUser(@Header("X-LC-Session") String session, @Path("objectId")String objectId, @Body LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> updateUser(@Header("X-LC-Session") String session, @Path("objectId")String objectId, @Body LeanCloudUserBean user);
 
     @POST("login")
-    Observable<LeanCloudUserEntiry> login(@Query("username")String name, @Query("password")String password);
+    Observable<LeanCloudUserBean> login(@Query("username")String name, @Query("password")String password);
 
     @POST("login")
-    Observable<LeanCloudUserEntiry> login(@Body LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> login(@Body LeanCloudUserBean user);
 
     @POST("users/me")
-    Observable<LeanCloudUserEntiry> getCurrentUser(@Header("X-LC-Session") String session);
+    Observable<LeanCloudUserBean> getCurrentUser(@Header("X-LC-Session") String session);
 
     @POST("requestEmailVerify")
-    Observable<LeanCloudUserEntiry> requestEmailVerify(String email);
+    Observable<LeanCloudUserBean> requestEmailVerify(String email);
 
     @POST("requestPasswordReset")
-    Observable<LeanCloudUserEntiry> requestPasswordReset(String email);
+    Observable<LeanCloudUserBean> requestPasswordReset(String email);
 
 }

@@ -1,6 +1,6 @@
 package com.memento.android.ui.zhihu.main;
 
-import com.memento.android.bean.ArticleModel;
+import com.memento.android.bean.ArticleBean;
 import com.memento.android.ui.base.BasePresenter;
 import com.memento.android.ui.base.BaseView;
 
@@ -12,8 +12,8 @@ import java.util.List;
 public interface ZhihuContract {
 
     interface View extends BaseView<Presenter> {
-        void showNewList(List<ArticleModel> articleModelList);
-        void showNextList(List<ArticleModel> articleModelList);
+        void showNewList(List<ArticleBean> articleBeanList);
+        void showNextList(List<ArticleBean> articleBeanList);
     }
 
     interface Presenter extends BasePresenter {

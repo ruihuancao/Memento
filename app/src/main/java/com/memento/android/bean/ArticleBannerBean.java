@@ -1,6 +1,6 @@
 package com.memento.android.bean;
 
-public class ArticleBannerModel {
+public class ArticleBannerBean {
 
     private String title;
 

@@ -1,9 +1,9 @@
 package com.memento.android.data;
 
-import com.memento.android.data.source.entity.DouBanMovieEntity;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
-import com.memento.android.data.source.entity.ZhihuDetailEntity;
-import com.memento.android.data.source.entity.ZhihuNewsEntity;
+import com.memento.android.bean.DouBanMovieBean;
+import com.memento.android.bean.LeanCloudUserBean;
+import com.memento.android.bean.ZhihuDetailBean;
+import com.memento.android.bean.ZhihuNewsBean;
 
 import rx.Observable;
 
@@ -12,34 +12,34 @@ public interface DataSource {
 
     ///////////////////////////// 豆瓣/////////////////////////////////////
 
-    Observable<DouBanMovieEntity> getTop250Movie(int start, int count);
+    Observable<DouBanMovieBean> getTop250Movie(int start, int count);
 
-    Observable<DouBanMovieEntity> getComingSoonMovie(int start, int count);
+    Observable<DouBanMovieBean> getComingSoonMovie(int start, int count);
 
-    Observable<DouBanMovieEntity> getTheatersMovie(String city);
+    Observable<DouBanMovieBean> getTheatersMovie(String city);
 
     ///////////////////////////////知乎////////////////////////////////////
 
-    Observable<ZhihuNewsEntity> getArticleList(String date);
+    Observable<ZhihuNewsBean> getArticleList(String date);
 
-    Observable<ZhihuNewsEntity> getNewArticleList();
+    Observable<ZhihuNewsBean> getNewArticleList();
 
-    Observable<ZhihuDetailEntity> getArticleDetail(String id);
+    Observable<ZhihuDetailBean> getArticleDetail(String id);
 
     ////////////////////////////leancloud///////////////////////////////////////
-    Observable<LeanCloudUserEntiry> register(LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> register(LeanCloudUserBean user);
 
-    Observable<LeanCloudUserEntiry> getUser(String session, String objectId);
+    Observable<LeanCloudUserBean> getUser(String session, String objectId);
 
-    Observable<LeanCloudUserEntiry> updateUser(String session, String objectId, LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> updateUser(String session, String objectId, LeanCloudUserBean user);
 
-    Observable<LeanCloudUserEntiry> login(String name,String password);
+    Observable<LeanCloudUserBean> login(String name, String password);
 
-    Observable<LeanCloudUserEntiry> login(LeanCloudUserEntiry user);
+    Observable<LeanCloudUserBean> login(LeanCloudUserBean user);
 
-    Observable<LeanCloudUserEntiry> getCurrentUser(String session);
+    Observable<LeanCloudUserBean> getCurrentUser(String session);
 
-    Observable<LeanCloudUserEntiry> requestEmailVerify(String email);
+    Observable<LeanCloudUserBean> requestEmailVerify(String email);
 
-    Observable<LeanCloudUserEntiry> requestPasswordReset(String email);
+    Observable<LeanCloudUserBean> requestPasswordReset(String email);
 }

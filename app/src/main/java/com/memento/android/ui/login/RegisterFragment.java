@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.memento.android.R;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.bean.LeanCloudUserBean;
 import com.memento.android.event.Event;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.util.AppUtils;
@@ -176,8 +176,8 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.V
     }
 
     @Override
-    public void showRegisterSuccess(LeanCloudUserEntiry leanCloudUserEntiry) {
-        EventBus.getDefault().post(new Event.RegisterSuccessEvent(leanCloudUserEntiry));
+    public void showRegisterSuccess(LeanCloudUserBean leanCloudUserBean) {
+        EventBus.getDefault().post(new Event.RegisterSuccessEvent(leanCloudUserBean));
         mListener.registerResult();
     }
 

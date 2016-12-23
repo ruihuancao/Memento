@@ -1,8 +1,8 @@
-package com.memento.android.data.source.entity;
+package com.memento.android.bean;
 
 import java.util.List;
 
-public class DouBanMovieEntity {
+public class DouBanMovieBean {
 
     /**
      * count : 20

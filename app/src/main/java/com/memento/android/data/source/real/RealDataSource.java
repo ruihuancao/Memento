@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.memento.android.data.DataSource;
 import com.memento.android.data.LocalKey;
-import com.memento.android.data.source.entity.DouBanMovieEntity;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
-import com.memento.android.data.source.entity.ZhihuDetailEntity;
-import com.memento.android.data.source.entity.ZhihuNewsEntity;
+import com.memento.android.bean.DouBanMovieBean;
+import com.memento.android.bean.LeanCloudUserBean;
+import com.memento.android.bean.ZhihuDetailBean;
+import com.memento.android.bean.ZhihuNewsBean;
 import com.memento.android.data.source.local.cache.Cache;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
@@ -45,103 +45,103 @@ public class RealDataSource implements DataSource {
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTop250Movie(final int start, final int count) {
+    public Observable<DouBanMovieBean> getTop250Movie(final int start, final int count) {
         final String key = new LocalKey(LocalKey.DOUBAN_TOP_250_CACHE)
                 .addParam(String.valueOf(start))
                 .addParam(String.valueOf(count))
                 .generator();
         return getDataSource(key).getTop250Movie(start, count)
-                .doOnNext(new Action1<DouBanMovieEntity>() {
+                .doOnNext(new Action1<DouBanMovieBean>() {
                     @Override
-                    public void call(DouBanMovieEntity douBanMovieEntity) {
+                    public void call(DouBanMovieBean douBanMovieBean) {
                         Logger.d("to save cache");
-                        mCache.put(key, mGson.toJson(douBanMovieEntity));
+                        mCache.put(key, mGson.toJson(douBanMovieBean));
                     }
                 });
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getComingSoonMovie(int start, int count) {
+    public Observable<DouBanMovieBean> getComingSoonMovie(int start, int count) {
         final String key = new LocalKey(LocalKey.DOUBAN_COMING_SOON_CACHE)
                 .addParam(String.valueOf(start))
                 .addParam(String.valueOf(count))
                 .generator();
         return mRemoteDataSource.getComingSoonMovie(start, count)
-                .doOnNext(new Action1<DouBanMovieEntity>() {
+                .doOnNext(new Action1<DouBanMovieBean>() {
                     @Override
-                    public void call(DouBanMovieEntity douBanMovieEntity) {
-                        mCache.put(key, mGson.toJson(douBanMovieEntity));
+                    public void call(DouBanMovieBean douBanMovieBean) {
+                        mCache.put(key, mGson.toJson(douBanMovieBean));
                     }
                 });
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTheatersMovie(String city) {
+    public Observable<DouBanMovieBean> getTheatersMovie(String city) {
         final String key = new LocalKey(LocalKey.DOUBAN_THEATERS_CACHE)
                 .addParam(city)
                 .generator();
         return mRemoteDataSource.getTheatersMovie(city)
-                .doOnNext(new Action1<DouBanMovieEntity>() {
+                .doOnNext(new Action1<DouBanMovieBean>() {
                     @Override
-                    public void call(DouBanMovieEntity douBanMovieEntity) {
-                        mCache.put(key, mGson.toJson(douBanMovieEntity));
+                    public void call(DouBanMovieBean douBanMovieBean) {
+                        mCache.put(key, mGson.toJson(douBanMovieBean));
                     }
                 });
     }
 
 
     @Override
-    public Observable<ZhihuNewsEntity> getArticleList(String date) {
+    public Observable<ZhihuNewsBean> getArticleList(String date) {
         return mRemoteDataSource.getArticleList(date);
     }
 
     @Override
-    public Observable<ZhihuNewsEntity> getNewArticleList() {
+    public Observable<ZhihuNewsBean> getNewArticleList() {
         return mRemoteDataSource.getNewArticleList();
     }
 
     @Override
-    public Observable<ZhihuDetailEntity> getArticleDetail(String id) {
+    public Observable<ZhihuDetailBean> getArticleDetail(String id) {
         return mRemoteDataSource.getArticleDetail(id);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> register(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> register(LeanCloudUserBean user) {
         return mRemoteDataSource.register(user);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getUser(String session, String objectId) {
+    public Observable<LeanCloudUserBean> getUser(String session, String objectId) {
         return mRemoteDataSource.getUser(session, objectId);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> updateUser(String session, String objectId, LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> updateUser(String session, String objectId, LeanCloudUserBean user) {
         return mRemoteDataSource.updateUser(session, objectId, user);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(String name, String password) {
+    public Observable<LeanCloudUserBean> login(String name, String password) {
         return mRemoteDataSource.login(name, password);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> login(LeanCloudUserBean user) {
         return mRemoteDataSource.login(user);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getCurrentUser(String session) {
+    public Observable<LeanCloudUserBean> getCurrentUser(String session) {
         return mRemoteDataSource.getCurrentUser(session);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestEmailVerify(String email) {
+    public Observable<LeanCloudUserBean> requestEmailVerify(String email) {
         return mRemoteDataSource.requestEmailVerify(email);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestPasswordReset(String email) {
+    public Observable<LeanCloudUserBean> requestPasswordReset(String email) {
         return mRemoteDataSource.requestPasswordReset(email);
     }
 }

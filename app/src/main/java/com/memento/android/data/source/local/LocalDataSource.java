@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import com.memento.android.data.DataSource;
 import com.memento.android.data.LocalKey;
 import com.memento.android.data.exception.ApiException;
-import com.memento.android.data.source.entity.DouBanMovieEntity;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
-import com.memento.android.data.source.entity.ZhihuDetailEntity;
-import com.memento.android.data.source.entity.ZhihuNewsEntity;
+import com.memento.android.bean.DouBanMovieBean;
+import com.memento.android.bean.LeanCloudUserBean;
+import com.memento.android.bean.ZhihuDetailBean;
+import com.memento.android.bean.ZhihuNewsBean;
 import com.memento.android.data.source.local.cache.Cache;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
@@ -31,21 +31,21 @@ public class LocalDataSource implements DataSource{
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTop250Movie(int start, int count) {
+    public Observable<DouBanMovieBean> getTop250Movie(int start, int count) {
         final String key = new LocalKey(LocalKey.DOUBAN_TOP_250_CACHE)
                 .addParam(String.valueOf(start))
                 .addParam(String.valueOf(count))
                 .generator();
-        return Observable.create(new Observable.OnSubscribe<DouBanMovieEntity>() {
+        return Observable.create(new Observable.OnSubscribe<DouBanMovieBean>() {
             @Override
-            public void call(Subscriber<? super DouBanMovieEntity> subscriber) {
+            public void call(Subscriber<? super DouBanMovieBean> subscriber) {
                 String data = mCache.get(key);
                 if(TextUtils.isEmpty(data)){
                     Logger.d("cache data not found");
                     subscriber.onError(new ApiException("data not found"));
                 }else{
                     Logger.d("cache data found");
-                    subscriber.onNext(mGson.fromJson(data, DouBanMovieEntity.class));
+                    subscriber.onNext(mGson.fromJson(data, DouBanMovieBean.class));
                 }
                 subscriber.onCompleted();
             }
@@ -53,21 +53,21 @@ public class LocalDataSource implements DataSource{
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getComingSoonMovie(int start, int count) {
+    public Observable<DouBanMovieBean> getComingSoonMovie(int start, int count) {
         final String key = new LocalKey(LocalKey.DOUBAN_TOP_250_CACHE)
                 .addParam(String.valueOf(start))
                 .addParam(String.valueOf(count))
                 .generator();
-        return Observable.create(new Observable.OnSubscribe<DouBanMovieEntity>() {
+        return Observable.create(new Observable.OnSubscribe<DouBanMovieBean>() {
             @Override
-            public void call(Subscriber<? super DouBanMovieEntity> subscriber) {
+            public void call(Subscriber<? super DouBanMovieBean> subscriber) {
                 String data = mCache.get(key);
                 if(TextUtils.isEmpty(data)){
                     Logger.d("cache data not found");
                     subscriber.onError(new ApiException("data not found"));
                 }else{
                     Logger.d("cache data found");
-                    subscriber.onNext(mGson.fromJson(data, DouBanMovieEntity.class));
+                    subscriber.onNext(mGson.fromJson(data, DouBanMovieBean.class));
                 }
                 subscriber.onCompleted();
             }
@@ -75,20 +75,20 @@ public class LocalDataSource implements DataSource{
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTheatersMovie(String city) {
+    public Observable<DouBanMovieBean> getTheatersMovie(String city) {
         final String key = new LocalKey(LocalKey.DOUBAN_TOP_250_CACHE)
                 .addParam(city)
                 .generator();
-        return Observable.create(new Observable.OnSubscribe<DouBanMovieEntity>() {
+        return Observable.create(new Observable.OnSubscribe<DouBanMovieBean>() {
             @Override
-            public void call(Subscriber<? super DouBanMovieEntity> subscriber) {
+            public void call(Subscriber<? super DouBanMovieBean> subscriber) {
                 String data = mCache.get(key);
                 if(TextUtils.isEmpty(data)){
                     Logger.d("cache data not found");
                     subscriber.onError(new ApiException("data not found"));
                 }else{
                     Logger.d("cache data found");
-                    subscriber.onNext(mGson.fromJson(data, DouBanMovieEntity.class));
+                    subscriber.onNext(mGson.fromJson(data, DouBanMovieBean.class));
                 }
                 subscriber.onCompleted();
             }
@@ -96,57 +96,57 @@ public class LocalDataSource implements DataSource{
     }
 
     @Override
-    public Observable<ZhihuNewsEntity> getArticleList(String date) {
+    public Observable<ZhihuNewsBean> getArticleList(String date) {
         return null;
     }
 
     @Override
-    public Observable<ZhihuNewsEntity> getNewArticleList() {
+    public Observable<ZhihuNewsBean> getNewArticleList() {
         return null;
     }
 
     @Override
-    public Observable<ZhihuDetailEntity> getArticleDetail(String id) {
+    public Observable<ZhihuDetailBean> getArticleDetail(String id) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> register(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> register(LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getUser(String session, String objectId) {
+    public Observable<LeanCloudUserBean> getUser(String session, String objectId) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> updateUser(String session, String objectId, LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> updateUser(String session, String objectId, LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(String name, String password) {
+    public Observable<LeanCloudUserBean> login(String name, String password) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> login(LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getCurrentUser(String session) {
+    public Observable<LeanCloudUserBean> getCurrentUser(String session) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestEmailVerify(String email) {
+    public Observable<LeanCloudUserBean> requestEmailVerify(String email) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestPasswordReset(String email) {
+    public Observable<LeanCloudUserBean> requestPasswordReset(String email) {
         return null;
     }
 }

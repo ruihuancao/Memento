@@ -4,10 +4,10 @@ package com.memento.android.data.source.remote;
 import com.google.gson.Gson;
 import com.memento.android.data.DataHelper;
 import com.memento.android.data.DataSource;
-import com.memento.android.data.source.entity.DouBanMovieEntity;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
-import com.memento.android.data.source.entity.ZhihuDetailEntity;
-import com.memento.android.data.source.entity.ZhihuNewsEntity;
+import com.memento.android.bean.DouBanMovieBean;
+import com.memento.android.bean.LeanCloudUserBean;
+import com.memento.android.bean.ZhihuDetailBean;
+import com.memento.android.bean.ZhihuNewsBean;
 import com.memento.android.data.source.remote.service.DoubanService;
 import com.memento.android.data.source.remote.service.DxyerApiService;
 import com.memento.android.data.source.remote.service.LeanCloudApiService;
@@ -41,79 +41,79 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTop250Movie(int start, int count) {
+    public Observable<DouBanMovieBean> getTop250Movie(int start, int count) {
         return mDoubanService.getTop250Movie(start, count)
-                .doOnNext(new Action1<DouBanMovieEntity>() {
+                .doOnNext(new Action1<DouBanMovieBean>() {
                     @Override
-                    public void call(DouBanMovieEntity douBanMovieEntity) {
-                        String data = mGson.toJson(douBanMovieEntity);
+                    public void call(DouBanMovieBean douBanMovieBean) {
+                        String data = mGson.toJson(douBanMovieBean);
 
                     }
                 });
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getComingSoonMovie(int start, int count) {
+    public Observable<DouBanMovieBean> getComingSoonMovie(int start, int count) {
         return mDoubanService.getComingSoonMovie(start, count);
     }
 
     @Override
-    public Observable<DouBanMovieEntity> getTheatersMovie(String city) {
+    public Observable<DouBanMovieBean> getTheatersMovie(String city) {
         return mDoubanService.getTheatersMovie(city);
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> register(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> register(LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getUser(String session, String objectId) {
+    public Observable<LeanCloudUserBean> getUser(String session, String objectId) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> updateUser(String session, String objectId, LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> updateUser(String session, String objectId, LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(String name, String password) {
+    public Observable<LeanCloudUserBean> login(String name, String password) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> login(LeanCloudUserEntiry user) {
+    public Observable<LeanCloudUserBean> login(LeanCloudUserBean user) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> getCurrentUser(String session) {
+    public Observable<LeanCloudUserBean> getCurrentUser(String session) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestEmailVerify(String email) {
+    public Observable<LeanCloudUserBean> requestEmailVerify(String email) {
         return null;
     }
 
     @Override
-    public Observable<LeanCloudUserEntiry> requestPasswordReset(String email) {
+    public Observable<LeanCloudUserBean> requestPasswordReset(String email) {
         return null;
     }
 
     @Override
-    public Observable<ZhihuNewsEntity> getArticleList(String date) {
+    public Observable<ZhihuNewsBean> getArticleList(String date) {
         return mZhihuApiService.getArticleList(date);
     }
 
     @Override
-    public Observable<ZhihuNewsEntity> getNewArticleList() {
+    public Observable<ZhihuNewsBean> getNewArticleList() {
         return mZhihuApiService.getNewArticleList();
     }
 
     @Override
-    public Observable<ZhihuDetailEntity> getArticleDetail(String id) {
+    public Observable<ZhihuDetailBean> getArticleDetail(String id) {
         return mZhihuApiService.getArticleDetail(id);
     }
 }

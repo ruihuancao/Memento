@@ -3,7 +3,7 @@ package com.memento.android.ui.login;
 import android.support.annotation.NonNull;
 
 import com.memento.android.data.DataManager;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.bean.LeanCloudUserBean;
 import com.memento.android.contants.ErrorCode;
 import com.memento.android.helper.LoginHelper;
 import com.memento.android.data.subscriber.DefaultSubscriber;
@@ -37,7 +37,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void register(final String userName, final String passwd, final String email) {
-        final LeanCloudUserEntiry user = new LeanCloudUserEntiry();
+        final LeanCloudUserBean user = new LeanCloudUserBean();
         user.setUsername(userName);
         user.setPassword(passwd);
         user.setEmail(email);
@@ -46,7 +46,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 .register(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<LeanCloudUserEntiry>() {
+                .subscribe(new DefaultSubscriber<LeanCloudUserBean>() {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -54,7 +54,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(LeanCloudUserEntiry leanCloudUser) {
+                    public void onNext(LeanCloudUserBean leanCloudUser) {
                         super.onNext(leanCloudUser);
                         if(leanCloudUser.getSessionToken() != null){
                             mView.showRegisterSuccess(leanCloudUser);

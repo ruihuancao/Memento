@@ -21,8 +21,8 @@ import com.bumptech.glide.Glide;
 import com.memento.android.R;
 import com.memento.android.event.Event;
 import com.memento.android.helper.TransitionHelper;
-import com.memento.android.bean.ArticleBannerModel;
-import com.memento.android.bean.ArticleModel;
+import com.memento.android.bean.ArticleBannerBean;
+import com.memento.android.bean.ArticleBean;
 import com.memento.android.ui.base.BaseFragment;
 import com.memento.android.widget.DividerItemDecoration;
 import com.memento.android.widget.banner.ConvenientBanner;
@@ -49,7 +49,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
     SwipeRefreshLayout mSwiperefreshlayout;
 
     private Unbinder mUnbinder;
-    private List<ArticleModel> mList;
+    private List<ArticleBean> mList;
     private Adapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private String currentDate;
@@ -116,11 +116,11 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
     }
 
     @Override
-    public void showNextList(List<ArticleModel> articleModelList) {
+    public void showNextList(List<ArticleBean> articleBeanList) {
         isLoading = false;
-        if (articleModelList != null && articleModelList.size() > 0) {
-            currentDate = articleModelList.get(0).getDate();
-            this.mList.addAll(articleModelList);
+        if (articleBeanList != null && articleBeanList.size() > 0) {
+            currentDate = articleBeanList.get(0).getDate();
+            this.mList.addAll(articleBeanList);
             mAdapter.notifyDataSetChanged();
         } else {
             Snackbar.make(mRecyclerview, "已经加载全部了", Snackbar.LENGTH_INDEFINITE).show();
@@ -128,7 +128,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
     }
 
     @Override
-    public void showNewList(List<ArticleModel> articleModelList) {
+    public void showNewList(List<ArticleBean> articleBeanList) {
         if (this.mList == null) {
             this.mList = new ArrayList<>();
         } else {
@@ -136,9 +136,9 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
         }
         isLoading = false;
         mSwiperefreshlayout.setRefreshing(false);
-        if (articleModelList != null && articleModelList.size() > 0) {
-            currentDate = articleModelList.get(0).getDate();
-            this.mList.addAll(articleModelList);
+        if (articleBeanList != null && articleBeanList.size() > 0) {
+            currentDate = articleBeanList.get(0).getDate();
+            this.mList.addAll(articleBeanList);
             mAdapter.notifyDataSetChanged();
         } else {
             Snackbar.make(mRecyclerview, "更新失败", Snackbar.LENGTH_INDEFINITE)
@@ -194,7 +194,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
                 TextViewHolder textViewHolder = (TextViewHolder) holder;
                 textViewHolder.mTextView.setText(getItem(position).getTitle());
             } else {
-                final ArticleModel articleModel = getItem(position);
+                final ArticleBean articleBean = getItem(position);
                 ListViewHolder listViewHolder = (ListViewHolder) holder;
                 if (!TextUtils.isEmpty(getItem(position).getImageUrl())) {
                     Glide.with(getActivity()).load(getItem(position).getImageUrl()).into(listViewHolder.mImageView);
@@ -202,7 +202,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
                 listViewHolder.mTitleView.setText(getItem(position).getTitle());
                 listViewHolder.mSubTitleView.setVisibility(View.GONE);
 
-                listViewHolder.itemView.setTag(articleModel.getId());
+                listViewHolder.itemView.setTag(articleBean.getId());
                 final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(getActivity(), true,
                         new Pair<>(listViewHolder.mImageView, getActivity().getString(R.string.share_list_image))
                         );
@@ -210,7 +210,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
                 listViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBus.getDefault().post(new Event.OpenZhihuDetailActivity(articleModel.getId(), pairs));
+                        EventBus.getDefault().post(new Event.OpenZhihuDetailActivity(articleBean.getId(), pairs));
                     }
                 });
             }
@@ -226,7 +226,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
             return mList.size();
         }
 
-        public ArticleModel getItem(int position) {
+        public ArticleBean getItem(int position) {
             return mList.get(position);
         }
     }
@@ -266,7 +266,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
         }
     }
 
-    class LocalImageHolderView implements Holder<ArticleBannerModel> {
+    class LocalImageHolderView implements Holder<ArticleBannerBean> {
         private ImageView imageView;
         private TextView mTextView;
         @Override
@@ -278,7 +278,7 @@ public class ZhihuMainFragment extends BaseFragment implements ZhihuContract.Vie
         }
 
         @Override
-        public void UpdateUI(Context context, int position, final ArticleBannerModel data) {
+        public void UpdateUI(Context context, int position, final ArticleBannerBean data) {
             Glide.with(context).load(data.getUrl()).into(imageView);
             mTextView.setTextColor(Color.WHITE);
             mTextView.setText(data.getTitle());

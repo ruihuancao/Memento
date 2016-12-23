@@ -17,7 +17,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.bumptech.glide.Glide;
 import com.memento.android.R;
-import com.memento.android.data.source.entity.DouBanMovieEntity;
+import com.memento.android.bean.DouBanMovieBean;
 import com.memento.android.helper.DataHelper;
 import com.memento.android.data.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseFragment;
@@ -91,7 +91,7 @@ public class TheatersMovieFragment extends BaseFragment{
         Subscription subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getTheatersMovie("杭州")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
+                .subscribe(new DefaultSubscriber<DouBanMovieBean>(){
 
                     @Override
                     public void onError(Throwable e) {
@@ -106,7 +106,7 @@ public class TheatersMovieFragment extends BaseFragment{
                     }
 
                     @Override
-                    public void onNext(DouBanMovieEntity douBanMovieEntity) {
+                    public void onNext(DouBanMovieBean douBanMovieEntity) {
                         super.onNext(douBanMovieEntity);
                         mAdapter.addList(douBanMovieEntity.getSubjects());
                     }
@@ -128,13 +128,13 @@ public class TheatersMovieFragment extends BaseFragment{
 
     class Adapter extends RecyclerView.Adapter<ListViewHolder>{
 
-        private List<DouBanMovieEntity.SubjectsEntity> mList;
+        private List<DouBanMovieBean.SubjectsEntity> mList;
 
         public Adapter() {
             mList = new ArrayList<>();
         }
 
-        public void addList(List<DouBanMovieEntity.SubjectsEntity> list){
+        public void addList(List<DouBanMovieBean.SubjectsEntity> list){
             this.mList.addAll(list);
             notifyDataSetChanged();
         }
@@ -147,14 +147,14 @@ public class TheatersMovieFragment extends BaseFragment{
 
         @Override
         public void onBindViewHolder(ListViewHolder holder, int position) {
-            DouBanMovieEntity.SubjectsEntity subjectsEntity = getItem(position);
+            DouBanMovieBean.SubjectsEntity subjectsEntity = getItem(position);
             Glide.with(getActivity()).load(subjectsEntity.getImages().getLarge()).crossFade().into(holder.mImageView);
             holder.mTitleView.setText(subjectsEntity.getTitle());
             holder.mFrameLayout.setTag(subjectsEntity);
             holder.mFrameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DouBanMovieEntity.SubjectsEntity subjectsEntity = (DouBanMovieEntity.SubjectsEntity)v.getTag();
+                    DouBanMovieBean.SubjectsEntity subjectsEntity = (DouBanMovieBean.SubjectsEntity)v.getTag();
                     String mobileUrl = String.format(MOBILE_URL, subjectsEntity.getId());
                     CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                     CustomTabActivityHelper.openCustomTab(getActivity(), customTabsIntent, Uri.parse(mobileUrl), new WebviewFallback());
@@ -167,7 +167,7 @@ public class TheatersMovieFragment extends BaseFragment{
             return mList.size();
         }
 
-        private DouBanMovieEntity.SubjectsEntity getItem(int position){
+        private DouBanMovieBean.SubjectsEntity getItem(int position){
             return mList.get(position);
         }
     }

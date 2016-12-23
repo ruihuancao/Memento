@@ -2,7 +2,7 @@ package com.memento.android.bean;
 
 import java.util.List;
 
-public class ArticleModel {
+public class ArticleBean {
 
     private int type;
 
@@ -14,14 +14,14 @@ public class ArticleModel {
 
     private String id;
 
-    private List<ArticleBannerModel> mArticleBannerModels;
+    private List<ArticleBannerBean> mArticleBannerBeen;
 
-    public List<ArticleBannerModel> getArticleBannerModels() {
-        return mArticleBannerModels;
+    public List<ArticleBannerBean> getArticleBannerModels() {
+        return mArticleBannerBeen;
     }
 
-    public void setArticleBannerModels(List<ArticleBannerModel> articleBannerModels) {
-        mArticleBannerModels = articleBannerModels;
+    public void setArticleBannerModels(List<ArticleBannerBean> articleBannerBeen) {
+        mArticleBannerBeen = articleBannerBeen;
     }
 
     public int getType() {

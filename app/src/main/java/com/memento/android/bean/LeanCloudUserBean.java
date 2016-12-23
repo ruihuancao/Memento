@@ -1,4 +1,4 @@
-package com.memento.android.data.source.entity;
+package com.memento.android.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by caoruihuan on 16/9/29.
  */
 
-public class LeanCloudUserEntiry extends APIError implements Parcelable {
+public class LeanCloudUserBean extends APIErrorBean implements Parcelable {
 
 
     /**
@@ -142,10 +142,10 @@ public class LeanCloudUserEntiry extends APIError implements Parcelable {
         dest.writeByte(this.mobilePhoneVerified ? (byte) 1 : (byte) 0);
     }
 
-    public LeanCloudUserEntiry() {
+    public LeanCloudUserBean() {
     }
 
-    protected LeanCloudUserEntiry(Parcel in) {
+    protected LeanCloudUserBean(Parcel in) {
         this.username = in.readString();
         this.password = in.readString();
         this.email = in.readString();
@@ -159,15 +159,15 @@ public class LeanCloudUserEntiry extends APIError implements Parcelable {
         this.mobilePhoneVerified = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<LeanCloudUserEntiry> CREATOR = new Parcelable.Creator<LeanCloudUserEntiry>() {
+    public static final Parcelable.Creator<LeanCloudUserBean> CREATOR = new Parcelable.Creator<LeanCloudUserBean>() {
         @Override
-        public LeanCloudUserEntiry createFromParcel(Parcel source) {
-            return new LeanCloudUserEntiry(source);
+        public LeanCloudUserBean createFromParcel(Parcel source) {
+            return new LeanCloudUserBean(source);
         }
 
         @Override
-        public LeanCloudUserEntiry[] newArray(int size) {
-            return new LeanCloudUserEntiry[size];
+        public LeanCloudUserBean[] newArray(int size) {
+            return new LeanCloudUserBean[size];
         }
     };
 }

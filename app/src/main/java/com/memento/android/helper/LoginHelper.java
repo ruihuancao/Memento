@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.memento.android.data.source.entity.LeanCloudUserEntiry;
+import com.memento.android.bean.LeanCloudUserBean;
 import com.memento.android.util.MD5Util;
 
 
@@ -26,12 +26,12 @@ public class LoginHelper {
     /**
      * 保存用户信息
      * @param context
-     * @param leanCloudUserEntiry
+     * @param leanCloudUserBean
      * @return
      */
-    public static boolean login(Context context, LeanCloudUserEntiry leanCloudUserEntiry){
+    public static boolean login(Context context, LeanCloudUserBean leanCloudUserBean){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPref.edit().putString(PREF_KEY_THEME, new Gson().toJson(leanCloudUserEntiry)).apply();
+        sharedPref.edit().putString(PREF_KEY_THEME, new Gson().toJson(leanCloudUserBean)).apply();
         return true;
     }
 
@@ -56,14 +56,14 @@ public class LoginHelper {
      * @param context
      * @return
      */
-    public static LeanCloudUserEntiry getCurrentUser(Context context){
+    public static LeanCloudUserBean getCurrentUser(Context context){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String data = sharedPref.getString(PREF_KEY_THEME, "");
         if(TextUtils.isEmpty(data)){
             return null;
         }
         try{
-            return new Gson().fromJson(data, LeanCloudUserEntiry.class);
+            return new Gson().fromJson(data, LeanCloudUserBean.class);
         }catch (Exception e){
             return null;
         }

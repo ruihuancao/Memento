@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.memento.android.R;
-import com.memento.android.data.source.entity.DouBanMovieEntity;
+import com.memento.android.bean.DouBanMovieBean;
 import com.memento.android.helper.DataHelper;
 import com.memento.android.data.subscriber.DefaultSubscriber;
 import com.memento.android.ui.base.BaseFragment;
@@ -66,7 +66,7 @@ public class CommonMovieFragment extends BaseFragment {
     private LinearLayoutManager mLinearLayoutManager;
     private Adapter mAdapter;
     private int type;
-    private DouBanMovieEntity mDouBanMovieEntity;
+    private DouBanMovieBean mDouBanMovieBean;
     private boolean isLoading = false;
 
 
@@ -118,9 +118,9 @@ public class CommonMovieFragment extends BaseFragment {
                 int totalItemCount = mLinearLayoutManager.getItemCount();
                 int lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
                 if (!isLoading && (lastVisibleItem > totalItemCount - 3) && dy > 0) {
-                    if((mDouBanMovieEntity.getStart() + mDouBanMovieEntity.getCount()) < mDouBanMovieEntity.getTotal()){
+                    if((mDouBanMovieBean.getStart() + mDouBanMovieBean.getCount()) < mDouBanMovieBean.getTotal()){
                         isLoading = true;
-                        loadMore(mDouBanMovieEntity.getStart()+mDouBanMovieEntity.getCount(), mDouBanMovieEntity.getCount());
+                        loadMore(mDouBanMovieBean.getStart()+ mDouBanMovieBean.getCount(), mDouBanMovieBean.getCount());
                     }
                 }
             }
@@ -151,13 +151,13 @@ public class CommonMovieFragment extends BaseFragment {
                 subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getTop250Movie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
+                        .subscribe(new DefaultSubscriber<DouBanMovieBean>(){
                             @Override
-                            public void onNext(DouBanMovieEntity douBanMovieEntity) {
-                                super.onNext(douBanMovieEntity);
+                            public void onNext(DouBanMovieBean douBanMovieBean) {
+                                super.onNext(douBanMovieBean);
                                 hideProgress();
-                                mDouBanMovieEntity = douBanMovieEntity;
-                                mAdapter.addList(douBanMovieEntity.getSubjects());
+                                mDouBanMovieBean = douBanMovieBean;
+                                mAdapter.addList(douBanMovieBean.getSubjects());
                             }
 
                             @Override
@@ -177,13 +177,13 @@ public class CommonMovieFragment extends BaseFragment {
                 subscription = DataHelper.provideDataSource(getActivity().getApplicationContext()).getComingSoonMovie(start, count)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DefaultSubscriber<DouBanMovieEntity>(){
+                        .subscribe(new DefaultSubscriber<DouBanMovieBean>(){
                             @Override
-                            public void onNext(DouBanMovieEntity douBanMovieEntity) {
-                                super.onNext(douBanMovieEntity);
+                            public void onNext(DouBanMovieBean douBanMovieBean) {
+                                super.onNext(douBanMovieBean);
                                 hideProgress();
-                                mDouBanMovieEntity = douBanMovieEntity;
-                                mAdapter.addList(douBanMovieEntity.getSubjects());
+                                mDouBanMovieBean = douBanMovieBean;
+                                mAdapter.addList(douBanMovieBean.getSubjects());
                             }
 
                             @Override
@@ -222,13 +222,13 @@ public class CommonMovieFragment extends BaseFragment {
 
     class Adapter extends RecyclerView.Adapter<ListViewHolder>{
 
-        private List<DouBanMovieEntity.SubjectsEntity> mList;
+        private List<DouBanMovieBean.SubjectsEntity> mList;
 
         public Adapter() {
             mList = new ArrayList<>();
         }
 
-        public void addList(List<DouBanMovieEntity.SubjectsEntity> list){
+        public void addList(List<DouBanMovieBean.SubjectsEntity> list){
             this.mList.addAll(list);
             notifyDataSetChanged();
         }
@@ -241,7 +241,7 @@ public class CommonMovieFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(final ListViewHolder holder, int position) {
-            DouBanMovieEntity.SubjectsEntity subjectsEntity = getItem(position);
+            DouBanMovieBean.SubjectsEntity subjectsEntity = getItem(position);
             holder.mTitleView.setText(subjectsEntity.getTitle());
             if(subjectsEntity.getDirectors().size() > 0){
                 holder.mSubTitleView.setText(subjectsEntity.getDirectors().get(0).getName());
@@ -259,7 +259,7 @@ public class CommonMovieFragment extends BaseFragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DouBanMovieEntity.SubjectsEntity subjectsEntity = (DouBanMovieEntity.SubjectsEntity)v.getTag();
+                    DouBanMovieBean.SubjectsEntity subjectsEntity = (DouBanMovieBean.SubjectsEntity)v.getTag();
                     String mobileUrl = String.format(MOBILE_URL, subjectsEntity.getId());
                     CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                     CustomTabActivityHelper.openCustomTab(getActivity(), customTabsIntent, Uri.parse(mobileUrl), new WebviewFallback());
@@ -272,7 +272,7 @@ public class CommonMovieFragment extends BaseFragment {
             return mList.size();
         }
 
-        private DouBanMovieEntity.SubjectsEntity getItem(int position){
+        private DouBanMovieBean.SubjectsEntity getItem(int position){
             return mList.get(position);
         }
     }

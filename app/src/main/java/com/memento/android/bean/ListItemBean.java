@@ -9,15 +9,15 @@ import android.support.annotation.DrawableRes;
  * 描述：
  * 修改历史：
  */
-public class ListItemModel {
+public class ListItemBean {
 
-    public ListItemModel(String title, String subTitle, String imageUrl) {
+    public ListItemBean(String title, String subTitle, String imageUrl) {
         this.title = title;
         this.subTitle = subTitle;
         this.imageUrl = imageUrl;
     }
 
-    public ListItemModel(String title, String subTitle, int drawRes) {
+    public ListItemBean(String title, String subTitle, int drawRes) {
         this.title = title;
         this.subTitle = subTitle;
         this.drawRes = drawRes;

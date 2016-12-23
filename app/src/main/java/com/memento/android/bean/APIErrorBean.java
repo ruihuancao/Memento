@@ -1,7 +1,7 @@
-package com.memento.android.data.source.entity;
+package com.memento.android.bean;
 
 
-public class APIError {
+public class APIErrorBean {
 
     private int statusCode;
     private String message;
