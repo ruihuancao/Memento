@@ -138,6 +138,7 @@ dependencies {
     compile 'com.github.ruihuancao:Theme:v0.1'
     compile 'com.github.ruihuancao:Player:v0.1'
     compile 'com.github.ruihuancao:NetWork:v0.1'
+    compile 'com.github.ruihuancao:Webview:v0.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
