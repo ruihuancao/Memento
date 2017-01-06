@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.ruihuancao.player.VideoActivity;
 import com.memento.android.R;
 
 import butterknife.BindView;
@@ -29,6 +30,8 @@ public class CustomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(CustomActivity.this, "test", Toast.LENGTH_LONG).show();
+                Intent intent = VideoActivity.getCallingIntent(CustomActivity.this, "http://ivi.bupt.edu.cn/hls/cctv1.m3u8", 1, 0, 1);
+                startActivity(intent);
             }
         });
     }
