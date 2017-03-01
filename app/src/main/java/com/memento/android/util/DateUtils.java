@@ -58,6 +58,8 @@ public class DateUtils {
         return DATE_FORMAT_DATE.format(new Date(date));
     }
 
+
+
     /**
      * 格式化时间
      * @param date

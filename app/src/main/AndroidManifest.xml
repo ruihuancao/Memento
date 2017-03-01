@@ -16,10 +16,10 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <application
-        android:name="com.memento.android.MementoApplication"
+        android:name=".MementoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -35,13 +35,13 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/app_name" />
-        <activity android:name="com.memento.android.ui.zhihu.main.ZhihuActivity" />
-        <activity android:name="com.memento.android.ui.zhihu.detail.ZhihuArticleDetailActivity" />
+        <activity android:name=".ui.zhihu.main.ZhihuActivity" />
+        <activity android:name=".ui.zhihu.detail.ZhihuArticleDetailActivity" />
         <activity
-            android:name="com.memento.android.ui.setting.SettingsActivity"
+            android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.memento.android.ui.douban.movie.DoubanMovieActivity"
+            android:name=".ui.douban.movie.DoubanMovieActivity"
             android:label="@string/menu_douban_movie" />
 
         <meta-data
@@ -50,20 +50,20 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name="com.memento.android.ui.react.MementoReactActivity" />
-        <activity android:name="com.memento.android.ui.webview.WebviewActivity" />
-        <activity android:name="com.memento.android.ui.test.TestActivity" />
+        <activity android:name=".ui.react.MementoReactActivity" />
+        <activity android:name=".ui.webview.WebviewActivity" />
+        <activity android:name=".ui.test.TestActivity" />
 
         <service
-            android:name="com.memento.android.ui.service.MementoIntentService"
+            android:name=".ui.service.MementoIntentService"
             android:exported="false" />
 
-        <activity android:name="com.memento.android.ui.test.CustomActivity" />
+        <activity android:name=".ui.test.CustomActivity" />
         <activity
-            android:name="com.memento.android.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name="com.memento.android.ui.search.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -73,12 +73,27 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name="com.memento.android.ui.person.PersonActivity" />
+        <activity android:name=".ui.person.PersonActivity" />
 
         <service
-            android:name="com.memento.android.ui.service.LocaltionService"
+            android:name=".ui.service.LocaltionService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <activity android:name=".ui.usage.UsageStatisticsActivity" />
+
+        <service
+            android:name=".ui.service.MementoAccessibilityService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility"/>
+        </service>
     </application>
 
 </manifest>

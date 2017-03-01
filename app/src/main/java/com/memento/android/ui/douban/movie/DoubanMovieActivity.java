@@ -58,6 +58,7 @@ public class DoubanMovieActivity extends BaseActivity {
     }
 
 
+
     static class Adapter extends FragmentPagerAdapter{
 
         private final List<Fragment> mFragments = new ArrayList<>();

@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.memento.android.R;
 import com.memento.android.ui.base.BaseActivity;
-import com.memento.android.ui.main.MainActivity;
+import com.memento.android.ui.usage.UsageStatisticsActivity;
 import com.memento.android.util.ActivityUtils;
 import com.memento.android.util.DensityUtil;
 
@@ -35,7 +35,7 @@ public class SplashUrlActivity extends BaseActivity implements SplashFragment.On
 
     @Override
     public void openMainActivity() {
-        startActivity(MainActivity.getCallIntent(this));
+        startActivity(UsageStatisticsActivity.getCallIntent(this));
         finish();
     }
 }

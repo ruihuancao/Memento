@@ -125,6 +125,12 @@ greendao {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support'
+    }
+    compile 'com.jakewharton:butterknife:8.5.1'
+
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:palette-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
@@ -134,7 +140,6 @@ dependencies {
     compile 'com.android.support:support-annotations:25.1.0'
     compile 'com.android.support:customtabs:25.1.0'
     compile 'com.google.guava:guava:18.0'
-
     compile 'com.github.ruihuancao:Theme:v0.1'
     compile 'com.github.ruihuancao:Player:v0.1'
     compile 'com.github.ruihuancao:NetWork:v0.1'
@@ -154,19 +159,12 @@ dependencies {
     compile 'com.miguelcatalan:materialsearchview:1.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
-    compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.aurelhubert:ahbottomnavigation:1.2.3'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.1.4'
     compile 'pub.devrel:easypermissions:0.1.7'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
-        exclude group: 'com.android.support'
-    }
     compile 'junit:junit:4.12'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'junit:junit:4.12'
@@ -176,5 +174,9 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 
